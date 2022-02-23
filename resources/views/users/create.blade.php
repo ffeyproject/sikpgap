@@ -9,30 +9,60 @@
     <div class="container mt-4">
         <form method="POST" action="">
             @csrf
-            <div class="mb-3">
-                <label for="name" class="form-label">Name</label>
-                <input value="{{ old('name') }}" type="text" class="form-control" name="name" placeholder="Name"
-                    required>
+            <div class="input-group mb-3">
+                <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
+                    value="{{ old('name') }}" placeholder="Full name">
+                <div class="input-group-append">
+                    <div class="input-group-text"><span class="fas fa-user"></span></div>
+                </div>
+                @error('name')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+            </div>
+            <div class="input-group mb-3">
+                <input type="text" name="username" class="form-control @error('username') is-invalid @enderror"
+                    value="{{ old('username') }}" placeholder="Username">
+                <div class="input-group-append">
+                    <div class="input-group-text"><span class="fas fa-user"></span></div>
+                </div>
+                @error('username')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+            </div>
+            <div class="input-group mb-3">
+                <input type="email" name="email" value="{{ old('email') }}"
+                    class="form-control @error('email') is-invalid @enderror" placeholder="Email">
+                <div class="input-group-append">
+                    <div class="input-group-text"><span class="fas fa-envelope"></span></div>
+                </div>
+                @error('email')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+            </div>
+            <div class="input-group mb-3">
+                <input type="password" name="password" class="form-control @error('password') is-invalid @enderror"
+                    placeholder="Password">
+                <div class="input-group-append">
+                    <div class="input-group-text"><span class="fas fa-lock"></span></div>
+                </div>
+                @error('password')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+            </div>
 
-                @if ($errors->has('name'))
-                <span class="text-danger text-left">{{ $errors->first('name') }}</span>
-                @endif
-            </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input value="{{ old('email') }}" type="email" class="form-control" name="email"
-                    placeholder="Email address" required>
-                @if ($errors->has('email'))
-                <span class="text-danger text-left">{{ $errors->first('email') }}</span>
-                @endif
-            </div>
-            <div class="mb-3">
-                <label for="username" class="form-label">Username</label>
-                <input value="{{ old('username') }}" type="text" class="form-control" name="username"
-                    placeholder="Username" required>
-                @if ($errors->has('username'))
-                <span class="text-danger text-left">{{ $errors->first('username') }}</span>
-                @endif
+            <div class="input-group mb-3">
+                <input type="password" name="password_confirmation" class="form-control" placeholder="Retype password">
+                <div class="input-group-append">
+                    <div class="input-group-text"><span class="fas fa-lock"></span></div>
+                </div>
             </div>
 
             <button type="submit" class="btn btn-primary">Save user</button>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UsersController;
@@ -25,21 +26,25 @@ use Illuminate\Support\Facades\Auth;
 Route::get('/', function () {
     return view('welcome');
 });
-Auth::routes();
+Auth::routes([
+     'register' => false,
+     'request' => false,
+     'reset' => false,
+]);
 Route::get('home', [HomeController::class, 'index'])->name('home');
 
-Route::group(['middleware' => ['guest']], function() {
-        /**
-         * Register Routes
-         */
-        Route::get('/register', 'RegisterController@show')->name('register.show');
-        Route::post('/register', 'RegisterController@register')->name('register.perform');
+// Route::group(['middleware' => ['guest']], function() {
+//         /**
+//          * Register Routes
+//          */
+//         Route::get('/register', [RegisterController::class, 'show'])->name('register.show');
+//         Route::post('/register', [RegisterController::class, 'register'])->name('register.perform');
 
-        /**
-         * Login Routes
-         */
+//         /**
+//          * Login Routes
+//          */
 
-    });
+//     });
 
     Route::group(['middleware' => ['auth', 'permission']], function() {
         /**
@@ -91,8 +96,12 @@ Route::patch('keluhan/update{complaint}', [ComplaintController::class, 'update']
 Route::delete('keluhan/{complaint}', [ComplaintController::class, 'destroy'])->name('keluhan.destroy');
 
 //Route Result
-Route::get('keluhan/proses/{result}', [ResultController::class, 'index'])->name('proses.index');
-Route::patch('keluhan/proses/{complaint}', [ResultController::class, 'status'])->name('proses.status');
+Route::get('keluhan/proses/{complaint}', [ResultController::class, 'index'])->name('proses.index');
+Route::post('keluhan/proses', [ResultController::class, 'store'])->name('proses.store');
+Route::get('keluhan/proses/detail/{complaint}', [ResultController::class, 'detail'])->name('proses.detail');
+Route::patch('keluhan/proses/{complaint}', [ResultController::class, 'closed'])->name('proses.closed');
+Route::patch('keluhan/proses/closed/{complaint}', [ResultController::class, 'status'])->name('proses.status');
+Route::delete('keluhan/proses/{complaint}', [ComplaintController::class, 'destroy'])->name('proses.destroy');
 
 Route::get('permissions', [PermissionsController::class, 'index'])->name('permissions.index');
 Route::resource('roles', RolesController::class);

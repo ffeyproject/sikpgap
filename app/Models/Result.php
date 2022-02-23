@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Result extends Model
@@ -23,7 +24,7 @@ class Result extends Model
 
     public function defect(): BelongsTo
     {
-        return $this->belongsTo(Defect::class, 'defects_id');
+        return $this->belongsTo(Defect::class,  'defects_id');
     }
 
     public function users(): BelongsTo

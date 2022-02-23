@@ -53,83 +53,13 @@
                             <?php $no = 1 ?>
                             <tbody>
                                 @forelse ($complaint as $item)
-                                Pg<tr>
+                                <tr>
                                     <td>{{ $no++ }}</td>
                                     <td>
-                                        <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
-                                            data-target="#myModal{{$item->id}}" id="open">Lihat</button>
+                                        <a href="{{ route('proses.detail', $item->id) }}" target="_blank" <button
+                                            type="button" class="btn btn-info btn-sm">
+                                            Detail</button></a>
                                     </td>
-                                    <!-- Modal -->
-                                    <div class="modal fade bd-example-modal-lg" id="myModal{{$item->id}}" tabindex="-1"
-                                        role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog modal-lg" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="myModalLabel">Detail Keluhan :
-                                                        {{ $item->nomer_keluhan }}, Buyer:{{ $item->buyer->nama_buyer }}
-                                                    </h5>
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                        aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <form class="form-horizontal">
-                                                        <div class="card-body">
-                                                            <div class="form-group row">
-                                                                <label class="col-sm-2 col-form-label">No Wo</label>
-                                                                <div class="col-sm-10">
-                                                                    <input class="form-control"
-                                                                        value="{{ $item->no_wo }}" disabled>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group row">
-                                                                <label class="col-sm-2 col-form-label">No Sc</label>
-                                                                <div class="col-sm-10">
-                                                                    <input class="form-control"
-                                                                        value="{{ $item->no_sc }}" disabled>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group row">
-                                                                <label class="col-sm-2 col-form-label">Nama
-                                                                    Motif</label>
-                                                                <div class="col-sm-10">
-                                                                    <input class="form-control"
-                                                                        value="{{ $item->nama_motif }}" disabled>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group row">
-                                                                <label class="col-sm-2 col-form-label">C/W,Qty
-                                                                </label>
-                                                                <div class="col-sm-10">
-                                                                    <input class="form-control"
-                                                                        value="{{ $item->cw_qty }}" disabled>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </form>
-                                                    <div class="callout callout-warning">
-                                                        <h5>Masalah :</h5>
-                                                        <p>{!! $item->masalah !!}</p>
-                                                    </div>
-                                                    <div class="callout callout-info">
-                                                        <h5>Solusi :</h5>
-                                                        <p>{!! $item->solusi !!}</p>
-                                                    </div>
-                                                    {{-- <div class="col-sm-8 col-md-9">
-                                                        <h4 class="text-center bg-navy">Created : {{ $item->created_at
-                                                            }}</h4>
-                                                        <h4 class="text-center bsg-teal">Updated : {{ $item->updated_at
-                                                            }}</h4>
-                                                    </div> --}}
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-dismiss="modal">Close</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                     <td><a href="{{ route('keluhan.show', $item->id) }}" target="_blank" </a> {{
                                             $item->nomer_keluhan }}
                                     </td>
@@ -141,10 +71,10 @@
                                     <td>
                                         @if( $item->status == 'open' )
                                         <span class="badge bg-primary">{{ $item->status }}
-                                            @elseif($item->status == 'closed')
-                                            <span class="badge bg-danger">{{ $item->status }}
-                                                @elseif( $item->status == 'proses' )
-                                                <span class="badge bg-warning">{{ $item->status }}
+                                            @elseif( $item->status == 'proses' )
+                                            <span class="badge bg-warning">{{ $item->status }}
+                                                @elseif( $item->status == 'selesai' )
+                                                <span class="badge bg-success">{{ $item->status }}
                                                     @else
                                                     <span class="badge bg-danger">{{ $item->status }}
                                                         @endif
@@ -159,6 +89,18 @@
                                             <a href="{{ route('proses.index', $item->id) }}" class="btn btn-primary"><i
                                                     class="fa fa-edit"></i>
                                                 Proses</a>
+                                        </div>
+                                        @elseif($item->status == 'proses')
+                                        <div class="container">
+                                            <a href="{{ route('proses.index', $item->id) }}" class="btn btn-warning"><i
+                                                    class="fa fa-edit"></i>
+                                                Lanjutkan</a>
+                                        </div>
+                                        @elseif($item->status == 'selesai')
+                                        <div class="container">
+                                            <a href="{{ route('proses.index', $item->id) }}" class="btn btn-success"><i
+                                                    class="fa fa-edit"></i>
+                                                Lihat</a>
                                         </div>
                                         @endif
                                     </td>

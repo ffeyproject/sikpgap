@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class UsersController extends Controller
 {
@@ -47,9 +50,16 @@ class UsersController extends Controller
     {
         //For demo purposes only. When creating user or inviting a user
         // you should create a generated random password and email it to the user
-        $user->create(array_merge($request->validated(), [
-            'password' => 'test'
-        ]));
+        // $user->create(array_merge($request->validated(), [
+        //     'password' => 'test'
+        // ]));
+
+         $user = new User();
+            $user->name = $request->name;
+            $user->username = $request->username;
+            $user->email = $request->email;
+            $user->password = Hash::make($request->password);
+            $user->save();
 
         return redirect()->route('users.index')
             ->withSuccess(__('User created successfully.'));
@@ -95,7 +105,13 @@ class UsersController extends Controller
      */
     public function update(User $user, UpdateUserRequest $request)
     {
-        $user->update($request->validated());
+        // $user->update($request->validated());
+
+        $user->name = $request->name;
+        $user->username = $request->username;
+        $user->email = $request->email;
+        $user->posisi = $request->posisi;
+        $user->update();
 
         $user->syncRoles($request->get('role'));
 

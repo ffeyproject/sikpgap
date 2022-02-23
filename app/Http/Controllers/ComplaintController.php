@@ -43,7 +43,7 @@ class ComplaintController extends Controller
     public function create()
     {
         $buyer = Buyer::all();
-        $user = User::all();
+        $user = User::where('posisi', '=' ,"marketing")->get();
         $keluhan = Complaint::with('Buyer','Users')->get();
 
 
@@ -63,7 +63,6 @@ class ComplaintController extends Controller
     public function store(ComplaintRequest $request)
     {
         //untuk membuat penomeran urut otomatis
-        //  $orderObj = Complaint::max('no_urut');
          $orderObj = Complaint::whereYear("created_at",Carbon::now()->year)->count();
          $nn = $orderObj + 1;
 
@@ -105,7 +104,8 @@ class ComplaintController extends Controller
         $complaint->solusi = $request->solusi;
         $complaint->save();
 
-        return redirect()->route('keluhan.index')->with('success', 'Complaint created successfully.');
+    //    return redirect('keluhan/proses/' .  $complaint->id)->with('info', 'Silahkan Proses Data Ini.');
+       return redirect()->route('keluhan.index')->with('info', 'Data Tersimpan dan masuk ke tahap proses.');
     }
 
     /**

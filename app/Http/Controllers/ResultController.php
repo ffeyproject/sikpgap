@@ -3,10 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Complaint;
+use App\Models\Defect;
 use App\Models\Result;
+use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Js;
+use Laravel\Ui\Presets\React;
+use SebastianBergmann\Complexity\Complexity;
 
 class ResultController extends Controller
 {
@@ -18,20 +23,20 @@ class ResultController extends Controller
     public function index($id)
     {
         $keluhan = Complaint::with('buyer')->findOrFail($id);
-        // $result = Result::with('complaint','defect','users')->findOrFail($id);
+        $defect = Result::with('complaint','defect')->get();
+        $ab = Defect::all();
+        $ac = User::where('posisi', 'Admin' ,"Admin")->get();
+        $result = Result::with('complaint','defect')->where('complaints_id', '=', $id)->get();
 
-        return view('keluhan.proses.index', [
-                'keluhan' => $keluhan
-        ]);
+        return view('keluhan.proses.index', compact('keluhan', 'defect', 'ab', 'ac', 'result'));
     }
 
     public function status(Request $request, Complaint $complaint)
     {
 
-        $complaint->tgl_proses = Carbon::today();
-        $complaint->status = 'proses';
+        $complaint->status = 'closed';
         $complaint->update();
-        return redirect()->back()->with('info','Complaint Telah Di Proses');
+        return redirect()->back()->with('delete','Complaint Telah Di Close');
     }
 
     /**
@@ -52,7 +57,53 @@ class ResultController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // $status = Complaint::where('id', '=', $id);
+        // // $status = new Complaint();
+        // $status->status = 'selesai';
+        // $status->save();
+
+        $result = new Result();
+        $result->complaints_id = $request->complaints_id;
+        $result->target_waktu = $request->target_waktu;
+        $result->defects_id = $request->defects_id;
+        $result->hasil_penelusuran = $request->hasil_penelusuran;
+        $result->tindakan = $request->tindakan;
+        $result->tgl_verifikasi = $request->tgl_verifikasi;
+        $result->hasil_verifikasi = $request->hasil_verifikasi;
+        $result->penyelidik = $request->penyelidik;
+        $result->user_id = Auth::user()->id;
+        $result->save();
+
+        $status = Complaint::findOrFail($request->complaints_id);
+        $status->status = 'selesai';
+        $status->save();
+
+        return redirect()->back()->with('info', 'Silahkan Closed Data Ini, Jika Sudah Terisi..');
+    }
+
+
+    public function closed(Request $request, Complaint $complaint)
+    {
+        $complaint->tgl_proses = Carbon::today();
+        $complaint->status = 'proses';
+        $complaint->update();
+        return redirect()->back()->with('info','Complaint Telah Di Proses ...');
+    }
+
+
+    public function detail($id)
+    {
+
+        // $defect = Result::with('complaints','defect')->get();
+        $ab = Defect::all();
+        $ac = User::where('posisi', 'Admin' ,"Admin")->get();
+
+        $defect = Defect::all();
+        $user = User::all();
+        $keluhan = Complaint::with('buyer')->findOrFail($id);
+        $result = Result::with('complaint','defect')->where('complaints_id', '=', $id)->get();
+
+        return view('keluhan.proses.detail', compact('defect', 'user', 'keluhan', 'result', 'ab', 'ac'));
     }
 
     /**

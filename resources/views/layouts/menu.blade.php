@@ -11,15 +11,20 @@
 <li class="nav-item">
     <a href="{{ route('users.index') }}"
         class="nav-link {{ (request()->is('users')) || (request()->is('users/create')) ? 'active' : '' }}">
-        <i class="nav-icon fas fa-user"></i>
+        <i class="nav-icon fas fa-user-plus"></i>
         <p>Manage User</p>
     </a>
 </li>
 <li class="nav-item">
-    <a href="{{ route('roles.index') }}"
-        class="nav-link {{ (request()->is('dashboard')) || (request()->is('dashboard')) ? 'active' : '' }}">
+    <a href="{{ route('roles.index') }}" class="nav-link {{ (request()->is('roles')) ? 'active' : '' }}">
         <i class="nav-icon fas fa-user-tag"></i>
         <p>Manage Roles</p>
+    </a>
+</li>
+<li class="nav-item">
+    <a href="{{ route('permissions.index') }}" class="nav-link {{ (request()->is('permissions')) ? 'active' : '' }}">
+        <i class="nav-icon fas fa-user-lock"></i>
+        <p>Manage Permission</p>
     </a>
 </li>
 

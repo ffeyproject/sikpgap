@@ -22,6 +22,7 @@ class CreateResultComplaintsTable extends Migration
             $table->string('tindakan');
             $table->date('tgl_verifikasi');
             $table->string('hasil_verifikasi');
+            $table->bigInteger('penyelidik');
             $table->foreignId('user_id')->constrained();
             $table->rememberToken();
             $table->timestamps();
