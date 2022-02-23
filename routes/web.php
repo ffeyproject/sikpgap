@@ -27,24 +27,21 @@ Route::get('/', function () {
     return view('welcome');
 });
 Auth::routes([
-     'register' => false,
-     'request' => false,
-     'reset' => false,
 ]);
 Route::get('home', [HomeController::class, 'index'])->name('home');
 
-// Route::group(['middleware' => ['guest']], function() {
-//         /**
-//          * Register Routes
-//          */
-//         Route::get('/register', [RegisterController::class, 'show'])->name('register.show');
-//         Route::post('/register', [RegisterController::class, 'register'])->name('register.perform');
+Route::group(['middleware' => ['guest']], function() {
+        /**
+         * Register Routes
+         */
+        Route::get('/register', [RegisterController::class, 'show'])->name('register.show');
+        Route::post('/register', [RegisterController::class, 'register'])->name('register.perform');
 
-//         /**
-//          * Login Routes
-//          */
+        /**
+         * Login Routes
+         */
 
-//     });
+    });
 
     Route::group(['middleware' => ['auth', 'permission']], function() {
         /**
