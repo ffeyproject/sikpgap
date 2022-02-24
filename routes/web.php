@@ -9,6 +9,7 @@ use App\Http\Controllers\PermissionsController;
 use App\Http\Controllers\Master\BuyerController;
 use App\Http\Controllers\Master\DefectController;
 use App\Http\Controllers\ResultController;
+use App\Http\Controllers\SatisfactionController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -99,6 +100,9 @@ Route::get('keluhan/proses/detail/{complaint}', [ResultController::class, 'detai
 Route::patch('keluhan/proses/{complaint}', [ResultController::class, 'closed'])->name('proses.closed');
 Route::patch('keluhan/proses/closed/{complaint}', [ResultController::class, 'status'])->name('proses.status');
 Route::delete('keluhan/proses/{complaint}', [ComplaintController::class, 'destroy'])->name('proses.destroy');
+
+//Route Kepuasaan
+Route::get('kepuasan', [SatisfactionController::class, 'index'])->name('kepuasan.index');
 
 Route::get('permissions', [PermissionsController::class, 'index'])->name('permissions.index');
 Route::resource('roles', RolesController::class);

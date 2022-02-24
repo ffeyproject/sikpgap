@@ -25,7 +25,7 @@ class CreateAdminUserSeeder extends Seeder
             'password' => '987654321'
         ]);
 
-        $role = Role::create(['name' => 'admin']);
+        $role = Role::create(['name' => 'Admin']);
 
         $permissions = Permission::pluck('id','id')->all();
 

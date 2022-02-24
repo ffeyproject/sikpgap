@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{{ config('app.name') }}</title>
+    <title>SIKP</title>
 
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -22,7 +22,6 @@
         <div class="login-logo">
             <a href="{{ url('/home') }}"><b>SIK2P GAP</b></a>
         </div>
-        <!-- /.login-logo -->
 
         <!-- /.login-box-body -->
         <div class="card">
@@ -75,11 +74,7 @@
                 <p class="mb-1">
                     <a href="{{ route('password.request') }}">I forgot my password</a>
                 </p>
-                {{-- <p class="mb-0">
-                    <a href="{{ route('register') }}" class="text-center">Register a new membership</a>
-                </p> --}}
             </div>
-            <!-- /.login-card-body -->
         </div>
 
     </div>
