@@ -12,7 +12,7 @@ class Result extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['users_id', 'complaints_id', 'defects_id', 'hasil_penelusuran', 'tindakan', 'tgl_verifikasi', 'target_waktu', 'hasil_verifikasi'];
+    protected $fillable = ['users_id', 'complaints_id', 'defects_id', 'hasil_penelusuran', 'tindakan', 'tgl_verifikasi', 'target_waktu', 'hasil_verifikasi','asal_masalah'];
 
     public $table = "result_complaints";
 

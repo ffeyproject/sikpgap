@@ -71,6 +71,7 @@ class ResultController extends Controller
         $result->tgl_verifikasi = $request->tgl_verifikasi;
         $result->hasil_verifikasi = $request->hasil_verifikasi;
         $result->penyelidik = $request->penyelidik;
+        $result->asal_masalah = $request->asal_masalah;
         $result->user_id = Auth::user()->id;
         $result->save();
 

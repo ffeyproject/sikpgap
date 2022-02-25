@@ -192,6 +192,16 @@
                                 @endif
                             </div>
                             <div class="form-group">
+                                <label for="asal_masalah">Asal Masalah</label>
+                                <input type="text" name="asal_masalah"
+                                    class="form-control @error('asal_masalah') is-invalid @enderror" id="asal_masalah"
+                                    value="{{ old('asal_masalah') ?: '' }}" placeholder="Masukkan Asal Masalah">
+                                @if ($errors->has('asal_masalah'))
+                                <div class="invalid-feedback">{{
+                                    $errors->first('asal_masalah') }}</div>
+                                @endif
+                            </div>
+                            <div class="form-group">
                                 <label>Tanggal Verifikasi</label>
                                 <div class="input-group date" id="reservationdate" data-target-input="nearest">
                                     <input type="date" name="tgl_verifikasi" class="form-control datetimepicker-input"
@@ -249,6 +259,7 @@
                             <td>{!! $item->tindakan !!}</td>
                             <td>{{ $item->tgl_verifikasi }}</td>
                             <td>{!! $item->hasil_verifikasi !!}</td>
+                            <td>{!! $item->asal_masalah !!}</td>
                             <td>{{ $item->users->name }}</td>
                             <td>
                                 <div class="container">
@@ -270,7 +281,6 @@
                             <td colspan="12">Data Penelurusan Belum Ada.</td>
                         </tr>
                         </tr>
-
                     </tbody>
                     @endforelse
                 </table>
