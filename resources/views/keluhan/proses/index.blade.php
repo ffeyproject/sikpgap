@@ -145,7 +145,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="defects_id">Pilih Defect</label>
+                                <label for="defects_id">Penyebab Komplaint</label>
                                 <select name="defects_id" id="defects_id"
                                     class="form-control @error('defects_id') is-invalid @enderror">
                                     <option value="{{ old('defects_id') ?: '' }}"></option>
@@ -301,7 +301,7 @@
     $(document).ready(function(){
           $('#defects_id').select2({
               dropdownParent: $("#myModal"),
-              placeholder: 'Pilih Defect',
+              placeholder: 'Pilih Penyebab',
               minimumInputLength: 1,
               width: '100%',
               allowClear: true

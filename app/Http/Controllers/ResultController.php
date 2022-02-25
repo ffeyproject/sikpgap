@@ -25,7 +25,7 @@ class ResultController extends Controller
         $keluhan = Complaint::with('buyer')->findOrFail($id);
         $defect = Result::with('complaint','defect')->get();
         $ab = Defect::all();
-        $ac = User::where('posisi', 'Admin' ,"Admin")->get();
+        $ac = User::where('posisi', 'Qa' ,"Qa")->get();
         $result = Result::with('complaint','defect')->where('complaints_id', '=', $id)->get();
 
         return view('keluhan.proses.index', compact('keluhan', 'defect', 'ab', 'ac', 'result'));

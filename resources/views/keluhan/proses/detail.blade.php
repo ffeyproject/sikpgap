@@ -7,7 +7,7 @@
                 <div class="alert alert-info alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                     <h5><i class="icon fas fa-info"></i> Info!</h5>
-                    Data Ini Sedang sudah Close.
+                    Data Ini Sedang di Proses.
                 </div>
             </div>
         </div>

@@ -42,6 +42,7 @@
                                     <th>Jenis</th>
                                     <th>Nama Buyer</th>
                                     <th>Nama Marketing</th>
+                                    <th>Tgl Proses</th>
                                     <th>Status</th>
                                     @if (Auth::user()->posisi == 'marketing')
                                     <th></th>
@@ -68,6 +69,7 @@
                                     <td>{{ $item->jenis }}</td>
                                     <td>{{ $item->buyer['nama_buyer'] }}</td>
                                     <td>{{ $item->nama_marketing }}</td>
+                                    <td>{{ $item->tgl_proses }}</td>
                                     <td>
                                         @if( $item->status == 'open' )
                                         <span class="badge bg-primary">{{ $item->status }}

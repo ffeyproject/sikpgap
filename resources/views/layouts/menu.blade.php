@@ -51,7 +51,7 @@
             <a href="{{ route('defect.index') }}"
                 class="nav-link {{ (request()->is('defect')) || (request()->is('defect/create')) || (request()->is('defect/*'))  ? 'active' : '' }} ">
                 <i class="fas fa-exclamation-circle"></i>
-                <p>Defects</p>
+                <p>Penyebab Komplaint</p>
             </a>
         </li>
     </ul>
