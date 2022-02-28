@@ -239,11 +239,12 @@
                         <tr>
                             <th>No</th>
                             <th>Target Waktu</th>
-                            <th>Defect</th>
+                            <th>Penyebab</th>
                             <th>Hasil</th>
                             <th>Tindakan</th>
                             <th>Tgl Verifikasi</th>
                             <th>Hasil Verifikasi</th>
+                            <th>Asal Masalah</th>
                             <th>Penyelidik</th>
                             <th>#</th>
                         </tr>
@@ -260,7 +261,7 @@
                             <td>{{ $item->tgl_verifikasi }}</td>
                             <td>{!! $item->hasil_verifikasi !!}</td>
                             <td>{!! $item->asal_masalah !!}</td>
-                            <td>{{ $item->users->name }}</td>
+                            <td>{{ $item->users['name'] }}</td>
                             <td>
                                 <div class="container">
                                     @if($keluhan->status == 'proses' || $keluhan->status =='selesai')

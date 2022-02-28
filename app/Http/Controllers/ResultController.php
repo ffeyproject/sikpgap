@@ -22,7 +22,7 @@ class ResultController extends Controller
      */
     public function index($id)
     {
-        $keluhan = Complaint::with('buyer')->findOrFail($id);
+        $keluhan = Complaint::with('buyer','users')->findOrFail($id);
         $defect = Result::with('complaint','defect')->get();
         $ab = Defect::all();
         $ac = User::where('posisi', 'Qa' ,"Qa")->get();
@@ -72,7 +72,7 @@ class ResultController extends Controller
         $result->hasil_verifikasi = $request->hasil_verifikasi;
         $result->penyelidik = $request->penyelidik;
         $result->asal_masalah = $request->asal_masalah;
-        $result->user_id = Auth::user()->id;
+        $result->user_id = $request->penyelidik;
         $result->save();
 
         $status = Complaint::findOrFail($request->complaints_id);
