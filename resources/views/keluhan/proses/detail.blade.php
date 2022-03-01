@@ -103,7 +103,7 @@
                         <tr>
                             <th>No</th>
                             <th>Target Waktu</th>
-                            <th>Defect</th>
+                            <th>Penyebab</th>
                             <th>Hasil</th>
                             <th>Tindakan</th>
                             <th>Tgl Verifikasi</th>
