@@ -149,6 +149,8 @@ class ResultController extends Controller
      */
     public function destroy(Result $result)
     {
-        //
+        $result->delete();
+
+         return redirect()->back()->with('delete', 'Data Result Berhasil Di Hapus');
     }
 }
