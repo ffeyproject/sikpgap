@@ -24,13 +24,10 @@ class ResultComplaintRequest extends FormRequest
     public function rules()
     {
         return [
-            'complaints_id' => 'required',
+             'complaints_id' => 'required',
              'target_waktu' => 'required',
              'defects_id' => 'required',
-             'hasil_penelusuran' => 'required|max:255',
-             'tindakan' => 'required|max:255',
              'tgl_verifikasi' => 'required',
-             'hasil_verifikasi' => 'required|max:255',
              'penyelidik' => 'required',
              'asal_masalah' => 'required',
              'user_id' => 'required',

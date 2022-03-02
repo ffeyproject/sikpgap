@@ -56,7 +56,7 @@ class ResultController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ResultComplaintRequest $request)
+    public function store(Request $request)
     {
         // $status = Complaint::where('id', '=', $id);
         // // $status = new Complaint();
