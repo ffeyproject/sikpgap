@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ResultComplaintRequest;
 use App\Models\Complaint;
 use App\Models\Defect;
 use App\Models\Result;
@@ -55,7 +56,7 @@ class ResultController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ResultComplaintRequest $request)
     {
         // $status = Complaint::where('id', '=', $id);
         // // $status = new Complaint();

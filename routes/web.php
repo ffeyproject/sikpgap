@@ -107,5 +107,8 @@ Route::get('kepuasan', [SatisfactionController::class, 'index'])->name('kepuasan
 Route::get('permissions', [PermissionsController::class, 'index'])->name('permissions.index');
 Route::resource('roles', RolesController::class);
 Route::resource('permissions', PermissionsController::class);
+
+
+
  });
 // require __DIR__.'/auth.php';
