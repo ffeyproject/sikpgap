@@ -27,10 +27,13 @@ class ResultComplaintRequest extends FormRequest
              'complaints_id' => 'required',
              'target_waktu' => 'required',
              'defects_id' => 'required',
+             'hasil_penelusuran' => 'required',
+             'tindakan' => 'required',
              'tgl_verifikasi' => 'required',
+             'hasil_verifikasi' => 'required',
              'penyelidik' => 'required',
              'asal_masalah' => 'required',
-             'user_id' => 'required',
+
         ];
     }
 }
