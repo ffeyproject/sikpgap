@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+Use PDF;
 use App\Http\Requests\ResultComplaintRequest;
 use App\Models\Complaint;
 use App\Models\Defect;
@@ -107,6 +108,21 @@ class ResultController extends Controller
 
         return view('keluhan.proses.detail', compact('defect', 'user', 'keluhan', 'result', 'ab', 'ac'));
     }
+
+    public function cetak($id)
+    {
+
+        $defect = Defect::all();
+        $user = User::all();
+        $keluhan = Complaint::with('buyer')->findOrFail($id);
+        $result = Result::with('complaint','defect')->where('complaints_id', '=', $id)->get();
+
+       set_time_limit(600);
+
+        $pdf = PDF::loadview('keluhan.proses.cetak', compact('defect','user','keluhan','result'))->setPaper('Legal', 'potrait')->setOptions(['defaultFont' => 'sans-serif']);
+        return $pdf->stream();
+
+      }
 
     /**
      * Display the specified resource.

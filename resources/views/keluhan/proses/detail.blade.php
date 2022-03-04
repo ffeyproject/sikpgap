@@ -20,6 +20,7 @@
                         <h4>
                             <i class="fas fa-tasks"></i> FORM KELUHAN PELANGGAN
                             <small class="float-right">No : {{ $keluhan->nomer_keluhan }}</small>
+                            <a class="btn btn-info" href="{{ route('keluhan.cetak', $keluhan->id) }}"> Cetak </a>
                         </h4>
                     </div>
                 </div>
@@ -103,9 +104,9 @@
                         <tr>
                             <th>No</th>
                             <th>Target Waktu</th>
-                            <th>Penyebab</th>
-                            <th>Hasil</th>
-                            <th>Tindakan</th>
+                            <th>Penyebab Komplain</th>
+                            <th>Hasil Penelusuran Masalah</th>
+                            <th>Tindakan Perbaikan</th>
                             <th>Tgl Verifikasi</th>
                             <th>Hasil Verifikasi</th>
                             <th>Penyelidik</th>

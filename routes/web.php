@@ -97,6 +97,7 @@ Route::delete('keluhan/{complaint}', [ComplaintController::class, 'destroy'])->n
 Route::get('keluhan/proses/{complaint}', [ResultController::class, 'index'])->name('proses.index');
 Route::post('keluhan/proses', [ResultController::class, 'store'])->name('proses.store');
 Route::get('keluhan/proses/detail/{complaint}', [ResultController::class, 'detail'])->name('proses.detail');
+Route::get('keluhan/cetak/{complaint}', [ResultController::class, 'cetak'])->name('keluhan.cetak');
 Route::patch('keluhan/proses/{complaint}', [ResultController::class, 'closed'])->name('proses.closed');
 Route::patch('keluhan/proses/closed/{complaint}', [ResultController::class, 'status'])->name('proses.status');
 Route::delete('keluhan/proses/delete/{result}', [ResultController::class, 'destroy'])->name('proses.destroy');

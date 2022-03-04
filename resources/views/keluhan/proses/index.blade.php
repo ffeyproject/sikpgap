@@ -206,6 +206,10 @@
                                 <div class="input-group date" id="reservationdate" data-target-input="nearest">
                                     <input type="date" name="tgl_verifikasi" class="form-control datetimepicker-input"
                                         data-target="#reservationdate" />
+                                    @if ($errors->has('tgl_verifikasi'))
+                                    <div class="invalid-feedback">{{
+                                        $errors->first('tgl_verifikasi') }}</div>
+                                    @endif
                                     <div class="input-group-append" data-target="#reservationdate"
                                         data-toggle="datetimepicker">
                                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
@@ -239,9 +243,9 @@
                         <tr>
                             <th>No</th>
                             <th>Target Waktu</th>
-                            <th>Penyebab</th>
-                            <th>Hasil</th>
-                            <th>Tindakan</th>
+                            <th>Penyebab Komplain</th>
+                            <th>Hasil Penelusuran Masalah</th>
+                            <th>Tindakan Perbaikan</th>
                             <th>Tgl Verifikasi</th>
                             <th>Hasil Verifikasi</th>
                             <th>Asal Masalah</th>
