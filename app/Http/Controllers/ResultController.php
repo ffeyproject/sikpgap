@@ -115,7 +115,7 @@ class ResultController extends Controller
         $defect = Defect::all();
         $user = User::all();
         $keluhan = Complaint::with('buyer')->findOrFail($id);
-        $result = Result::with('complaint','defect')->where('complaints_id', '=', $id)->get();
+        $result = Result::with('complaint','defect', 'users')->where('complaints_id', '=', $id)->get();
 
        set_time_limit(600);
 

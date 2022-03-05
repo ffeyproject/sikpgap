@@ -41,19 +41,25 @@
                             <strong>Nama Motif </strong><br>
                             <strong>CW/.QTY </strong><br>
                             <strong>Jenis </strong><br>
+                            <strong>Penyelidik </strong><br>
                             <strong>Tanggal Proses </strong><br>
                         </td>
                         <td valign='top' width='50%' style='font-size:16px;'>
                             : {{ $keluhan->nomer_keluhan }} <br>
                             : {{ $keluhan->tgl_keluhan }} <br>
                             : {{ $keluhan->buyer->nama_buyer }} <br>
-                            : {{ $keluhan->users->name }} <br>
+                            : {{ $keluhan->nama_marketing }} <br>
                             : {{ $keluhan->no_wo }} <br>
                             : {{ $keluhan->no_sc }} <br>
                             : {{ $keluhan->nama_motif }} <br>
                             : {{ $keluhan->cw_qty }} <br>
                             : {{ $keluhan->jenis }} <br>
                             : {{ $keluhan->tgl_proses }} <br>
+                            @forelse($result as $item)
+                            : {{ $item->users->name }} <br><br>
+                            @empty
+                            <strong></strong>
+                            @endforelse
                         </td>
                         <td valign='top' width='30%' style='font-size:6px;'>{!!
                             DNS2D::getBarcodeHTML(
@@ -74,7 +80,6 @@
                 </table>
                 <table width='100%' cellspacing='0' cellpadding='3' border='1' bordercolor='#CCCCCC'>
                     <tr>
-
                         <td align="center" width='100%' bordercolor='#ccc' bgcolor='#f2f2f2' style='font-size:16px;'>
                             <strong>MASALAH
                                 YANG DI KOMPLAIN
@@ -84,26 +89,10 @@
                     <tr style="display:none;">
                         <td colspan="*">
                     <tr>
-
                         <td valign='top' style='font-size:12px;'>{!! $keluhan->masalah !!}</td>
-
                 </table><br>
                 <table width='100%' cellspacing='0' cellpadding='3' border='1' bordercolor='#CCCCCC'>
                     <tr>
-
-                        <td align="center" width='100%' bordercolor='#ccc' bgcolor='#f2f2f2' style='font-size:16px;'>
-                            <strong>TINDAKAN AKHIR
-                            </strong>
-                        </td>
-                    </tr>
-                    <tr style="display:none;">
-                        <td colspan="*">
-                    <tr>
-                        <td valign='top' style='font-size:12px;'>{!! $keluhan->solusi !!}</td>
-                </table><br>
-                <table width='100%' cellspacing='0' cellpadding='3' border='1' bordercolor='#CCCCCC'>
-                    <tr>
-
                         <td align="center" width='100%' bordercolor='#ccc' bgcolor='#f2f2f2' style='font-size:16px;'>
                             <strong>HASIL PENELUSURAN MASALAH
                             </strong>
@@ -142,6 +131,18 @@
                         <td colspan="12">Data Penelurusan Belum Ada.</td>
                     </tr>
                     @endforelse
+                </table><br>
+                <table width='100%' cellspacing='0' cellpadding='3' border='1' bordercolor='#CCCCCC'>
+                    <tr>
+                        <td align="center" width='100%' bordercolor='#ccc' bgcolor='#f2f2f2' style='font-size:16px;'>
+                            <strong>TINDAKAN AKHIR
+                            </strong>
+                        </td>
+                    </tr>
+                    <tr style="display:none;">
+                        <td colspan="*">
+                    <tr>
+                        <td valign='top' style='font-size:12px;'>{!! $keluhan->solusi !!}</td>
                 </table><br>
                 <table width='100%' cellspacing='0' cellpadding='8' border='1' bordercolor='#CCCCCC'>
                     <tr>
