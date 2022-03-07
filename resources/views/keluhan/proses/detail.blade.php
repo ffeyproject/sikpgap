@@ -109,6 +109,7 @@
                             <th>Penyebab Komplain</th>
                             <th>Hasil Penelusuran Masalah</th>
                             <th>Tindakan Perbaikan</th>
+                            <th>Asal Masalah</th>
                             <th>Tgl Verifikasi</th>
                             <th>Hasil Verifikasi</th>
                             <th>Penyelidik</th>
@@ -124,6 +125,7 @@
                             <td>{{ $item->defect->nama }}</td>
                             <td>{!! $item->hasil_penelusuran !!}</td>
                             <td>{!! $item->tindakan !!}</td>
+                            <td>{{ $item->departements->asal_masalah }}</td>
                             <td>{{ $item->tgl_verifikasi }}</td>
                             <td>{!! $item->hasil_verifikasi !!}</td>
                             <td>{{ $item->users->name }}</td>

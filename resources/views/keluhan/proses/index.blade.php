@@ -172,6 +172,22 @@
                                     $errors->first('penyelidik') }}</div>
                                 @endif
                             </div>
+
+                            <div class="form-group">
+                                <label for="departements_id">Asal Masalah</label>
+                                <select name="departements_id" id="departements_id"
+                                    class="form-control @error('departements_id') is-invalid @enderror">
+                                    <option value="{{ old('departements_id') ?: '' }}"></option>
+                                    @foreach($ad as $item)
+                                    <option value="{{ $item->id }}">{{ $item->asal_masalah }}</option>
+                                    @endforeach
+                                </select>
+                                @if ($errors->has('departements_id'))
+                                <div class="invalid-feedback">{{
+                                    $errors->first('departements_id') }}</div>
+                                @endif
+                            </div>
+
                             <div class="form-group">
                                 <label for="hasil_penelusuran">Hasil Penelurusan</label>
                                 <textarea class="form-control @error('hasil_penelusuran') is-invalid @enderror"
@@ -191,16 +207,7 @@
                                     $errors->first('tindakan') }}</div>
                                 @endif
                             </div>
-                            <div class="form-group">
-                                <label for="asal_masalah">Asal Masalah</label>
-                                <input type="text" name="asal_masalah"
-                                    class="form-control @error('asal_masalah') is-invalid @enderror" id="asal_masalah"
-                                    value="{{ old('asal_masalah') ?: '' }}" placeholder="Masukkan Asal Masalah">
-                                @if ($errors->has('asal_masalah'))
-                                <div class="invalid-feedback">{{
-                                    $errors->first('asal_masalah') }}</div>
-                                @endif
-                            </div>
+
                             <div class="form-group">
                                 <label>Tanggal Verifikasi</label>
                                 <div class="input-group date" id="reservationdate" data-target-input="nearest">
@@ -264,7 +271,7 @@
                             <td>{!! $item->tindakan !!}</td>
                             <td>{{ $item->tgl_verifikasi }}</td>
                             <td>{!! $item->hasil_verifikasi !!}</td>
-                            <td>{!! $item->asal_masalah !!}</td>
+                            <td>{{ $item->departements->asal_masalah }}</td>
                             <td>{{ $item->users['name'] }}</td>
                             <td>
                                 <div class="container">
@@ -328,6 +335,17 @@
           $('#penyelidik').select2({
               dropdownParent: $("#myModal"),
               placeholder: 'Pilih Penyelidik',
+              minimumInputLength: 1,
+              width: '100%',
+              allowClear: true
+        });
+       });
+</script>
+<script>
+    $(document).ready(function(){
+          $('#departements_id').select2({
+              dropdownParent: $("#myModal"),
+              placeholder: 'Pilih Asal Masalah',
               minimumInputLength: 1,
               width: '100%',
               allowClear: true

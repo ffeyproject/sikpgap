@@ -42,6 +42,7 @@
                             <strong>CW/.QTY </strong><br>
                             <strong>Jenis </strong><br>
                             <strong>Tanggal Proses </strong><br>
+                            <strong>Asal Masalah </strong><br>
                             <strong>Penyelidik </strong><br>
                         </td>
                         <td valign='top' width='50%' style='font-size:16px;'>
@@ -56,6 +57,7 @@
                             : {{ $keluhan->jenis }} <br>
                             : {{ $keluhan->tgl_proses }} <br>
                             @forelse($result as $item)
+                            : {{ $item->departements->asal_masalah }} <br>
                             : {{ $item->users->name }} <br><br>
                             @empty
                             <strong></strong>

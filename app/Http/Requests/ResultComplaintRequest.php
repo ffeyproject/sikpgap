@@ -32,7 +32,7 @@ class ResultComplaintRequest extends FormRequest
              'tgl_verifikasi' => 'required',
              'hasil_verifikasi' => 'required',
              'penyelidik' => 'required',
-             'asal_masalah' => 'required',
+             'departements_id' => 'required',
 
         ];
     }

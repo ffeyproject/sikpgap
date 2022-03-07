@@ -6,6 +6,7 @@ Use PDF;
 use App\Http\Requests\ResultComplaintRequest;
 use App\Models\Complaint;
 use App\Models\Defect;
+use App\Models\Departement;
 use App\Models\Result;
 use App\Models\User;
 use Carbon\Carbon;
@@ -27,10 +28,11 @@ class ResultController extends Controller
         $keluhan = Complaint::with('buyer','users')->findOrFail($id);
         $defect = Result::with('complaint','defect')->get();
         $ab = Defect::all();
+        $ad = Departement::all();
         $ac = User::where('posisi', 'Qa' ,"Qa")->get();
-        $result = Result::with('complaint','defect')->where('complaints_id', '=', $id)->get();
+        $result = Result::with('complaint','defect','departements')->where('complaints_id', '=', $id)->get();
 
-        return view('keluhan.proses.index', compact('keluhan', 'defect', 'ab', 'ac', 'result'));
+        return view('keluhan.proses.index', compact('keluhan', 'defect', 'ab', 'ad', 'ac', 'result'));
     }
 
     public function status(Request $request, Complaint $complaint)
@@ -73,7 +75,7 @@ class ResultController extends Controller
         $result->tgl_verifikasi = $request->tgl_verifikasi;
         $result->hasil_verifikasi = $request->hasil_verifikasi;
         $result->penyelidik = $request->penyelidik;
-        $result->asal_masalah = $request->asal_masalah;
+        $result->departements_id = $request->departements_id;
         $result->user_id = $request->penyelidik;
         $result->save();
 

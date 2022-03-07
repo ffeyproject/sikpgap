@@ -27,6 +27,11 @@ class Result extends Model
         return $this->belongsTo(Defect::class,  'defects_id');
     }
 
+    public function departements(): BelongsTo
+    {
+        return $this->belongsTo(Departement::class,  'departements_id');
+    }
+
     public function users(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
