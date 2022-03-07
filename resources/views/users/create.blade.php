@@ -33,6 +33,17 @@
                 </span>
                 @enderror
             </div>
+            <div class="form-group">
+                <label for="g_ttd">Gambar Tanda Tangan</label>
+                <input type="file" name="g_ttd" class="form-control @error('g_ttd') is-invalid @enderror" id="g_ttd"
+                    value="{{ old('g_ttd') ?: '' }}" placeholder="">
+                @if ($errors->has('g_ttd'))
+                <div class="invalid-feedback">{{
+                    $errors->first('g_ttd') }}</div>
+                @endif
+                <p class="help-block">Max.800kb</p>
+            </div>
+
             <div class="input-group mb-3">
                 <input type="email" name="email" value="{{ old('email') }}"
                     class="form-control @error('email') is-invalid @enderror" placeholder="Email">

@@ -116,12 +116,25 @@ class ResultController extends Controller
 
         $defect = Defect::all();
         $user = User::all();
-        $keluhan = Complaint::with('buyer')->findOrFail($id);
+        $keluhan = Complaint::with('buyer','users')->findOrFail($id);
         $result = Result::with('complaint','defect', 'users')->where('complaints_id', '=', $id)->get();
 
        set_time_limit(600);
 
-        $pdf = PDF::loadview('keluhan.proses.cetak', compact('defect','user','keluhan','result'))->setPaper('Legal', 'potrait')->setOptions(['defaultFont' => 'sans-serif']);
+
+
+        $pdf = PDF::loadview('keluhan.proses.cetak', compact('defect','user','keluhan','result'))
+        ->setPaper('Legal', 'potrait')
+        ->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true ,'chroot' => public_path()]);
+        $pdf->getDomPDF()->setHttpContext(
+        stream_context_create([
+            'ssl' => [
+                'allow_self_signed'=> TRUE,
+                'verify_peer' => FALSE,
+                'verify_peer_name' => FALSE,
+                ]
+            ])
+        );
         return $pdf->stream();
 
       }

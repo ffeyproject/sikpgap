@@ -59,6 +59,16 @@ class UsersController extends Controller
             $user->username = $request->username;
             $user->email = $request->email;
             $user->password = Hash::make($request->password);
+                if($request->hasFile('g_ttd')){
+                $filenameWithExt = $request->file('g_ttd')->getClientOriginalName();
+                $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                $extension = $request->file('g_ttd')->getClientOriginalExtension();
+                $filenameSimpan = $filename.'_'.date('Ymd').'_'.time().'.'.$extension;
+                $path = $request->file('g_ttd')->move('image/ttd', $filenameSimpan);
+                }else{
+                $filenameSimpan = 'noImage.png';
+                }
+            $user->g_ttd = $filenameSimpan;
             $user->save();
 
         return redirect()->route('users.index')
@@ -111,6 +121,17 @@ class UsersController extends Controller
         $user->username = $request->username;
         $user->email = $request->email;
         $user->posisi = $request->posisi;
+        if (empty($request->file('g_ttd'))){
+                $user->g_ttd = $user->g_ttd;
+            }
+        else{
+                unlink('image/ttd/'.$user->g_ttd); //menghapus file lama
+                $g_ttd = $request->file('g_ttd');
+                $ext = $g_ttd->getClientOriginalExtension();
+                $newName = rand(100000,1001238912).".".$ext;
+                $g_ttd->move('image/ttd',$newName);
+                $user->g_ttd = $newName;
+            }
         $user->update();
 
         $user->syncRoles($request->get('role'));

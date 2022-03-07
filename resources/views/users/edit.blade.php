@@ -35,6 +35,18 @@
                 <span class="text-danger text-left">{{ $errors->first('username') }}</span>
                 @endif
             </div>
+            <div class="mb-3">
+                <label>Gambar Pendukung</label><br>
+                <img src="{{ url('image/ttd/'.$user->g_ttd) }}" style="width: 100px; height: 100px;"><br>
+                <label>*) Jika Gambar Tidak Di Ganti, biarkan saja.</label><br>
+                <label for="g_ttd">Masukkan Gambar Pendukung</label>
+                <input type="file" id="g_ttd" name="g_ttd" class="@error('g_ttd') is-invalid @enderror"
+                    value="{{ $user->g_ttd }}">
+                @if ($errors->has('g_ttd'))
+                <div class="invalid-feedback">{{ $errors->first('g_ttd') }}</div>
+                @endif
+                <p class="help-block">Max.800kb</p>
+            </div>
 
             <div class="mb-3">
                 <label for="username" class="form-label">Posisi</label>
