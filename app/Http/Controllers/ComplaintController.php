@@ -89,7 +89,7 @@ class ComplaintController extends Controller
             }
 
         $complaint = new Complaint();
-        $complaint->user_id = Auth::user()->id;
+        $complaint->user_id = $request->nama_marketing;
         $complaint->buyers_id = $request->buyers_id;
         $complaint->no_urut = $nn;
         $complaint->nomer_keluhan = $no_ak;
