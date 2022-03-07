@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ComplaintController;
+use App\Http\Controllers\DepartementController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\RolesController;
@@ -83,6 +84,15 @@ Route::post('defect', [DefectController::class, 'store'])->name('defect.store');
 Route::get('defect/update/{defect}', [DefectController::class, 'edit'])->name('defect.edit');
 Route::patch('defect/update/{defect}', [DefectController::class, 'update'])->name('defect.update');
 Route::delete('defect/{defect}', [DefectController::class, 'destroy'])->name('defect.destroy');
+
+//Route Asal Masalah
+
+Route::get('asal-masalah', [DepartementController::class, 'index'])->name('asal_masalah.index');
+Route::get('asal-masalah/create', [DepartementController::class, 'create'])->name('asal_masalah.create');
+Route::post('asal_masalah', [DepartementController::class, 'store'])->name('asal_masalah.store');
+Route::get('asal_masalah/update/{departement}', [DepartementController::class, 'edit'])->name('asal_masalah.edit');
+Route::patch('asal_masalah/update/{departement}', [DepartementController::class, 'update'])->name('asal_masalah.update');
+Route::delete('asalah_masalah/{departement}', [DepartementController::class, 'destroy'])->name('asal_masalah.destroy');
 
 //Route Complaint
 Route::get('keluhan', [ComplaintController::class, 'index'])->name('keluhan.index');
