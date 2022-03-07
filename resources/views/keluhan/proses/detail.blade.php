@@ -20,8 +20,10 @@
                         <h4>
                             <i class="fas fa-tasks"></i> FORM KELUHAN PELANGGAN
                             <small class="float-right">No : {{ $keluhan->nomer_keluhan }}</small>
-                            <a class="btn btn-info" href="{{ route('keluhan.cetak', $keluhan->id) }}"> Cetak </a>
                         </h4>
+                        @if($keluhan->status == 'selesai' || $keluhan->status =='closed' )
+                        <a class="btn btn-info" href="{{ route('keluhan.cetak', $keluhan->id) }}"> Cetak </a>
+                        @endif
                     </div>
                 </div>
                 <hr>
@@ -134,7 +136,6 @@
                             <td colspan="12">Data Penelurusan Belum Ada.</td>
                         </tr>
                         </tr>
-
                     </tbody>
                     @endforelse
                 </table>

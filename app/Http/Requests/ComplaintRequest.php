@@ -35,6 +35,7 @@ class ComplaintRequest extends FormRequest
              'cw_qty' => 'required',
              'masalah' => 'required',
              'solusi' => 'required',
+             'g_keluhan' => 'image|mimes:jpeg,png,jpg,gif,svg|max:1500',
         ];
     }
 }

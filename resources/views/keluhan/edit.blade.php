@@ -13,7 +13,7 @@
                 </button>
             </div>
         </div>
-        <form method="post" action="{{route('keluhan.update', $keluhan->id)}}" id="form">
+        <form method="post" action="{{route('keluhan.update', $keluhan->id)}}" enctype="multipart/form-data" id="form">
             @csrf
             @method('PATCH')
             <div class="card-body">
@@ -122,6 +122,20 @@
                             <div class="invalid-feedback">{{
                                 $errors->first('masalah') }}</div>
                             @endif
+                        </div>
+
+                        <div class="form-group">
+                            <label>Gambar Pendukung</label><br>
+                            <img src="{{ url('image/keluhan/'.$keluhan->g_keluhan) }}"
+                                style="width: 100px; height: 100px;"><br>
+                            <label>*) Jika Gambar Tidak Di Ganti, biarkan saja.</label><br>
+                            <label for="g_keluhan">Masukkan Gambar Pendukung</label>
+                            <input type="file" id="g_keluhan" name="g_keluhan"
+                                class="@error('g_keluhan') is-invalid @enderror" value="{{ $keluhan->g_keluhan }}">
+                            @if ($errors->has('g_keluhan'))
+                            <div class="invalid-feedback">{{ $errors->first('g_keluhan') }}</div>
+                            @endif
+                            <p class="help-block">Max.800kb</p>
                         </div>
                     </div>
 

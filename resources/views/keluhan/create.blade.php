@@ -13,7 +13,7 @@
                 </button>
             </div>
         </div>
-        <form method="post" action="{{route('keluhan.store')}}" id="form">
+        <form method="post" action="{{route('keluhan.store')}}" id="form" enctype="multipart/form-data">
             @csrf
             <div class="card-body">
                 <div class="row">
@@ -121,6 +121,18 @@
                             <div class="invalid-feedback">{{
                                 $errors->first('masalah') }}</div>
                             @endif
+                        </div>
+
+                        <div class="form-group">
+                            <label for="g_keluhan">Gambar Pendukung</label>
+                            <input type="file" name="g_keluhan"
+                                class="form-control @error('g_keluhan') is-invalid @enderror" id="g_keluhan"
+                                value="{{ old('g_keluhan') ?: '' }}" placeholder="">
+                            @if ($errors->has('g_keluhan'))
+                            <div class="invalid-feedback">{{
+                                $errors->first('g_keluhan') }}</div>
+                            @endif
+                            <p class="help-block">Max.800kb</p>
                         </div>
                     </div>
 

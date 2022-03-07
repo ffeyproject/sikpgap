@@ -41,8 +41,8 @@
                             <strong>Nama Motif </strong><br>
                             <strong>CW/.QTY </strong><br>
                             <strong>Jenis </strong><br>
-                            <strong>Penyelidik </strong><br>
                             <strong>Tanggal Proses </strong><br>
+                            <strong>Penyelidik </strong><br>
                         </td>
                         <td valign='top' width='50%' style='font-size:16px;'>
                             : {{ $keluhan->nomer_keluhan }} <br>

@@ -102,7 +102,23 @@ class ComplaintController extends Controller
         $complaint->jenis = $request->jenis;
         $complaint->masalah = $request->masalah;
         $complaint->solusi = $request->solusi;
+        // $g_keluhan = $request->file('g_keluhan');
+        //     $ext = $g_keluhan->getClientOriginalExtension();
+        //     $newName = "kel"."-".rand(100000,1001238912).".".$ext;
+        //     $g_keluhan->move('image/keluhan',$newName);
+        //     $complaint->g_keluhan = $newName;
+        if($request->hasFile('g_keluhan')){
+		$filenameWithExt = $request->file('g_keluhan')->getClientOriginalName();
+        $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+        $extension = $request->file('g_keluhan')->getClientOriginalExtension();
+        $filenameSimpan = $filename.'_'.date('Ymd').'_'.time().'.'.$extension;
+        $path = $request->file('g_keluhan')->move('image/keluhan', $filenameSimpan);
+	    }else{
+		$filenameSimpan = '/image/keluhan/default.png';
+	    }
+        $complaint->g_keluhan = $filenameSimpan;
         $complaint->save();
+
 
     //    return redirect('keluhan/proses/' .  $complaint->id)->with('info', 'Silahkan Proses Data Ini.');
        return redirect()->route('keluhan.index')->with('info', 'Data Tersimpan dan masuk ke tahap proses.');
@@ -151,6 +167,7 @@ class ComplaintController extends Controller
      */
     public function update(ComplaintRequest $request, Complaint $complaint)
     {
+        {
         $complaint->buyers_id = $request->buyers_id;
         $complaint->tgl_keluhan = $request->tgl_keluhan;
         $complaint->nama_marketing = $request->nama_marketing;
@@ -161,8 +178,20 @@ class ComplaintController extends Controller
         $complaint->jenis = $request->jenis;
         $complaint->masalah = $request->masalah;
         $complaint->solusi = $request->solusi;
+        if (empty($request->file('g_keluhan'))){
+                $complaint->g_keluhan = $complaint->g_keluhan;
+            }
+        else{
+                unlink('image/keluhan/'.$complaint->g_keluhan); //menghapus file lama
+                $g_keluhan = $request->file('g_keluhan');
+                $ext = $g_keluhan->getClientOriginalExtension();
+                $newName = rand(100000,1001238912).".".$ext;
+                $g_keluhan->move('image/keluhan',$newName);
+                $complaint->g_keluhan = $newName;
+            }
         $complaint->update();
         return redirect()->route('keluhan.index')->with('success','Data Telah Di Update');
+        }
     }
 
     /**
