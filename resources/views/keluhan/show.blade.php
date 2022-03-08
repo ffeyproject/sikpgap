@@ -4,6 +4,7 @@
     <div class="card card-primary card-outline">
         <div class="row">
             <div class="card-body">
+                @if($keluhan->status == 'open')
                 <a href="{{ route('keluhan.edit', $keluhan->id) }}" class="btn btn-warning"><i class="fa fa-edit"></i>
                     Update </a>
                 <form action="{{ route('keluhan.destroy', $keluhan->id) }}" method="POST"
@@ -15,6 +16,19 @@
                         <i class="fa fa-trash"> Delete </i>
                     </button>
                 </form>
+                @elseif ($keluhan->status == 'proses' || $keluhan->status == 'selesai')
+                <div class="alert alert-warning alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h5><i class="icon fas fa-info"></i> Info!</h5>
+                    Data Ini Sedang Di Proses.
+                </div>
+                @else
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h5><i class="icon fas fa-info"></i> Info!</h5>
+                    Data Ini Sudah Close.
+                </div>
+                @endif
             </div>
         </div>
     </div>
