@@ -22,7 +22,8 @@
                             <small class="float-right">No : {{ $keluhan->nomer_keluhan }}</small>
                         </h4>
                         @if($keluhan->status == 'selesai' || $keluhan->status =='closed' )
-                        <a class="btn btn-info" href="{{ route('keluhan.cetak', $keluhan->id) }}"> Cetak </a>
+                        <a class="btn btn-info" href="{{ route('keluhan.cetak', $keluhan->id) }}" target="_blank"> Cetak
+                        </a>
                         @endif
                     </div>
                 </div>

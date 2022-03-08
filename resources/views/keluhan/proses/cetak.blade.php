@@ -1,6 +1,5 @@
-<!DOCTYPE html
-    PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
-<html xmlns='https://www.w3.org/1999/xhtml'>
+<!DOCTYPE html>
+<html xmlns=''>
 
 <head>
     <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
@@ -19,7 +18,6 @@
                         </td>
                         <td valign='top' width='50%' style='font-size:14px;'>GAP - FRM - MKT - 03<br />
                         </td>
-
                     </tr>
                 </table>
                 <table width='100%' height='100' cellspacing='0' cellpadding='0'>
@@ -32,7 +30,7 @@
                 </table>
                 <table width='100%' height='100' cellspacing='0' cellpadding='0'>
                     <tr>
-                        <td valign='top' width='30%' style='font-size:16px;'><strong>Nomer FKP</strong><br>
+                        <td valign='top' width='25%' style='font-size:16px;'><strong>Nomer FKP</strong><br>
                             <strong>Tanggal </strong><br>
                             <strong>Nama Toko/Buyer </strong><br>
                             <strong>Nama Marketing </strong><br>
@@ -196,7 +194,6 @@
                             ( {{ $item->users->name }})<br>
                             @endforeach
                         </td>
-
                     </tr>
                 </table>
 
