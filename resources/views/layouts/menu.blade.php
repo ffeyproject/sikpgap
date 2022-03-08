@@ -6,7 +6,8 @@
         <p>Home</p>
     </a>
 </li>
-
+@auth
+@role('admin')
 <li class="nav-header">MANAGE</li>
 <li class="nav-item">
     <a href="{{ route('users.index') }}"
@@ -27,6 +28,8 @@
         <p>Manage Permission</p>
     </a>
 </li>
+@endrole
+@endauth
 
 <li class="nav-header">MASTER</li>
 <li
