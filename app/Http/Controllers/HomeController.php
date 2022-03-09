@@ -28,19 +28,35 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $year = ['2022', '2023', '2024', '2025', '2026'];
-        $keluhan = [];
-        $result = [];
+        // $year = ['2022', '2023', '2024', '2025', '2026'];
+        // $keluhan = [];
+        // $result = [];
 
-        foreach ($year as $key => $value) {
+        // foreach ($year as $key => $value) {
 
-            $keluhan[] = Complaint::where(DB::raw("DATE_FORMAT(created_at, '%Y')"),$value)->count();
-            $result[] = Result::where(DB::raw("DATE_FORMAT(created_at, '%Y')"),$value)->count();
+        //     $keluhan[] = Complaint::where(DB::raw("DATE_FORMAT(created_at, '%Y')"),$value)->count();
+        //     $result[] = Result::where(DB::raw("DATE_FORMAT(created_at, '%Y')"),$value)->count();
 
 
+        // }
+
+
+        // return view('home')->with('year',json_encode($year,JSON_NUMERIC_CHECK))->with('keluhan',json_encode($keluhan,JSON_NUMERIC_CHECK))->with('result',json_encode($result,JSON_NUMERIC_CHECK));
+
+        $groups = DB::table('result_complaints')
+                  ->join('departements', 'result_complaints.departements_id', '=', 'departements.id')
+                  ->select('asal_masalah','departements_id', DB::raw('count(*) as total'))
+                  ->groupBy('asal_masalah','departements_id')
+                  ->pluck('total', 'asal_masalah')->all();
+// Generate random colours for the groups
+for ($i=0; $i<=count($groups); $i++) {
+            $colours[] = '#' . substr(str_shuffle('ABCDEF0123456789'), 0, 6);
         }
-
-
-        return view('home')->with('year',json_encode($year,JSON_NUMERIC_CHECK))->with('keluhan',json_encode($keluhan,JSON_NUMERIC_CHECK))->with('result',json_encode($result,JSON_NUMERIC_CHECK));
+// Prepare the data for returning with the view
+$chart = new Result();
+        $chart->labels = (array_keys($groups));
+        $chart->dataset = (array_values($groups));
+        $chart->colours = $colours;
+return view('home', compact('chart'));
     }
 }
