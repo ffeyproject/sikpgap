@@ -6,11 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Result extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     protected $fillable = ['users_id', 'complaints_id', 'defects_id', 'hasil_penelusuran', 'tindakan', 'tgl_verifikasi', 'target_waktu', 'hasil_verifikasi','asal_masalah'];
 

@@ -1,10 +1,30 @@
 @extends('layouts.app')
 @section('content')
 <div class="container-fluid">
-    <div class="container">
+    <div class="container"><br>
 
-        <div class="row">
+        <div class="row"><br>
+            {{-- <div class="col-sm-6">
+                <h2>Grafik Asal Masalah per Tanggal : {{ $now }}</h2>
+            </div> --}}
+            <div class="row">
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box bg-gradient-info">
+                        <span class="info-box-icon"><i class="fas fa-chart-bar"></i></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Grafik Tahun {{ $thn }}</span>
+                            <span class="info-box-number">Asal Masalah : {{ $t_total }}</span>
+                            <div class="progress">
+                                <div class="progress-bar" style="width: 70%"></div>
+                            </div>
+                            <span class="progress-description">
+                                Tanggal : {{ $now }}
+                            </span>
+                        </div>
 
+                    </div>
+                </div>
+            </div>
             <div class="col-md-10 offset-md-1">
 
                 <div class="panel panel-default">
