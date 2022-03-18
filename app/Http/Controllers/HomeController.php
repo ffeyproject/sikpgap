@@ -60,9 +60,51 @@ class HomeController extends Controller
                 $chart->dataset = (array_values($groups));
                 $chart->colours = $colours;
 
+
+        $ab = DB::table('result_complaints')
+                  ->join('defects', 'result_complaints.defects_id', '=', 'defects.id')
+                  ->join('complaints', 'result_complaints.complaints_id', '=', 'complaints.id')
+                  ->select('defects.nama','defects_id', DB::raw("DATE_FORMAT(target_waktu, '%Y') year, count(*) as total"))
+                  ->groupBy('year','defects_id')
+                  ->pluck('total', 'nama')
+                  ->all();
+        // Generate random colours for the ab
+        for ($i=0; $i<=count($ab); $i++) {
+                    $cc[] = '#' . substr(str_shuffle('ABCDEF0123456789'), 0, 6);
+                }
+        // Prepare the data for returning with the view
+        $ac = new Result();
+                $ac->labels = (array_keys($ab));
+                $ac->dataset = (array_values($ab));
+                $ac->cc = $cc;
+
         $now = Carbon::now()->format('d-m-Y, H:i:s');
         $thn = Carbon::now()->format('Y');
-        $t_total = DB::table('result_complaints')->count();
-        return view('home', compact('chart','now','thn', 't_total'));
+        // $t_total = DB::table('result_complaints')
+
+        //           ->count();
+        // $t_total[] = DB::table('result_complaints')
+        // // ->join('departements', 'result_complaints.departements_id', '=', 'departements.id')
+        //           ->join('complaints', 'result_complaints.complaints_id', '=', 'complaints.id')
+        //     ->select(                            DB::raw("(COUNT(*)) as count"),
+
+        //                     DB::raw("YEAR(complaints.tgl_keluhan) as year"))
+
+        //                     ->groupBy('year')
+        //                     // ->orderBy('complaints.tgl_keluhan', 'DESC')
+
+        //                 ->get();
+        $t_total = DB::table('result_complaints')
+                  ->join('departements', 'result_complaints.departements_id', '=', 'departements.id')
+                  ->join('complaints', 'result_complaints.complaints_id', '=', 'complaints.id')
+                  ->select( 'tgl_keluhan')
+                ->whereYear('tgl_keluhan',  Carbon::now()->year)
+                ->count();
+
+      $t_keluhan = Complaint::whereYear('created_at','=',Carbon::now()->year)
+                ->select('created_at')
+                ->count();
+
+        return view('home', compact('chart','now','thn', 't_total', 'ac', 't_keluhan'));
     }
 }

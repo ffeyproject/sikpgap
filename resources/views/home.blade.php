@@ -8,39 +8,48 @@
                 <h2>Grafik Asal Masalah per Tanggal : {{ $now }}</h2>
             </div> --}}
             <div class="row">
-                <div class="col-md-3 col-sm-6 col-12">
-                    <div class="info-box bg-gradient-info">
-                        <span class="info-box-icon"><i class="fas fa-chart-bar"></i></i></span>
+                <div class="col-12 col-sm-6 col-md-3">
+                    <div class="info-box mb-3">
+                        <span class="info-box-icon bg-danger elevation-1"><i class="far fa-paper-plane"></i></i></span>
                         <div class="info-box-content">
-                            <span class="info-box-text">Grafik Tahun {{ $thn }}</span>
-                            <span class="info-box-number">Asal Masalah : {{ $t_total }}</span>
-                            <div class="progress">
-                                <div class="progress-bar" style="width: 70%"></div>
-                            </div>
-                            <span class="progress-description">
-                                Tanggal : {{ $now }}
-                            </span>
+                            <span class="info-box-text">Total Keluhan</span>
+                            <h4><span class="info-box-number">{{ $t_keluhan }}</span></h4>
                         </div>
 
                     </div>
+
                 </div>
+                <div class="col-12 col-sm-6 col-md-3">
+                    <div class="info-box mb-3">
+                        <span class="info-box-icon bg-success elevation-1"><i
+                                class="far fa-building"></i></i></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Total Asal Masalah</span>
+                            <h4><span class="info-box-number">{{ $t_total }}</span></h4>
+                        </div>
+
+                    </div>
+
+                </div>
+                <hr>
             </div>
             <div class="col-md-10 offset-md-1">
 
                 <div class="panel panel-default">
 
                     <div class="panel-body">
-
-                        {{-- <canvas id="canvas" height="280" width="600"></canvas> --}}
                         <canvas id="userChart" height="280" width="600"></canvas>
-                        {{-- <div class="col-lg-8">
-                            <canvas id="userChart" class="rounded shadow"></canvas>
-                        </div> --}}
-
                     </div>
 
                 </div>
+                <hr>
+                <div class="panel panel-default">
 
+                    <div class="panel-body">
+                        <canvas id="defectChart" height="280" width="600"></canvas>
+                    </div>
+
+                </div>
             </div>
 
         </div>
@@ -99,6 +108,57 @@
                     label: 'Asal Masalah',
                     backgroundColor: {!! json_encode($chart->colours)!!} ,
                     data:  {!! json_encode($chart->dataset)!!} ,
+                },
+            ]
+        },
+// Configuration options go here
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        callback: function(value) {if (value % 1 === 0) {return value;}}
+                    },
+                    scaleLabel: {
+                        display: false
+                    }
+                }]
+            },
+            legend: {
+                labels: {
+                    // This more specific font property overrides the global property
+                    fontColor: '#122C4B',
+                    fontFamily: "'Muli', sans-serif",
+                    padding: 25,
+                    boxWidth: 25,
+                    fontSize: 14,
+                }
+            },
+            layout: {
+                padding: {
+                    left: 10,
+                    right: 10,
+                    top: 0,
+                    bottom: 10
+                }
+            }
+        }
+    });
+</script>
+
+<script>
+    var ww = document.getElementById('defectChart').getContext('2d');
+    var ac = new Chart(ww, {
+        // The type of chart we want to create
+        type: 'bar',
+// The data for our dataset
+        data: {
+            labels:  {!!json_encode($ac->labels)!!} ,
+            datasets: [
+                {
+                    label: 'Penyebab Masalah',
+                    backgroundColor: {!! json_encode($ac->cc)!!} ,
+                    data:  {!! json_encode($ac->dataset)!!} ,
                 },
             ]
         },
