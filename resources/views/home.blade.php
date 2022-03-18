@@ -7,6 +7,7 @@
             {{-- <div class="col-sm-6">
                 <h2>Grafik Asal Masalah per Tanggal : {{ $now }}</h2>
             </div> --}}
+            <h4>Total Per Tahun {{ Carbon::now()->format('Y') }}</h4>
             <div class="row">
                 <div class="col-12 col-sm-6 col-md-3">
                     <div class="info-box mb-3">
