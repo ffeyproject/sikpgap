@@ -7,8 +7,8 @@
     </ul>
     Tanggal : {{ Carbon::now()->format('d-m-Y') }}
     <ul class="navbar-nav ml-auto">
-        {{-- <li class="nav-item dropdown">
-            <a class="nav-link" data-toggle="dropdown" href="#">
+        <li class="nav-item dropdown">
+            {{-- <a class="nav-link" data-toggle="dropdown" href="#">
                 <i class="far fa-bell"></i>
                 <span class="badge badge-warning navbar-badge">15</span>
             </a>
@@ -29,8 +29,8 @@
                     <i class="fas fa-file mr-2"></i> 3 new reports
                     <span class="float-right text-muted text-sm">2 days</span>
                 </a>
-            </div>
-        </li> --}}
+            </div> --}}
+        </li>
         <li class="nav-item dropdown user-menu">
             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
                 <img src="https://ui-avatars.com/api/?name=Admin" class="user-image img-circle elevation-2"
