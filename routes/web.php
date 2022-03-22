@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\DepartementController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ItemEvaluationController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\PermissionsController;
@@ -111,6 +112,15 @@ Route::get('keluhan/cetak/{complaint}', [ResultController::class, 'cetak'])->nam
 Route::patch('keluhan/proses/{complaint}', [ResultController::class, 'closed'])->name('proses.closed');
 Route::patch('keluhan/proses/closed/{complaint}', [ResultController::class, 'status'])->name('proses.status');
 Route::delete('keluhan/proses/delete/{result}', [ResultController::class, 'destroy'])->name('proses.destroy');
+
+
+//Route Item Penilaian
+Route::get('item-penilaian', [ItemEvaluationController::class, 'index'])->name('item.index');
+Route::get('item-penilaian/create', [ItemEvaluationController::class, 'create'])->name('item.create');
+Route::post('item-penilaian', [ItemEvaluationController::class, 'store'])->name('item.store');
+Route::get('item-penilaian/update/{item}', [ItemEvaluationController::class, 'edit'])->name('item.edit');
+Route::patch('item-penilaian/update/{item}', [ItemEvaluationController::class, 'update'])->name('item.update');
+Route::delete('item-penilaian/{item}', [ItemEvaluationController::class, 'destroy'])->name('item.destroy');
 
 //Route Kepuasaan
 Route::get('kepuasan', [SatisfactionController::class, 'index'])->name('kepuasan.index');

@@ -33,7 +33,7 @@
 
 <li class="nav-header">MASTER</li>
 <li
-    class="nav-item {{ (request()->is('buyer')) ||  (request()->is('buyer/create')) || (request()->is('buyer/*')) || (request()->is('defect')) || (request()->is('defect/*')) || (request()->routeIs('defect.update}')) || (request()->is('asal-masalah')) || (request()->is('asal-masalah/*'))  ? 'active menu-open' : '' }}">
+    class="nav-item {{ (request()->is('buyer')) ||  (request()->is('buyer/create')) || (request()->is('buyer/*')) || (request()->is('defect')) || (request()->is('defect/*')) || (request()->routeIs('defect.update}')) || (request()->is('asal-masalah')) || (request()->is('asal-masalah/*')) || (request()->is('item-penilaian')) || (request()->is('item-penilaian/*')) ? 'active menu-open' : '' }}">
     <a href="#"
         class="nav-link nav-item {{ (request()->is('buyer')) || (request()->is('buyer/create')) || (request()->is('buyer/*')) ||  (request()->is('defect')) || (request()->is('asal-masalah'))  ? 'active menu-open' : '' }}">
         <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -62,6 +62,13 @@
                 class="nav-link {{ (request()->is('asal-masalah')) || (request()->is('asal-masalah/create')) || (request()->is('asal-masalah/*'))  ? 'active' : '' }} ">
                 <i class="fas fa-exclamation-triangle"></i>
                 <p>Asal Masalah</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('item.index') }}"
+                class="nav-link {{ (request()->is('item-penilaian')) || (request()->is('item-penilaian/create')) || (request()->is('item-penilaian/*'))  ? 'active' : '' }} ">
+                <i class="fas fa-indent"></i>
+                <p>Index Penilaian</p>
             </a>
         </li>
     </ul>
