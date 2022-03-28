@@ -67,9 +67,13 @@ class DepartementController extends Controller
      * @param  \App\Models\Departement  $departement
      * @return \Illuminate\Http\Response
      */
-    public function show(Departement $departement)
+    public function show($id)
     {
-        //
+         $departement = Departement::findOrFail($id);
+
+        return view('master.asal_masalah.show', [
+                'departement' => $departement
+        ]);
     }
 
     /**

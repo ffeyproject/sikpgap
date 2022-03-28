@@ -76,7 +76,8 @@
 
 <li class="nav-header">MENU</li>
 <li class="nav-item">
-    <a href="{{ route('kepuasan.index') }}" class="nav-link {{ (request()->is('categori')) ? 'active' : '' }} ">
+    <a href="{{ route('kepuasan.index') }}"
+        class="nav-link {{ (request()->is('kepuasan')) || (request()->is('kepuasan/create')) || (request()->is('kepuasan/*')) || (request()->is('kepuasan-penilaian/*')) ? 'active' : '' }} ">
         <i class="fas fa-tasks"></i>
         <p>Kepuasan Pelanggan</p>
     </a>

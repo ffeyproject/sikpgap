@@ -11,6 +11,7 @@ use App\Http\Controllers\PermissionsController;
 use App\Http\Controllers\Master\BuyerController;
 use App\Http\Controllers\Master\DefectController;
 use App\Http\Controllers\ResultController;
+use App\Http\Controllers\ResultSatisfactionsController;
 use App\Http\Controllers\SatisfactionController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -122,8 +123,17 @@ Route::get('item-penilaian/update/{item}', [ItemEvaluationController::class, 'ed
 Route::patch('item-penilaian/update/{item}', [ItemEvaluationController::class, 'update'])->name('item.update');
 Route::delete('item-penilaian/{item}', [ItemEvaluationController::class, 'destroy'])->name('item.destroy');
 
-//Route Kepuasaan
+//Route Kepuasan
 Route::get('kepuasan', [SatisfactionController::class, 'index'])->name('kepuasan.index');
+Route::get('kepuasan/create', [SatisfactionController::class, 'create'])->name('kepuasan.create');
+Route::patch('kepuasan/update/{kepuasan}', [SatisfactionController::class, 'update'])->name('kepuasan.update');
+Route::get('kepuasan-penilaian/index/{kepuasan}', [SatisfactionController::class, 'vpenilaian'])->name('kepuasan.vpenilaian');
+Route::post('kepuasan-penilaian', [ResultSatisfactionsController::class, 'store'])->name('kepuasan-penilaian.store');
+Route::get('/kepuasan/create/nyari', 'SatisfactionController@loadNyari');
+Route::get('get-customer-list', [SatisfactionController::class, 'getCustomerList'])->name('getCustomerList');
+Route::post('kepuasan', [SatisfactionController::class, 'store'])->name('kepuasan.store');
+Route::get('kepuasan/update/{kepuasan}', [SatisfactionController::class, 'edit'])->name('kepuasan.edit');
+Route::delete('kepuasan/{kepuasan}', [SatisfactionController::class, 'destroy'])->name('kepuasan.destroy');
 
 Route::get('permissions', [PermissionsController::class, 'index'])->name('permissions.index');
 Route::resource('roles', RolesController::class);

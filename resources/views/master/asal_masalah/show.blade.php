@@ -7,37 +7,28 @@
             <!-- jquery validation -->
             <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">Update Master Asal Masalah: <b>{{ $defect->nama }}
+                    <h3 class="card-title">Update Master Asal Masalah: <b>{{ $departement->nama }}
                     </h3>
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form method="post" action="{{route('defect.update', $defect->id)}}" id="form">
+                <form method="post" action="{{route('asal_masalah.update', $departement->id)}}" id="form">
                     @csrf
                     @method('PATCH')
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="kategori">Kategori</label>
-                            <select name="kategori" id="kategori"
-                                class="form-control @error('kategori') is-invalid @enderror">
-                                <option value="{{ $defect->kategori }}">{{ $defect->kategori }}</option>
-                                <option value="Dyeing">Dyeing</option>
-                                <option value="Printing">Printing</option>
-                                <option value="Weaving">Weaving</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="nama">Nama Defect</label>
-                            <input type="text" name="nama" class="form-control @error('nama') is-invalid @enderror"
-                                id="nama" autocomplete="off" placeholder="Masukkan Nama Defect"
-                                value="{{ $defect->nama }}" autocomplete="off">
+                            <label for="asal_masalah">Asal Masalah</label>
+                            <input type="text" name="asal_masalah"
+                                class="form-control @error('asal_masalah') is-invalid @enderror" id="asal_masalah"
+                                autocomplete="off" placeholder="Masukkan asal_masalah Defect"
+                                value="{{ $departement->asal_masalah }}" autocomplete="off">
                         </div>
                         <div class="form-group">
                             <div class="controls">
                                 <label for="keterangan">Keterangan</label>
                                 <textarea class="form-control @error('keterangan') is-invalid @enderror"
                                     style="resize:none" name="keterangan" id="summernote" required
-                                    rows="6">{{$defect->keterangan}}</textarea>
+                                    rows="6">{{$departement->keterangan}}</textarea>
                             </div>
                         </div>
                     </div>
