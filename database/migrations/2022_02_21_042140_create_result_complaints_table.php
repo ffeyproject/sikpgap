@@ -24,7 +24,7 @@ class CreateResultComplaintsTable extends Migration
             $table->string('hasil_verifikasi');
             $table->bigInteger('penyelidik');
             $table->foreignId('user_id')->constrained();
-            $table->foreignId('departements_id')->constrained();
+            $table->bigInteger('departements_id')->constrained();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
