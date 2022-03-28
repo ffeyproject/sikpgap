@@ -178,7 +178,6 @@
                     <div class="form-group">
                         <label for="rata-rata">NILAI RATA RATA : {{ $detail->avg('score') }}</label>
                     </div>
-                    @endif
                     <div class="card-body">
                         <div class="callout callout-info">
                             <h5>Kesesuaian Produk terhadap persyaratan Sertifikasi SNI 56-2017 untuk Merek MAFELA dan
@@ -190,6 +189,7 @@
                             <p>{!! $kepuasan->kritik_saran !!}.</p>
                         </div>
                     </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -246,6 +246,7 @@
                             <tr>
                                 <th class="text-center">No</th>
                                 <th class="text-center">Item Penilaian</th>
+                                <th>0</th>
                                 <th>20</th>
                                 <th>40</th>
                                 <th>60</th>
@@ -264,6 +265,9 @@
                                         id="item_evaluations_id" value="{{ $row->id }}"
                                         placeholder="{{ $row->nama_penilaian }}">{{
                                     $row->nama_penilaian }}
+                                </td>
+                                <td align="center">
+                                    <input type="checkbox" name="score[]" class="form-check-input" id="score" value="0">
                                 </td>
                                 <td align="center">
                                     <input type="checkbox" name="score[]" class="form-check-input" id="score"
