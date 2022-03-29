@@ -21,7 +21,7 @@
                 <div class="alert alert-info alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                     <h5><i class="icon fas fa-info"></i> Info!</h5>
-                    ......
+                    Isian Form Penilaian
                 </div>
                 @endif
             </div>
@@ -164,7 +164,6 @@
                             </tr>
                         </thead>
                         <?php $no = 1 ?>
-                        <?php $sum = 0 ?>
                         <tbody>
                             @foreach ($detail as $row)
                             <input type="hidden" name="satisfactions_id" value="{{ $kepuasan->id }}">
@@ -173,9 +172,6 @@
                                 <td>{{ $row->itemevaluation->nama_penilaian}}
                                 <td>{{ $row->score}}</td>
                             </tr>
-                            @if($row->score > '0')
-                            {{ $row->avg('score')}}
-                            @endif
                         </tbody>
                         @endforeach
                     </table>
@@ -221,6 +217,8 @@
                                 </li>
                                 <li>Acuan dalam memilih jawaban yang tersedia adalah sebagai berikut :</li>
                                 <ul>
+                                    <li>Skor 0, apabila <b>TIDAK ADA PENILAIAN</b>
+                                    </li>
                                     <li>Skor 20, apabila penilaian menurut anda atas komponen yang dinilai adalah
                                         <b>TIDAK BAIK</b>
                                     </li>
@@ -246,7 +244,8 @@
             <div class="alert alert-info alert-dismissible">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                 <h5><i class="icon fas fa-info"></i> Info!</h5>
-                Jika Index Penilaian Kosong isikan <b>Nilai 0</b>.
+                Jika Index Penilaian Kosong isikan <b>Nilai 0</b>. Atau<br>
+                Jika Index No.11 Tidak Diisi Maka isikan <b>Nilai 0</b>
             </div>
             <div class="card">
                 <form method="post" action="{{route('kepuasan-penilaian.store')}}" enctype="multipart/form-data">
