@@ -28,6 +28,7 @@ class ResulSatisfactionRequest extends FormRequest
              'item_evaluations_id' => 'required',
              'desc_kesesuaian' => 'required',
              'kritik_saran' => 'required',
+             'score' => 'required',
         ];
     }
 }

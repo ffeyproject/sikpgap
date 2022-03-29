@@ -164,6 +164,7 @@
                             </tr>
                         </thead>
                         <?php $no = 1 ?>
+                        <?php $sum = 0 ?>
                         <tbody>
                             @foreach ($detail as $row)
                             <input type="hidden" name="satisfactions_id" value="{{ $kepuasan->id }}">
@@ -172,12 +173,16 @@
                                 <td>{{ $row->itemevaluation->nama_penilaian}}
                                 <td>{{ $row->score}}</td>
                             </tr>
+                            @if($row->score > '0')
+                            {{ $row->avg('score')}}
+                            @endif
                         </tbody>
                         @endforeach
                     </table>
                     <div class="form-group">
-                        <label for="rata-rata">NILAI RATA RATA : {{ $detail->avg('score') }}</label>
+                        <label for="rata-rata">NILAI RATA RATA : {{round($detail->avg('score'), 2)}}</label>
                     </div>
+
                     <div class="card-body">
                         <div class="callout callout-info">
                             <h5>Kesesuaian Produk terhadap persyaratan Sertifikasi SNI 56-2017 untuk Merek MAFELA dan
@@ -238,6 +243,11 @@
                     </div>
                 </div>
             </div>
+            <div class="alert alert-info alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h5><i class="icon fas fa-info"></i> Info!</h5>
+                Jika Index Penilaian Kosong isikan <b>Nilai 0</b>.
+            </div>
             <div class="card">
                 <form method="post" action="{{route('kepuasan-penilaian.store')}}" enctype="multipart/form-data">
                     @csrf
@@ -267,27 +277,58 @@
                                     $row->nama_penilaian }}
                                 </td>
                                 <td align="center">
-                                    <input type="checkbox" name="score[]" class="form-check-input" id="score" value="0">
+                                    <input type="checkbox" name="score[]"
+                                        class="form-check-input @error('score[]') is-invalid @enderror" id="score"
+                                        value="">
+                                    @if ($errors->has('score[]'))
+                                    <div class="invalid-feedback">{{
+                                        $errors->first('score[]') }}</div>
+                                    @endif
                                 </td>
                                 <td align="center">
-                                    <input type="checkbox" name="score[]" class="form-check-input" id="score"
+                                    <input type="checkbox" name="score[]"
+                                        class="form-check-input @error('score[]') is-invalid @enderror" id="score"
                                         value="20">
+                                    @if ($errors->has('score[]'))
+                                    <div class="invalid-feedback">{{
+                                        $errors->first('score[]') }}</div>
+                                    @endif
                                 </td>
                                 <td align="center">
-                                    <input type="checkbox" name="score[]" class="form-check-input" id="score"
+                                    <input type="checkbox" name="score[]"
+                                        class="form-check-input @error('score') is-invalid @enderror" id="score"
                                         value="40">
+                                    @if ($errors->has('score[]'))
+                                    <div class="invalid-feedback">{{
+                                        $errors->first('score[]') }}</div>
+                                    @endif
                                 </td>
                                 <td align="center">
-                                    <input type="checkbox" name="score[]" class="form-check-input" id="score"
+                                    <input type="checkbox" name="score[]"
+                                        class="form-check-input @error('score') is-invalid @enderror" id="score"
                                         value="60">
+                                    @if ($errors->has('score[]'))
+                                    <div class="invalid-feedback">{{
+                                        $errors->first('score[]') }}</div>
+                                    @endif
                                 </td>
                                 <td align="center">
-                                    <input type="checkbox" name="score[]" class="form-check-input" id="score"
+                                    <input type="checkbox" name="score[]"
+                                        class="form-check-input @error('score[]') is-invalid @enderror" id="score"
                                         value="80">
+                                    @if ($errors->has('score[]'))
+                                    <div class="invalid-feedback">{{
+                                        $errors->first('score[]') }}</div>
+                                    @endif
                                 </td>
                                 <td align="center">
-                                    <input type="checkbox" name="score[]" class="form-check-input" id="score"
+                                    <input type="checkbox" name="score[]"
+                                        class="form-check-input @error('score[]') is-invalid @enderror" id="score"
                                         value="100">
+                                    @if ($errors->has('score[]'))
+                                    <div class="invalid-feedback">{{
+                                        $errors->first('score[]') }}</div>
+                                    @endif
                                 </td>
                             </tr>
                         </tbody>
@@ -327,7 +368,6 @@
             </div>
         </div>
         @endif
-
     </div>
 </div>
 @endsection
