@@ -170,7 +170,7 @@
                     @endforelse
                 </table><br><br>
                 <table width='100%' height='100' cellspacing='0' cellpadding='0'>
-                    <tr>
+                    {{-- <tr>
                         <td valign='top' width='70%' style='font-size:16px;'>
                             <strong>Marketing </strong><br><br>
                             <img src="{{ public_path('image/ttd/'.$keluhan->users->g_ttd) }}" style="float:left;"
@@ -193,7 +193,7 @@
                             <br><br><br><br><br>
                             ( {{ $item->users->name }})<br>
                             @endforeach
-                        </td>
+                        </td> --}}
                     </tr>
                 </table>
 
