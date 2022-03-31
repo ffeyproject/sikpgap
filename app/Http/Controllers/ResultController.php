@@ -9,9 +9,12 @@ use App\Models\Defect;
 use App\Models\Departement;
 use App\Models\Result;
 use App\Models\User;
-use Carbon\Carbon;
+// use Carbon\Carbon;
+use Carbon;
+use Carbon\Doctrine\CarbonType;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon as SupportCarbon;
 use Illuminate\Support\Js;
 use Laravel\Ui\Presets\React;
 use SebastianBergmann\Complexity\Complexity;
@@ -136,6 +139,7 @@ class ResultController extends Controller
             ])
         );
          set_time_limit(1200);
+
         return $pdf->stream();
 
       }
