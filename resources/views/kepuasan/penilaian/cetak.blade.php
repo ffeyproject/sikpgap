@@ -139,7 +139,7 @@
                     <tr>
                         <td valign='top' width='30%' style='font-size:16px;'>
                             <strong>Buyer </strong><br><br>
-                            <img src="{{ public_path('image/ttd/signature.jpg') }}" style="float:center;" widht="80"
+                            <img src="{{ public_path('image/ttd/sign.png') }}" style="float:center;" widht="80"
                                 height="85">
                             <br><br><br><br><br>
                             ( {{ $kepuasan->buyer->nama_buyer }})
