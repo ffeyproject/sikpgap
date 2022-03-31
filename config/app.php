@@ -136,6 +136,8 @@ return [
 
     'providers' => [
 
+        Barryvdh\DomPDF\ServiceProvider::class,
+
         /*
          * Laravel Framework Service Providers...
          */
@@ -162,7 +164,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Milon\Barcode\BarcodeServiceProvider::class,
-        Barryvdh\DomPDF\ServiceProvider::class,
+
         Yajra\Datatables\DatatablesServiceProvider::class,
 
         /*
@@ -235,7 +237,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'DNS1D' => Milon\Barcode\Facades\DNS1DFacade::class,
         'DNS2D' => Milon\Barcode\Facades\DNS2DFacade::class,
-	    'PDF' => Barryvdh\DomPDF\Facade::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
         'Carbon' => 'Carbon\Carbon',
         'Datatables' => Yajra\Datatables\Facades\Datatables::class,
 
