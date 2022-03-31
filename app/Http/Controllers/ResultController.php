@@ -119,7 +119,7 @@ class ResultController extends Controller
         $keluhan = Complaint::with('buyer','users')->findOrFail($id);
         $result = Result::with('complaint','defect', 'users')->where('complaints_id', '=', $id)->get();
 
-       set_time_limit(600);
+
 
 
 
@@ -135,6 +135,7 @@ class ResultController extends Controller
                 ]
             ])
         );
+         set_time_limit(1200);
         return $pdf->stream();
 
       }
