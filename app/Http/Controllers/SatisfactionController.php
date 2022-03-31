@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\KepuasanRequest;
 use App\Http\Requests\UpdateSatisfactionRequest;
 use App\Models\buyer;
+use App\Models\User;
 use App\Models\ItemEvalution;
 use App\Models\ResultSatis;
 use App\Models\Satisfaction;
@@ -12,6 +13,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
+use Yajra\Datatables\Datatables;
+// use Datatables;
 
 class SatisfactionController extends Controller
 {
@@ -148,6 +151,85 @@ class SatisfactionController extends Controller
     public function show(Satisfaction $satisfaction)
     {
         //
+    }
+
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Satisfaction  $satisfaction
+     * @return \Illuminate\Http\Response
+     */
+    public function laporan()
+    {
+
+
+
+        // $users = User::all();
+        $index = ItemEvalution::all();
+        $collection = ResultSatis::join('satisfactions', 'result_satisfactions.satisfactions_id', '=', 'satisfactions.id')
+        ->join('item_evaluations', 'result_satisfactions.item_evaluations_id', '=', 'item_evaluations.id')
+        // ->where('satisfactions.id')
+        ->get();
+        // ->unique('satisfactions_id');
+        $unique = $collection->unique('satisfactions_id');
+        $unique->values()->all();
+        $laporan = ResultSatis::with('satisfaction', 'itemevaluation')->get();
+
+
+        return view('kepuasan.laporan.index', [
+            'unique' => $unique,
+            'index' => $index,
+            'laporan' => $laporan
+        ]);
+    }
+
+    public function search(Request $request)
+    {
+        // $keyword = $request->search;
+        // $laporan = ResultSatis::with('satisfaction, itemevaluation')->where('itemevaluation.nama_penilaian', 'like', "%" . $keyword . "%")->paginate(20);
+        // return view('kepuasan.laporan.index', compact('laporan'))->with('i', (request()->input('page', 1) - 1) * 5);
+
+        $users = ResultSatis::select(['id','satisfactions_id', 'item_evaluations_id', 'created_at', 'updated_at'])->get();
+
+        return Datatables::of($users)->make(true);
+        // $laporan = ResultSatis::with('satisfaction, itemevaluation')->where('itemevaluation.nama_penilaian', 'like', "%" . $keyword . "%")->paginate(20);
+        //  if ($request->ajax()) {
+        //     $query = Satisfaction::with('user')->select('satisfactions.*');
+
+
+        //     return $this->dataTable->eloquent($query)->make(true);
+        // }
+        //         if ($request->ajax()) {
+
+        //     $data = User::select('*');
+
+        //     return Datatables::of($data)
+
+        //             ->addIndexColumn()
+
+        //             ->addColumn('action', function($row){
+
+
+
+        //                    $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">View</a>';
+
+
+
+        //                     return $btn;
+
+        //             })
+
+        //             ->rawColumns(['action'])
+
+        //             ->make(true);
+
+        // }
+
+
+
+        // return view('users');
+
     }
 
     /**

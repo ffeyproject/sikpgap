@@ -75,12 +75,33 @@
 </li>
 
 <li class="nav-header">MENU</li>
-<li class="nav-item">
-    <a href="{{ route('kepuasan.index') }}"
-        class="nav-link {{ (request()->is('kepuasan')) || (request()->is('kepuasan/create')) || (request()->is('kepuasan/*')) || (request()->is('kepuasan-penilaian/*')) ? 'active' : '' }} ">
+<li
+    class="nav-item {{ (request()->is('kepuasan')) || (request()->is('kepuasan/create')) || (request()->is('kepuasan/*')) || (request()->is('kepuasan-penilaian/*'))  ? 'active menu-open' : '' }}">
+    <a href="#"
+        class="nav-link {{ (request()->is('kepuasan')) || (request()->is('kepuasan/create')) || (request()->is('kepuasan/*')) || (request()->is('kepuasan-penilaian/*'))  ? 'active' : '' }} ">
         <i class="fas fa-tasks"></i>
-        <p>Kepuasan Pelanggan</p>
+        <p>Kepuasan Pelanggan
+            <i class="right fas fa-angle-left"></i>
+        </p>
     </a>
+    <ul class="nav nav-treeview">
+        <li class="nav-item">
+            <a href="{{ route('kepuasan.index') }}"
+                class="nav-link {{ (request()->is('kepuasan')) || (request()->is('kepuasan/create')) || (request()->is('kepuasan-penilaian/*'))  ? 'active' : '' }} ">
+                <i class="fas fa-file-alt"></i>
+                <p>Penilaian</p>
+            </a>
+        </li>
+    </ul>
+    <ul class="nav nav-treeview">
+        <li class="nav-item">
+            <a href="{{ route('kepuasan.laporan') }}"
+                class="nav-link {{ (request()->is('kepuasan/laporan')) ? 'active' : '' }} ">
+                <i class="fas fa-sticky-note"></i>
+                <p>Laporan Penilaian</p>
+            </a>
+        </li>
+    </ul>
 </li>
 <li class="nav-item">
     <a href="{{ route('keluhan.index') }}"

@@ -126,6 +126,8 @@ Route::delete('item-penilaian/{item}', [ItemEvaluationController::class, 'destro
 //Route Kepuasan
 Route::get('kepuasan', [SatisfactionController::class, 'index'])->name('kepuasan.index');
 Route::get('kepuasan/create', [SatisfactionController::class, 'create'])->name('kepuasan.create');
+Route::get('kepuasan/laporan', [SatisfactionController::class, 'laporan'])->name('kepuasan.laporan');
+Route::get('kepuasan/laporan-search', [SatisfactionController::class, 'search'])->name('laporan.search');
 Route::patch('kepuasan/update/{kepuasan}', [SatisfactionController::class, 'update'])->name('kepuasan.update');
 Route::get('kepuasan-penilaian/index/{kepuasan}', [SatisfactionController::class, 'vpenilaian'])->name('kepuasan.vpenilaian');
 Route::post('kepuasan-penilaian', [ResultSatisfactionsController::class, 'store'])->name('kepuasan-penilaian.store');
@@ -133,6 +135,7 @@ Route::get('/kepuasan/create/nyari', 'SatisfactionController@loadNyari');
 Route::get('get-customer-list', [SatisfactionController::class, 'getCustomerList'])->name('getCustomerList');
 Route::post('kepuasan', [SatisfactionController::class, 'store'])->name('kepuasan.store');
 Route::get('kepuasan/update/{kepuasan}', [SatisfactionController::class, 'edit'])->name('kepuasan.edit');
+Route::get('kepuasan-penilaian/cetak/{kepuasan}', [ResultSatisfactionsController::class, 'cetak'])->name('kepuasan.cetak');
 Route::delete('kepuasan/{kepuasan}', [SatisfactionController::class, 'destroy'])->name('kepuasan.destroy');
 
 Route::get('permissions', [PermissionsController::class, 'index'])->name('permissions.index');

@@ -136,6 +136,10 @@
                                     </div>
                                 </div>
                             </form>
+                            @else
+                            <a class="btn btn-info" href="{{ route('kepuasan.cetak', $kepuasan->id) }}" target="_blank">
+                                Cetak
+                            </a>
                             @endif
                         </address>
                     </div>

@@ -3,10 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ResulSatisfactionRequest;
+use App\Models\buyer;
+use App\Models\ItemEvalution;
 use App\Models\ResultSatis;
 use App\Models\Satisfaction;
+use Barryvdh\DomPDF\PDF as DomPDFPDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+Use PDF;
+use Carbon\Carbon;
 
 class ResultSatisfactionsController extends Controller
 {
@@ -83,6 +88,39 @@ class ResultSatisfactionsController extends Controller
     public function show(ResultSatis $resultSatis)
     {
         //
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\ResultSatis  $resultSatis
+     * @return \Illuminate\Http\Response
+     */
+    public function cetak($id)
+    {
+
+        $aq = Satisfaction::all();
+        $buyer = buyer::all();
+        $kepuasan = Satisfaction::with('buyer', 'itemevaluation','users')->findOrFail($id);
+        $detail = ResultSatis::with('satisfaction','itemevaluation')->where('satisfactions_id', '=', $id)->get();
+
+       set_time_limit(600);
+
+
+
+        $pdf = PDF::loadview('kepuasan.penilaian.cetak', compact('aq','buyer','kepuasan', 'detail'))
+        ->setPaper('Legal', 'potrait')
+        ->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true ,'chroot' => public_path()]);
+        $pdf->getDomPDF()->setHttpContext(
+        stream_context_create([
+            'ssl' => [
+                'allow_self_signed'=> TRUE,
+                'verify_peer' => FALSE,
+                'verify_peer_name' => FALSE,
+                ]
+            ])
+        );
+        return $pdf->stream();
     }
 
     /**
