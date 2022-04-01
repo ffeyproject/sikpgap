@@ -50,7 +50,7 @@
                                 class="form-control @error('nama_marketing') is-invalid @enderror">
                                 <option value="{{ old('nama_marketing') ?: '' }}"></option>
                                 @foreach($user as $item)
-                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                <option value="{{ $item->name }}">{{ $item->name }}</option>
                                 @endforeach
                             </select>
                             @if ($errors->has('nama_marketing'))

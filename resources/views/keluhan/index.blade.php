@@ -69,7 +69,13 @@
                                     <td>{{ $item->jenis }}</td>
                                     <td>{{ $item->buyer['nama_buyer'] }}</td>
                                     <td>{{ $item->nama_marketing }}</td>
-                                    <td>{{ $item->tgl_proses }}</td>
+                                    <td>
+                                        @if( $item->status == 'open' )
+                                        <span class="badge bg-warning">Data Belum Di Proses</span>
+                                        @else
+                                        {{ $item->tgl_proses }}
+                                    </td>
+                                    @endif
                                     <td>
                                         @if( $item->status == 'open' )
                                         <span class="badge bg-primary">{{ $item->status }}
