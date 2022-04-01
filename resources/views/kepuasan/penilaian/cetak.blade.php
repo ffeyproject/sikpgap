@@ -32,9 +32,11 @@
                 <table width='100%' height='100' cellspacing='0' cellpadding='0' border='1'>
                     <tr>
                         <td valign='top' width='50%' style='font-size:16px;'>
+                            <strong>Kode Penilaian </strong><br>
                             <strong>Nama Pelanggan </strong>
                         </td>
                         <td valign='top' width='100%' style='font-size:16px;'>
+                            <strong>: {{ $kepuasan->kode_penilaian }} </strong><br>
                             <strong>: {{ $kepuasan->buyer->nama_buyer }} </strong>
                         </td>
                         <td valign='top' width='30%' style='font-size:16px;'>
