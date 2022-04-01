@@ -171,13 +171,13 @@
                 </table><br><br>
                 <table width='100%' height='100' cellspacing='0' cellpadding='0'>
                     <tr>
-                        {{-- <td valign='top' width='70%' style='font-size:16px;'>
+                        <td valign='top' width='70%' style='font-size:16px;'>
                             <strong>Marketing </strong><br><br>
                             <img src="{{ public_path('image/ttd/'.$keluhan->users->g_ttd) }}" style="float:left;"
                                 widht="80" height="85"><br><br><br><br><br>
                             ( {{ $keluhan->nama_marketing }})
                             <br>
-                        </td> --}}
+                        </td>
                         <td valign='top' width='80%' style='font-size:16px;'>
                             <strong>Manajer Marketing </strong><br><br>
                             <img src="{{ public_path('image/ttd/ferry.png') }}" style="float:center;" widht="80"
