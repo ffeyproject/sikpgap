@@ -178,21 +178,85 @@ class ComplaintController extends Controller
         $complaint->jenis = $request->jenis;
         $complaint->masalah = $request->masalah;
         $complaint->solusi = $request->solusi;
-        if (empty($request->file('g_keluhan'))){
-                $complaint->g_keluhan = $complaint->g_keluhan;
-            }
-        else{
-                unlink('image/keluhan/'.$complaint->g_keluhan); //menghapus file lama
-                $g_keluhan = $request->file('g_keluhan');
-                $ext = $g_keluhan->getClientOriginalExtension();
-                $newName = rand(100000,1001238912).".".$ext;
-                $g_keluhan->move('image/keluhan',$newName);
-                $complaint->g_keluhan = $newName;
-            }
+                if ($g_keluhan = $request->file('g_keluhan')) {
+
+            $destinationPath = 'image/keluhan/';
+
+            $profileImage = date('YmdHis') . "." . $g_keluhan->getClientOriginalExtension();
+
+            $g_keluhan->move($destinationPath, $profileImage);
+
+            $complaint['g_keluhan'] = "$profileImage";
+
+        }else{
+
+            unset($complaint['image']);
+
+        }
+
+        //CARA UNTUK DEFAULTNYA ADA IMAGENYA LALU UPDATE TERGANTI
+        // if (empty($request->file('g_keluhan'))){
+        //         $complaint->g_keluhan = $complaint->g_keluhan;
+        //     }
+        // else{
+        //         unlink('image/keluhan/'.$complaint->g_keluhan); //menghapus file lama
+        //         $g_keluhan = $request->file('g_keluhan');
+        //         $ext = $g_keluhan->getClientOriginalExtension();
+        //         $newName = rand(100000,1001238912).".".$ext;
+        //         $g_keluhan->move('image/keluhan',$newName);
+        //         $complaint->g_keluhan = $newName;
+        //     }
         $complaint->update();
         return redirect()->route('keluhan.index')->with('success','Data Telah Di Update');
         }
     }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Complaint  $complaint
+     * @return \Illuminate\Http\Response
+     */
+    public function egambar(Request $request, Complaint $complaint)
+    {
+        $request->validate([
+        'g_keluhan' => 'required'
+        ]);
+        {
+            if ($g_keluhan = $request->file('g_keluhan')) {
+
+            $destinationPath = 'image/keluhan/';
+
+            $profileImage = date('YmdHis') . "." . $g_keluhan->getClientOriginalExtension();
+
+            $g_keluhan->move($destinationPath, $profileImage);
+
+            $complaint['g_keluhan'] = "$profileImage";
+
+        }else{
+
+            unset($complaint['image']);
+
+        }
+
+        //CARA UNTUK DEFAULTNYA ADA IMAGENYA LALU UPDATE TERGANTI
+        // if (empty($request->file('g_keluhan'))){
+        //         $complaint->g_keluhan = $complaint->g_keluhan;
+        //     }
+        // else{
+        //         unlink('image/keluhan/'.$complaint->g_keluhan); //menghapus file lama
+        //         $g_keluhan = $request->file('g_keluhan');
+        //         $ext = $g_keluhan->getClientOriginalExtension();
+        //         $newName = rand(100000,1001238912).".".$ext;
+        //         $g_keluhan->move('image/keluhan',$newName);
+        //         $complaint->g_keluhan = $newName;
+        //     }
+        $complaint->update();
+        return redirect()->back()->with('warning','Gambar Telah Di Ubah');
+        }
+    }
+
 
     /**
      * Remove the specified resource from storage.

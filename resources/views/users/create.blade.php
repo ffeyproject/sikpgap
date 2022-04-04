@@ -7,78 +7,127 @@
     </div>
 
     <div class="container mt-4">
-        <form method="POST" action="">
-            @csrf
-            <div class="input-group mb-3">
-                <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
-                    value="{{ old('name') }}" placeholder="Full name">
-                <div class="input-group-append">
-                    <div class="input-group-text"><span class="fas fa-user"></span></div>
-                </div>
-                @error('name')
-                <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
-                </span>
-                @enderror
-            </div>
-            <div class="input-group mb-3">
-                <input type="text" name="username" class="form-control @error('username') is-invalid @enderror"
-                    value="{{ old('username') }}" placeholder="Username">
-                <div class="input-group-append">
-                    <div class="input-group-text"><span class="fas fa-user"></span></div>
-                </div>
-                @error('username')
-                <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
-                </span>
-                @enderror
-            </div>
-            <div class="form-group">
-                <label for="g_ttd">Gambar Tanda Tangan</label>
-                <input type="file" name="g_ttd" class="form-control @error('g_ttd') is-invalid @enderror" id="g_ttd"
-                    value="{{ old('g_ttd') ?: '' }}" placeholder="">
-                @if ($errors->has('g_ttd'))
-                <div class="invalid-feedback">{{
-                    $errors->first('g_ttd') }}</div>
-                @endif
-                <p class="help-block">Max.800kb</p>
-            </div>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card">
+                        {{-- <div class="card-header">{{ __('Register') }}</div> --}}
 
-            <div class="input-group mb-3">
-                <input type="email" name="email" value="{{ old('email') }}"
-                    class="form-control @error('email') is-invalid @enderror" placeholder="Email">
-                <div class="input-group-append">
-                    <div class="input-group-text"><span class="fas fa-envelope"></span></div>
-                </div>
-                @error('email')
-                <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
-                </span>
-                @enderror
-            </div>
-            <div class="input-group mb-3">
-                <input type="password" name="password" class="form-control @error('password') is-invalid @enderror"
-                    placeholder="Password">
-                <div class="input-group-append">
-                    <div class="input-group-text"><span class="fas fa-lock"></span></div>
-                </div>
-                @error('password')
-                <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
-                </span>
-                @enderror
-            </div>
+                        <div class="card-body">
+                            <form method="POST" action="{{ route('users.create') }}" enctype="multipart/form-data">
+                                @csrf
 
-            <div class="input-group mb-3">
-                <input type="password" name="password_confirmation" class="form-control" placeholder="Retype password">
-                <div class="input-group-append">
-                    <div class="input-group-text"><span class="fas fa-lock"></span></div>
+                                <div class="form-group row">
+                                    <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name')
+                                        }}</label>
+
+                                    <div class="col-md-6">
+                                        <input id="name" type="text"
+                                            class="form-control @error('name') is-invalid @enderror" name="name"
+                                            value="{{ old('name') }}" required autocomplete="name" autofocus>
+
+                                        @error('name')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail
+                                        Address')
+                                        }}</label>
+
+                                    <div class="col-md-6">
+                                        <input id="email" type="email"
+                                            class="form-control @error('email') is-invalid @enderror" name="email"
+                                            value="{{ old('email') }}" required autocomplete="email">
+
+                                        @error('email')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="username" class="col-md-4 col-form-label text-md-right">{{
+                                        __('Username')
+                                        }}</label>
+
+                                    <div class="col-md-6">
+                                        <input id="username" type="text"
+                                            class="form-control @error('username') is-invalid @enderror" name="username"
+                                            value="{{ old('username') }}" required autocomplete="username" autofocus>
+
+                                        @error('username')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="g_ttd" class="col-md-4 col-form-label text-md-right">{{
+                                        __('Gambar TTD')
+                                        }}</label>
+
+                                    <div class="col-md-6">
+                                        <input type="file" name="g_ttd"
+                                            class="form-control @error('g_ttd') is-invalid @enderror" id="g_ttd"
+                                            value="{{ old('g_ttd') ?: '' }}" placeholder="">
+                                        @if ($errors->has('g_ttd'))
+                                        <div class="invalid-feedback">{{
+                                            $errors->first('g_ttd') }}</div>
+                                        @endif
+                                        <p class="help-block">Max.800kb</p>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="password" class="col-md-4 col-form-label text-md-right">{{
+                                        __('Password')
+                                        }}</label>
+
+                                    <div class="col-md-6">
+                                        <input id="password" type="password"
+                                            class="form-control @error('password') is-invalid @enderror" name="password"
+                                            required autocomplete="new-password">
+
+                                        @error('password')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{
+                                        __('Confirm
+                                        Password') }}</label>
+
+                                    <div class="col-md-6">
+                                        <input id="password-confirm" type="password" class="form-control"
+                                            name="password_confirmation" required autocomplete="new-password">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row mb-0">
+                                    <div class="col-md-6 offset-md-4">
+                                        <button type="submit" class="btn btn-primary">
+                                            {{ __('Register') }}
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <button type="submit" class="btn btn-primary">Save user</button>
-            <a href="{{ route('users.index') }}" class="btn btn-default">Back</a>
-        </form>
+        </div>
     </div>
 
 </div>

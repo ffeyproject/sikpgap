@@ -60,6 +60,32 @@
                             : {{ $keluhan->nama_motif }}<br>
                             : {{ $keluhan->cw_qty }}<br>
                             : {{ $keluhan->jenis }}<br>
+                            <td>
+                                <button type="button" class="btn btn-info btn-large" data-toggle="modal"
+                                    data-target="#myModal" id="open">Lihat Gambar</button>
+                            </td>
+                            <!-- Modal -->
+                            <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+                                aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                        </div>
+                                        <div class="modal-body">
+                                            @if($keluhan->g_keluhan == null)
+                                            Maaf Tidak Ada Gambar Pendukung
+                                            @else
+                                            <img src="{{ url('image/keluhan/'.$keluhan->g_keluhan) }}"
+                                                style="width: 450px; height: 300px;">
+                                            @endif
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </address>
                     </div>
                     <div class="col-sm-4 invoice-col">

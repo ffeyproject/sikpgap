@@ -58,12 +58,13 @@ class UsersController extends Controller
             $user->name = $request->name;
             $user->username = $request->username;
             $user->email = $request->email;
-            $user->password = Hash::make($request->password);
+            $user->password = $request->password;
+
                 if($request->hasFile('g_ttd')){
                 $filenameWithExt = $request->file('g_ttd')->getClientOriginalName();
                 $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
                 $extension = $request->file('g_ttd')->getClientOriginalExtension();
-                $filenameSimpan = $filename.'_'.date('Ymd').'_'.time().'.'.$extension;
+                $filenameSimpan = $filename.'.'.$extension;
                 $path = $request->file('g_ttd')->move('image/ttd', $filenameSimpan);
                 }else{
                 $filenameSimpan = 'noImage.png';
@@ -71,8 +72,23 @@ class UsersController extends Controller
             $user->g_ttd = $filenameSimpan;
             $user->save();
 
-        return redirect()->route('users.index')
-            ->withSuccess(__('User created successfully.'));
+        // $request->validate([
+        //     'name' => ['required', 'string', 'max:255'],
+        //     'username' => ['required', 'string', 'max:255'],
+        //     'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+        //     'password' => ['required', 'string', 'min:8', 'confirmed'],
+        //     'g_ttd' => ['required'],
+        // ]);
+
+        // User::create([
+        //     'name' => $request['name'],
+        //     'username' => $request['username'],
+        //     'email' => $request['email'],
+        //     'password' =>$request['password'],
+        //     'g_ttd' =>  $filenameSimpan,
+        // ]);
+
+        return redirect()->route('users.index')->withSuccess(__('User created successfully.'));
     }
 
     /**

@@ -51,6 +51,7 @@
                             <strong>Nama Motif</strong><br>
                             <strong>C/W, Qty</strong><br>
                             <strong>Jenis</strong><br>
+                            <strong>Gambar Pendukung</strong><br>
                         </address>
                     </div>
 
@@ -64,6 +65,72 @@
                             : {{ $keluhan->nama_motif }}<br>
                             : {{ $keluhan->cw_qty }}<br>
                             : {{ $keluhan->jenis }}<br>
+                            <td>
+                                @if($keluhan->status == 'proses')
+                                <button type="button" class="btn btn-warning btn-large" data-toggle="modal"
+                                    data-target="#editModal" id="open">Edit
+                                    Gambar</button>
+                                @else
+                                <button type="button" class="btn btn-info btn-large" data-toggle="modal"
+                                    data-target="#showImage" id="open">Lihat
+                                    Gambar</button>
+                                @endif
+
+                            </td>
+                            <!-- Modal -->
+                            <div class="modal fade" id="showImage" tabindex="-1" role="dialog"
+                                aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                        </div>
+                                        <div class="modal-body">
+                                            @if($keluhan->g_keluhan == null)
+                                            Maaf Tidak Ada Gambar Pendukung
+                                            @else
+                                            <img src="{{ url('image/keluhan/'.$keluhan->g_keluhan) }}"
+                                                style="width: 450px; height: 300px;">
+                                            @endif
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <form method="post" action="{{route('keluhan.egambar', $keluhan->id)}}"
+                                enctype="multipart/form-data" id="form">
+                                @csrf
+                                @method('PATCH')
+                                <!-- Modal -->
+                                <div class="modal fade" id="editModal" tabindex="-1" role="dialog"
+                                    aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                            </div>
+                                            <div class="modal-body">
+                                                <label>Ubah Gambar</label><br>
+                                                <img src="{{ url('image/keluhan/'.$keluhan->g_keluhan) }}"
+                                                    style="width: 100px; height: 100px;"><br><br>
+                                                <input type="file" id="g_keluhan" name="g_keluhan"
+                                                    class="@error('g_keluhan') is-invalid @enderror"
+                                                    value="{{ $keluhan->g_keluhan }}">
+                                                @if ($errors->has('g_keluhan'))
+                                                <div class="invalid-feedback">{{ $errors->first('g_keluhan') }}</div>
+                                                @endif
+                                                <p class="help-block">Max.800kb</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </address>
                     </div>
                     <div class="col-sm-4 invoice-col">

@@ -103,6 +103,7 @@ Route::post('keluhan', [ComplaintController::class, 'store'])->name('keluhan.sto
 Route::get('keluhan/show/{complaint}', [ComplaintController::class, 'show'])->name('keluhan.show');
 Route::get('keluhan/update/{complaint}', [ComplaintController::class, 'edit'])->name('keluhan.edit');
 Route::patch('keluhan/update{complaint}', [ComplaintController::class, 'update'])->name('keluhan.update');
+Route::patch('keluhan/update{complaint}', [ComplaintController::class, 'egambar'])->name('keluhan.egambar');
 Route::delete('keluhan/{complaint}', [ComplaintController::class, 'destroy'])->name('keluhan.destroy');
 
 //Route Result
