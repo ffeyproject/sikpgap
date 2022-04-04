@@ -34,10 +34,6 @@
                             <tr>
                                 <td>Nama Buyer</td>
                                 <td>Nama Penilaian</td>
-                                <td>Rabu</td>
-                                <td>Kamis</td>
-                                <td>Jum’at</td>
-                                <td>Sabtu</td>
                             <tr>
                                 @if(isset($unique) && isset($index))
                                 @foreach($unique as $key => $sfn)
@@ -53,17 +49,6 @@
 
                             </tr>
                             @endforeach --}}
-                            <tr>
-                                <td></td>
-                                <td>Seni Budaya</td>
-                                <td></td>
-                                <td>Sistem Operasi</td>
-                                <td>Bhs.inggris</td>
-                                <td>Sejarah Indonesia</td< /tr>
-                            <tr>
-                                <td></td>
-                                <td>Pkn</td>
-                            </tr>
                         </table>
                         {{-- <b> NILAI RATA RATA : {{round($laporan->avg('score'), 2)}}</b> --}}
                     </div>
