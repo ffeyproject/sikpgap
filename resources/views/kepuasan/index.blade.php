@@ -41,7 +41,6 @@
                                     <th>Nama Pelanggan</th>
                                     <th>Nama Kontak</th>
                                     <th>Alamat</th>
-                                    <th>Status</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -60,7 +59,6 @@
                                     <td>{{ $item->buyer->nama_buyer }}</td>
                                     <td>{{ $item->nama_kontak }}</td>
                                     <td>{{ $item->alamat }}</td>
-                                    <td>{{ $item->status }}</td>
                                     <td>
                                         @if($item->status == 'open')
                                         <div class="container">
