@@ -49,7 +49,7 @@
                             <label for="nama_marketing">Nama Marketing</label>
                             <select name="nama_marketing" id="nama_marketing"
                                 class="form-control @error('nama_marketing') is-invalid @enderror">
-                                <option value="{{ $keluhan->users->name }}">{{ $keluhan->users->name }}</option>
+                                <option value="{{ $keluhan->nama_marketing }}">{{ $keluhan->nama_marketing }}</option>
                                 @foreach($user as $item)
                                 <option value="{{ $item->name }}">{{ $item->name }}</option>
                                 @endforeach

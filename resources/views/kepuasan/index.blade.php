@@ -73,7 +73,6 @@
                                             </form>
                                         </div>
                                         @endif
-
                                     </td>
                                     @empty
                                 <tr>
