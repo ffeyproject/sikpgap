@@ -30,9 +30,14 @@ use Illuminate\Support\Facades\Auth;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('sign-in-google', [UsersController::class, 'google'])->name('user.login.google');
+Route::get('auth/google/callback', [UsersController::class, 'handleProviderCallback'])->name('user.google.callback');
+
 Auth::routes([
 ]);
 Route::get('home', [HomeController::class, 'index'])->name('home');
+Route::get('customer/login', [UsersController::class, 'login'])->name('customer.login');
+
 
 Route::group(['middleware' => ['guest']], function() {
         /**
@@ -103,7 +108,7 @@ Route::post('keluhan', [ComplaintController::class, 'store'])->name('keluhan.sto
 Route::get('keluhan/show/{complaint}', [ComplaintController::class, 'show'])->name('keluhan.show');
 Route::get('keluhan/update/{complaint}', [ComplaintController::class, 'edit'])->name('keluhan.edit');
 Route::patch('keluhan/update{complaint}', [ComplaintController::class, 'update'])->name('keluhan.update');
-Route::patch('keluhan/update{complaint}', [ComplaintController::class, 'egambar'])->name('keluhan.egambar');
+Route::patch('keluhan/update/gambar/{complaint}', [ComplaintController::class, 'egambar'])->name('keluhan.egambar');
 Route::delete('keluhan/{complaint}', [ComplaintController::class, 'destroy'])->name('keluhan.destroy');
 
 //Route Result
@@ -142,6 +147,10 @@ Route::delete('kepuasan/{kepuasan}', [SatisfactionController::class, 'destroy'])
 Route::get('permissions', [PermissionsController::class, 'index'])->name('permissions.index');
 Route::resource('roles', RolesController::class);
 Route::resource('permissions', PermissionsController::class);
+
+
+
+//FRONT END
 
 
 
