@@ -81,7 +81,7 @@
                         <!-- Modal -->
                         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
                             aria-hidden="true">
-                            <div class="modal-dialog" role="document">
+                            <div class="modal-dialog modal-lg" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                     </div>
@@ -90,7 +90,7 @@
                                         Maaf Tidak Ada Gambar Pendukung
                                         @else
                                         <img src="{{ url('image/keluhan/'.$keluhan->g_keluhan) }}"
-                                            style="width: 450px; height: 300px;">
+                                            style="width: 760px; height: 700px;">
                                         @endif
                                     </div>
                                     <div class="modal-footer">
