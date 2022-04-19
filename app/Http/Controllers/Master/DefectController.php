@@ -8,6 +8,7 @@ use App\Models\Defect;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class DefectController extends Controller
 {
@@ -67,7 +68,9 @@ class DefectController extends Controller
         $defect->keterangan = $request->keterangan;
         $defect->save();
 
-        return redirect()->route('defect.index')->with('success', 'Defect created successfully.');
+        Alert::success('Congrats', 'Data Berhasil Ditambahkan');
+
+        return redirect()->route('defect.index');
     }
 
     /**
@@ -109,7 +112,9 @@ class DefectController extends Controller
         $defect->nama = $request->nama;
         $defect->keterangan = $request->keterangan;
         $defect->update();
-        return redirect()->route('defect.index')->with('success','Data Telah Di Update');
+
+        Alert::success('Success', 'Data Berhasil Diupdate');
+        return redirect()->route('defect.index');
     }
 
     /**
@@ -121,6 +126,8 @@ class DefectController extends Controller
     public function destroy(Defect $defect)
     {
         $defect->delete();
-        return redirect()->route('defect.index')->with('delete', 'Data Defect Berhasil Di Hapus');
+
+         Alert::warning('Deleted', 'Data Defect Berhasil di Hapus');
+        return redirect()->route('defect.index');
     }
 }

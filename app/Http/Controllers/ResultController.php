@@ -18,6 +18,7 @@ use Illuminate\Support\Carbon as SupportCarbon;
 use Illuminate\Support\Js;
 use Laravel\Ui\Presets\React;
 use SebastianBergmann\Complexity\Complexity;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class ResultController extends Controller
 {
@@ -86,7 +87,9 @@ class ResultController extends Controller
         $status->status = 'selesai';
         $status->save();
 
-        return redirect()->back()->with('info', 'Silahkan Closed Data Ini, Jika Sudah Terisi..');
+        Alert::info('Info', 'Silahkan Closed Data Ini, Jika Sudah Terisi..');
+
+        return redirect()->back();
     }
 
 
@@ -188,6 +191,8 @@ class ResultController extends Controller
     {
         $result->delete();
 
-         return redirect()->back()->with('delete', 'Data Result Berhasil Di Hapus');
+        Alert::warning('Deleted', 'Data Result Berhasil Di Hapus');
+
+         return redirect()->back();
     }
 }

@@ -5,18 +5,18 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Master Index Penilaian</h1><br>
+                <h1>Data Client</h1><br>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-                    <li class="breadcrumb-item active">Index Penilaian</li>
+                    <li class="breadcrumb-item active">Data Client</li>
                 </ol>
             </div>
         </div>
         <div class="row mb-2">
             <div class="container">
-                <a href="{{ route('item.create') }}" class="btn btn-primary btn-lg">Add</a>
+                <a href="{{ route('client.create') }}" class="btn btn-primary btn-lg">Add</a>
             </div>
         </div>
         @include('components.alert')
@@ -29,35 +29,35 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-
                 <div class="card">
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <table id="t_barang" class="table table-bordered table-striped" border="1">
+                        <table id="t_contact" class="table table-bordered table-striped" border="1">
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Kode Penilaian</th>
-                                    <th>Nama Penilaian</th>
-                                    <th>Keterangan</th>
-                                    <th>Created By</th>
+                                    <th>Nama</th>
+                                    <th>Gambar</th>
+                                    <th>Status</th>
+                                    <th>Created At</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
                             <?php $no = 1 ?>
                             <tbody>
-                                @forelse ($item as $i_p)
+                                @forelse ($image as $item)
                                 <tr>
                                     <td>{{ $no++ }}</td>
-                                    <td>{{ $i_p->kode_item }}</td>
-                                    <td>{{ $i_p->nama_penilaian }}</td>
-                                    <td>{!! $i_p->keterangan !!}</td>
-                                    <td>{{ $i_p->user->name }}</td>
+                                    <td>{{ $item->nama_client }}</td>
+                                    <td><img src="{{ url('image/client/'.$item->g_client) }}"
+                                            style="width: 100px; height: 100px;"></td>
+                                    <td>{{ $item->status }}</td>
+                                    <td>{{ $item->created_at }}</td>
                                     <td>
                                         <div class="container">
-                                            <a href="{{ route('item.edit', $i_p->id) }}" class="btn btn-warning"><i
+                                            <a href="{{ route('client.edit', $item->id) }}" class="btn btn-warning"><i
                                                     class="fa fa-edit"></i></a>
-                                            <form action="{{ route('item.destroy', $i_p->id) }}" method="POST"
+                                            <form action="{{ route('client.destroy', $item->id) }}" method="POST"
                                                 style="display: inline-block;">
                                                 @csrf
                                                 @method('DELETE')
@@ -70,7 +70,7 @@
                                     </td>
                                     @empty
                                 <tr>
-                                    <td colspan="12">Data tidak ada.</td>
+                                    <td colspan="12">Pesan tidak ada.</td>
                                 </tr>
                                 </tr>
 
@@ -95,7 +95,7 @@
 @section('tablejs')
 <script>
     $(function () {
-        $("#t_barang").DataTable({
+        $("#t_contact").DataTable({
             "responsive": true,
             "lengthChange": false,
             "autoWidth": false,

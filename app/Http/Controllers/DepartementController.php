@@ -7,6 +7,7 @@ use App\Models\Departement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class DepartementController extends Controller
 {
@@ -58,7 +59,9 @@ class DepartementController extends Controller
         $departement->keterangan = $request->keterangan;
         $departement->save();
 
-        return redirect()->route('asal_masalah.index')->with('success', 'Asal Masalah berhasil ditambahkan.');
+        Alert::success('Congrats', 'Data Berhasil Ditambahkan');
+
+        return redirect()->route('asal_masalah.index');
     }
 
     /**
@@ -103,7 +106,9 @@ class DepartementController extends Controller
         $departement->asal_masalah = $request->asal_masalah;
         $departement->keterangan = $request->keterangan;
         $departement->update();
-        return redirect()->route('asal_masalah.index')->with('success','Data Telah Di Update');
+
+        Alert::success('Success', 'Data Berhasil Diupdate');
+        return redirect()->route('asal_masalah.index');
     }
 
     /**
@@ -115,6 +120,8 @@ class DepartementController extends Controller
     public function destroy(Departement $departement)
     {
          $departement->delete();
-        return redirect()->route('asal_masalah.index')->with('delete', 'Data Defect Berhasil Di Hapus');
+
+          Alert::warning('Deleted', 'Data Asal Masalah Berhasil di Hapus');
+        return redirect()->route('asal_masalah.index');
     }
 }

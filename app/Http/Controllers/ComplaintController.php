@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class ComplaintController extends Controller
 {
@@ -119,9 +120,9 @@ class ComplaintController extends Controller
         $complaint->g_keluhan = $filenameSimpan;
         $complaint->save();
 
-
+         Alert::info('Info', 'Data Tersimpan dan masuk ke tahap proses');
     //    return redirect('keluhan/proses/' .  $complaint->id)->with('info', 'Silahkan Proses Data Ini.');
-       return redirect()->route('keluhan.index')->with('info', 'Data Tersimpan dan masuk ke tahap proses.');
+       return redirect()->route('keluhan.index');
     }
 
     /**
@@ -207,7 +208,9 @@ class ComplaintController extends Controller
         //         $complaint->g_keluhan = $newName;
         //     }
         $complaint->update();
-        return redirect()->route('keluhan.index')->with('success','Data Telah Di Update');
+
+        Alert::success('Success', 'Data Berhasil Diupdate');
+        return redirect()->route('keluhan.index');
         }
     }
 
@@ -253,7 +256,9 @@ class ComplaintController extends Controller
         //         $complaint->g_keluhan = $newName;
         //     }
         $complaint->update();
-        return redirect()->back()->with('warning','Gambar Telah Di Ubah');
+
+        Alert::success('Success', 'Gambar Berhasil Diubah');
+        return redirect()->back();
         }
     }
 
@@ -269,6 +274,8 @@ class ComplaintController extends Controller
         $keluhan=Complaint::find($id);
         $keluhan->delete();
 
-         return redirect()->route('keluhan.index')->with('delete', 'Data Complaint Berhasil Di Hapus');
+        Alert::warning('Deleted', 'Data Complaint Berhasil di Hapus');
+
+         return redirect()->route('keluhan.index');
     }
 }

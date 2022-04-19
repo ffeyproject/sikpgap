@@ -8,6 +8,7 @@ use App\Models\buyer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class BuyerController extends Controller
 {
@@ -69,7 +70,9 @@ class BuyerController extends Controller
         $buyer->email_buyer = $request->email_buyer;
         $buyer->save();
 
-        return redirect()->route('buyer.index')->with('success', 'Buyer created successfully.');
+        Alert::success('Congrats', 'Data Berhasil Ditambahkan');
+
+        return redirect()->route('buyer.index');
     }
 
     /**
@@ -113,7 +116,10 @@ class BuyerController extends Controller
         $buyer->telp_buyer = $request->telp_buyer;
         $buyer->email_buyer = $request->email_buyer;
         $buyer->update();
-        return redirect()->route('buyer.index')->with('success','Data Telah Di Update');
+
+        Alert::success('Success', 'Data Berhasil Diupdate');
+
+        return redirect()->route('buyer.index');
     }
 
     /**
@@ -126,6 +132,8 @@ class BuyerController extends Controller
     {
         $buyer->delete();
 
-        return redirect()->route('buyer.index')->with('delete','Data Buyer Berhasil di Hapus');
+        Alert::warning('Deleted', 'Data Buyer Berhasil di Hapus');
+
+        return redirect()->route('buyer.index');
     }
 }

@@ -20,6 +20,7 @@
             </div>
         </div>
         @include('components.alert')
+        @include('sweetalert::alert')
     </div>
 </section>
 
@@ -107,4 +108,3 @@
 
 </script>
 @endsection
-

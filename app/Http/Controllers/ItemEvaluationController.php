@@ -7,6 +7,7 @@ use App\Models\ItemEvalution;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class ItemEvaluationController extends Controller
 {
@@ -58,7 +59,9 @@ class ItemEvaluationController extends Controller
         $item->keterangan = $request->keterangan;
         $item->save();
 
-        return redirect()->route('item.index')->with('success', 'Item Evaluasi created successfully.');
+        Alert::success('Congrats', 'Data Berhasil Ditambahkan');
+
+        return redirect()->route('item.index');
     }
 
     /**
@@ -99,7 +102,10 @@ class ItemEvaluationController extends Controller
         $item->nama_penilaian = $request->nama_penilaian;
         $item->keterangan = $request->keterangan;
         $item->update();
-        return redirect()->route('item.index')->with('success','Data Telah Di Update');
+
+        Alert::success('Success', 'Data Berhasil Diupdate');
+
+        return redirect()->route('item.index');
     }
 
     /**
@@ -108,8 +114,12 @@ class ItemEvaluationController extends Controller
      * @param  \App\Models\ItemEvalution  $itemEvalution
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ItemEvalution $itemEvalution)
+    public function destroy(ItemEvalution $item)
     {
-        //
+        $item->delete();
+
+        Alert::warning('Deleted', 'Data Item Penilaian Berhasil di Hapus');
+
+       return redirect()->route('item.index');
     }
 }

@@ -137,6 +137,7 @@ return [
     'providers' => [
 
         Barryvdh\DomPDF\ServiceProvider::class,
+        RealRashid\SweetAlert\SweetAlertServiceProvider::class,
 
         /*
          * Laravel Framework Service Providers...
@@ -166,6 +167,7 @@ return [
         Milon\Barcode\BarcodeServiceProvider::class,
 
         Yajra\Datatables\DatatablesServiceProvider::class,
+
 
         /*
          * Package Service Providers...
@@ -240,6 +242,7 @@ return [
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'Carbon' => 'Carbon\Carbon',
         'Datatables' => Yajra\Datatables\Facades\Datatables::class,
+        'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
 
     ],
 

@@ -5,6 +5,7 @@
         <div class="row">
             <div class="card-body">
                 @include('components.alert')
+                @include('sweetalert::alert')
                 @if ($keluhan->status == 'open')
                 <form method="post" action="{{route('proses.closed', $keluhan->id)}}" id="form">
                     @csrf
