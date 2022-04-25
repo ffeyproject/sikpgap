@@ -36,9 +36,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('login') }}">Login</a>
                     </li>
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a class="nav-link" href="{{ route('customer.login') }}">Customer Area</a>
-                    </li>
+                    </li> --}}
                 </ul>
             </div>
         </div>
