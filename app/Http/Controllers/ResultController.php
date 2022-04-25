@@ -44,7 +44,10 @@ class ResultController extends Controller
 
         $complaint->status = 'closed';
         $complaint->update();
-        return redirect()->back()->with('delete','Complaint Telah Di Close');
+
+        Alert::success('Success', 'Complaint Telah Di Close');
+
+        return redirect()->back();
     }
 
     /**
@@ -98,7 +101,24 @@ class ResultController extends Controller
         $complaint->tgl_proses = Carbon::today();
         $complaint->status = 'proses';
         $complaint->update();
-        return redirect()->back()->with('info','Complaint Telah Di Proses ...');
+
+        Alert::info('Info', 'Complaint Telah Di Proses ...');
+        return redirect()->back();
+    }
+
+    public function esolusi(Request $request, Complaint $complaint)
+    {
+         $this->validate($request, [
+        'solusi'   => 'required'
+        ]);
+
+
+            $complaint->solusi = $request->solusi;
+            $complaint->update();
+
+            Alert::info('Info', 'Informasi Solusi Di Update ...');
+            return redirect()->back();
+
     }
 
 

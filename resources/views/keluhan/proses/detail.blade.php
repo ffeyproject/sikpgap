@@ -4,6 +4,7 @@
     <div class="card card-primary card-outline">
         <div class="row">
             <div class="card-body">
+                @include('sweetalert::alert')
                 @if($keluhan->status == 'closed')
                 <div class="alert alert-danger alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -29,11 +30,59 @@
                             <i class="fas fa-tasks"></i> FORM KELUHAN PELANGGAN
                             <small class="float-right">No : {{ $keluhan->nomer_keluhan }}</small>
                         </h4>
+                        @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <strong>Whoops!</strong> Update data gagal.<br><br>
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @endif
                         @if($keluhan->status == 'selesai' || $keluhan->status =='closed' )
                         <a class="btn btn-info" href="{{ route('keluhan.cetak', $keluhan->id) }}" target="_blank"> Cetak
                         </a>
                         @endif
+                        @if ($keluhan->status == 'selesai' || Auth::user()->posisi == 'qa' || Auth::user()->posisi ==
+                        'admin')
+                        <button type="button" class="btn btn-warning btn-large" data-toggle="modal"
+                            data-target="#editModal" id="open">Edit
+                            Informasi Solusi</button>
+                        @endif
                     </div>
+                    <form method="post" action="{{route('proses.esolusi', $keluhan->id)}}" enctype="multipart/form-data"
+                        id="form">
+                        @csrf
+                        @method('PATCH')
+                        <!-- Modal -->
+                        <div class="modal fade" id="editModal" tabindex="-1" role="dialog"
+                            aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="solusi">Solusi</label>
+                                            <textarea class="form-control @error('solusi') is-invalid @enderror"
+                                                name="solusi" id="solusi"
+                                                value="{{ old('solusi') ?: '' }}">{{ $keluhan->solusi }}</textarea>
+                                            @if ($errors->has('solusi'))
+                                            <div class="invalid-feedback">{{
+                                                $errors->first('solusi') }}</div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
                 <hr>
                 <div class="row invoice-info">
@@ -184,5 +233,16 @@
 @endsection
 
 @section('tablejs')
+
+<script>
+    $(function () {
+    // Summernote
+    $('#summernote').summernote()
+  })
+    $(function () {
+    // Summernote
+    $('#solusi').summernote()
+  })
+</script>
 
 @endsection
