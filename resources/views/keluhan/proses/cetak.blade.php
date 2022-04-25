@@ -43,7 +43,7 @@
                             <strong>Asal Masalah </strong><br>
                             <strong>Penyelidik </strong><br>
                         </td>
-                        <td valign='top' width='50%' style='font-size:16px;'>
+                        <td valign='top' width='70%' style='font-size:16px;'>
                             : {{ $keluhan->nomer_keluhan }} <br>
                             : {{ $keluhan->tgl_keluhan }} <br>
                             : {{ $keluhan->buyer->nama_buyer }} <br>
@@ -61,21 +61,20 @@
                             <strong></strong>
                             @endforelse
                         </td>
-                        <td valign='top' width='30%' style='font-size:6px;'>
+                        <td valign='top' width='10%' style='font-size:6px;'>
                             {!!
                             DNS2D::getBarcodeHTML(
                             $keluhan->nomer_keluhan.'-'.
                             $keluhan->buyer->nama_buyer.'-'.
                             $keluhan->nama_marketing.'-'.
                             $keluhan->no_wo.'-'.
-                            $keluhan->no_sc.'-'.
                             $keluhan->nama_motif.'-'.
                             $keluhan->cw_qty.'-'.
                             $keluhan->jenis.'-'.
                             $keluhan->tgl_proses.'-'.
                             $keluhan->masalah.'-'.
                             $keluhan->status
-                            ,'QRCODE',5,5)
+                            ,'QRCODE',3,3)
                             !!}<br /><br>
                         </td>
                     </tr>
