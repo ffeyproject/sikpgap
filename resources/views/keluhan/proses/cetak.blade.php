@@ -61,17 +61,19 @@
                             <strong></strong>
                             @endforelse
                         </td>
-                        <td valign='top' width='30%' style='font-size:6px;'>{!!
+                        <td valign='top' width='30%' style='font-size:6px;'>
+                            {!!
                             DNS2D::getBarcodeHTML(
-                            $keluhan->nomer_keluhan.','.
-                            $keluhan->buyer->nama_buyer.','.
-                            $keluhan->nama_marketing.','.
-                            $keluhan->no_wo.','.
-                            $keluhan->no_sc.','.
-                            $keluhan->nama_motif.','.
-                            $keluhan->cw_qty.','.
-                            $keluhan->jenis.','.
-                            $keluhan->masalah.','.
+                            $keluhan->nomer_keluhan.'-'.
+                            $keluhan->buyer->nama_buyer.'-'.
+                            $keluhan->nama_marketing.'-'.
+                            $keluhan->no_wo.'-'.
+                            $keluhan->no_sc.'-'.
+                            $keluhan->nama_motif.'-'.
+                            $keluhan->cw_qty.'-'.
+                            $keluhan->jenis.'-'.
+                            $keluhan->tgl_proses.'-'.
+                            $keluhan->masalah.'-'.
                             $keluhan->status
                             ,'QRCODE',5,5)
                             !!}<br /><br>

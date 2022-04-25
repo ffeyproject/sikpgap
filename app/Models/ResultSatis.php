@@ -26,5 +26,10 @@ class ResultSatis extends Model
         return $this->belongsTo(ItemEvalution::class, 'item_evaluations_id');
     }
 
+     public function users(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
 
 }

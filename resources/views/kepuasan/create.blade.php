@@ -42,13 +42,14 @@
                         </div>
                         <div class="form-group">
                             <label>Tanggal Penilaian</label>
-                            <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                                <input type="date" name="tgl_penilaian" class="form-control datetimepicker-input"
-                                    data-target="#reservationdate" />
-                                <div class="input-group-append" data-target="#reservationdate"
-                                    data-toggle="datetimepicker">
-                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                </div>
+                            <div class="input-group date">
+                                <input type="date" name="tgl_penilaian"
+                                    class="form-control @error('tgl_penilaian') is-invalid @enderror"
+                                    value="<?= date('Y-m-d') ?>" readonly>
+                                @if ($errors->has('tgl_penilaian'))
+                                <div class="invalid-feedback">{{
+                                    $errors->first('tgl_penilaian') }}</div>
+                                @endif
                             </div>
                         </div>
                         <div class="form-group">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
@@ -10,6 +11,8 @@ use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Auth;
+use Mail;
 
 class UsersController extends Controller
 {
@@ -26,6 +29,38 @@ class UsersController extends Controller
         $users = User::latest()->paginate(10);
 
         return view('users.index', compact('users'));
+    }
+    public function login()
+    {
+
+        return view('customer.login');
+    }
+
+     public function google()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function handleProviderCallback()
+    {
+        $callback = Socialite::driver('google')->stateless()->user();
+        $data = [
+            'name' => $callback->getName(),
+            'username' => $callback->getName(),
+            'email' => $callback->getEmail(),
+            'avatar' => $callback->getAvatar(),
+            'email_verified_at' => date('Y-m-d H:i:s', time()),
+        ];
+
+        // $user = User::firstOrCreate(['email' => $data['email']], $data);
+        $user = User::whereEmail($data['email'])->first();
+        if (!$user) {
+            $user = User::create($data);
+            // Mail::to($user->email)->send(new AfterRegister($user));
+        }
+        Auth::login($user, true);
+
+        return redirect(route('customer.dashboard'));
     }
 
     /**

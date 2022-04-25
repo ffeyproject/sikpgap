@@ -28,6 +28,67 @@
         <p>Manage Permission</p>
     </a>
 </li>
+<li class="nav-item">
+    <a href="{{ route('pesan.index') }}"
+        class="nav-link {{ (request()->is('pesan')) || (request()->is('pesan/create')) || (request()->is('keluhan/*')) ? 'active' : '' }} ">
+        <i class="fas fa-inbox"></i>
+        <p>Manage Pesan</p>
+    </a>
+</li>
+<li class="nav-header">MANAGE MENU</li>
+<li class="nav-item">
+    <a href="#" class="nav-link nav-item">
+        <i class="fas fa-caret-square-down"></i>
+        <p>
+            Menu
+            <i class="right fas fa-angle-left"></i>
+        </p>
+    </a>
+    <ul class="nav nav-treeview">
+        <li class="nav-item">
+            <a href="{{ route('menu.index') }}" class="nav-link">
+                <i class="fas fa-bars"></i>
+                <p>Home</p>
+                </p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="fas fa-ellipsis-h"></i>
+                <p>Penilaian</p>
+                </p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('pesan.index') }}" class="nav-link">
+                <i class="far fa-envelope"></i>
+                <p>Kelola Contact</p>
+                </p>
+            </a>
+        </li>
+    </ul>
+</li>
+<li class="nav-header">MANAGE IMAGE</li>
+<li
+    class="nav-item {{ (request()->is('client')) ||  (request()->is('client/create')) || (request()->is('client/*')) || (request()->is('defect')) || (request()->is('defect/*')) || (request()->routeIs('defect.update}')) || (request()->is('asal-masalah')) || (request()->is('asal-masalah/*')) || (request()->is('item-penilaian')) || (request()->is('item-penilaian/*')) ? 'active menu-open' : '' }}">
+    <a href="#"
+        class="nav-link nav-item {{ (request()->is('client')) || (request()->is('client/create')) || (request()->is('buyer/*')) ||  (request()->is('defect')) || (request()->is('asal-masalah'))  ? 'active menu-open' : '' }}">
+        <i class="fas fa-caret-square-down"></i>
+        <p>
+            Menu
+            <i class="right fas fa-angle-left"></i>
+        </p>
+    </a>
+    <ul class="nav nav-treeview">
+        <li class="nav-item">
+            <a href="{{ route('client.index') }}" class="nav-link">
+                <i class="fas fa-bars"></i>
+                <p>Client</p>
+                </p>
+            </a>
+        </li>
+    </ul>
+</li>
 @endrole
 @endauth
 
@@ -74,7 +135,7 @@
     </ul>
 </li>
 
-<li class="nav-header">MENU</li>
+<li class="nav-header">MENU PELANGGAN</li>
 <li
     class="nav-item {{ (request()->is('kepuasan')) || (request()->is('kepuasan/create')) || (request()->is('kepuasan/*')) || (request()->is('kepuasan-penilaian/*'))  ? 'active menu-open' : '' }}">
     <a href="#"

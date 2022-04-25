@@ -7,6 +7,7 @@ use App\Models\buyer;
 use App\Models\ItemEvalution;
 use App\Models\ResultSatis;
 use App\Models\Satisfaction;
+use Illuminate\Support\Facades\Auth;
 use Barryvdh\DomPDF\PDF as DomPDFPDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -65,6 +66,7 @@ class ResultSatisfactionsController extends Controller
 			$abc->item_evaluations_id = $data['item_evaluations_id'][$i];
 			$abc->satisfactions_id = $data['satisfactions_id'];
 			$abc->score = $data['score'][$i];
+			$abc->user_id = Auth::user()->id;
 			// $abc->desc_kesesuaian = $data['desc_kesesuaian'];
 			// $abc->kritik_saran = $data['kritik_saran'];
 			$abc->save();

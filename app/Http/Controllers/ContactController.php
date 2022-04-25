@@ -59,7 +59,7 @@ class ContactController extends Controller
         $contact->status = 'Terkirim';
         $contact->save();
 
-        Alert::success('Congrats', 'Pesan Telah Terkirim');
+        Alert::success('Congrats', 'Pesan Berhasil Terkirim');
 
      return redirect()->back();
     }
