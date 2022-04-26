@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\MenuDashboard;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class MenuDashboardController extends Controller
 {
@@ -35,7 +38,7 @@ class MenuDashboardController extends Controller
      */
     public function create()
     {
-        //
+        return view('master.menu.create');
     }
 
     /**
@@ -46,7 +49,23 @@ class MenuDashboardController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+        'categori_menu'   => 'required',
+        'item_menu'   => 'required',
+        'ket_menu'   => 'required'
+        ]);
+
+         $menuDashboard = new MenuDashboard();
+        $menuDashboard->user_id = Auth::user()->id;
+        $menuDashboard->categori_menu = $request->categori_menu;
+        $menuDashboard->item_menu = $request->item_menu;
+        $menuDashboard->ket_menu = $request->ket_menu;
+        $menuDashboard->status = 'Aktif';
+        $menuDashboard->save();
+
+        Alert::success('Congrats', 'Data Berhasil Ditambahkan');
+
+        return redirect()->route('menu.index');
     }
 
     /**
@@ -66,10 +85,15 @@ class MenuDashboardController extends Controller
      * @param  \App\Models\MenuDashboard  $menuDashboard
      * @return \Illuminate\Http\Response
      */
-    public function edit(MenuDashboard $menuDashboard)
+    public function edit($id)
     {
-        //
+        $menuDashboard = MenuDashboard::findOrFail($id);
+
+        return view('master.menu.edit', [
+                'menuDashboard' => $menuDashboard
+        ]);
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -80,7 +104,21 @@ class MenuDashboardController extends Controller
      */
     public function update(Request $request, MenuDashboard $menuDashboard)
     {
-        //
+         $this->validate($request, [
+        'categori_menu'   => 'required',
+        'item_menu'   => 'required',
+        'ket_menu'   => 'required',
+        'status'   => 'required'
+        ]);
+
+        $menuDashboard->categori_menu = $request->categori_menu;
+        $menuDashboard->item_menu = $request->item_menu;
+        $menuDashboard->ket_menu = $request->ket_menu;
+        $menuDashboard->status = $request->status;
+        $menuDashboard->update();
+
+        Alert::success('Success', 'Data Berhasil Diupdate');
+        return redirect()->route('menu.index');
     }
 
     /**
@@ -91,6 +129,10 @@ class MenuDashboardController extends Controller
      */
     public function destroy(MenuDashboard $menuDashboard)
     {
-        //
+        $menuDashboard->delete();
+
+        Alert::warning('Deleted', 'Data Berhasil di Hapus');
+
+        return redirect()->route('menu.index');
     }
 }

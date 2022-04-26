@@ -30,7 +30,7 @@
 </li>
 <li class="nav-item">
     <a href="{{ route('pesan.index') }}"
-        class="nav-link {{ (request()->is('pesan')) || (request()->is('pesan/create')) || (request()->is('keluhan/*')) ? 'active' : '' }} ">
+        class="nav-link {{ (request()->is('pesan')) || (request()->is('pesan/create')) ? 'active' : '' }} ">
         <i class="fas fa-inbox"></i>
         <p>Manage Pesan</p>
     </a>
@@ -81,7 +81,8 @@
     </a>
     <ul class="nav nav-treeview">
         <li class="nav-item">
-            <a href="{{ route('client.index') }}" class="nav-link">
+            <a href="{{ route('client.index') }}"
+                class="nav-link {{ (request()->is('client')) || (request()->is('client/create')) || (request()->is('buyer/*')) ||  (request()->is('defect')) || (request()->is('asal-masalah'))  ? 'active menu-open' : '' }}">
                 <i class="fas fa-bars"></i>
                 <p>Client</p>
                 </p>

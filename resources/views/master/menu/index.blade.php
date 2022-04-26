@@ -52,10 +52,10 @@
                                 @forelse ($menuDashboard as $item)
                                 <tr>
                                     <td>{{ $no++ }}</td>
-                                    <td>{{ $item->categori_item }}</td>
+                                    <td>{{ $item->categori_menu }}</td>
                                     <td>{{ $item->item_menu }}</td>
-                                    <td>{{ $item->ket_menu }}</td>
-                                    <td>{!! $item->status !!}</td>
+                                    <td>{!! $item->ket_menu !!}</td>
+                                    <td>{{ $item->status }}</td>
                                     <td>
                                         <div class="container">
                                             <a href="{{ route('menu.edit', $item->id) }}" class="btn btn-warning"><i

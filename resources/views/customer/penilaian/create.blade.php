@@ -3,7 +3,11 @@
 <div class="page-banner home-banner">
     <div class="container h-100">
         <div class="row align-items-center h-100">
-            <div class="container"><br><br><br><br><br>
+            <div class="container">
+                <br><br><br>
+                @foreach ($menuDashboard as $aa )
+                @if($aa->item_menu == 'Beri Penilaian' && $aa->status == 'Aktif')
+                <h1 class="mb-4">Penilaian Kepuasan Pelanggan</h1>
                 <form method="post" action="{{route('penilaian.store')}}" id="form">
                     @csrf
                     <div class="form-group">
@@ -56,12 +60,18 @@
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary">Submit</button>
+                        <a href="{{ route('customer.penilaian') }}" class="btn btn-primary"><i
+                                class="far fa-plus-square"></i> Back
+                        </a>
                     </div>
                     <div class="card-footer">
 
                     </div>
                 </form>
-
+                @elseif($aa->item_menu == 'Beri Penilaian' && $aa->status == 'Tidak')
+                <p class="text-lg mb-5">Untuk Saat Ini Form Pengisian Penilaian Belum Tersedia ...</p>
+                @endif
+                @endforeach
             </div>
         </div>
     </div>

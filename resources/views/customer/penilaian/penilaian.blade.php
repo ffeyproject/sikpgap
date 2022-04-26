@@ -4,8 +4,21 @@
     <div class="container h-100">
         <div class="row align-items-center h-100">
             <div class="container">
+                {{-- <a href="{{ route('penilaian.create') }}" class="btn btn-primary btn-lg"><i
+                        class="far fa-plus-square"></i> Berikan
+                    Penilaian
+                </a> --}}
+                @foreach ($menuDashboard as $aa )
+                @if($aa->item_menu == 'Beri Penilaian' && $aa->status == 'Aktif')
                 <a href="{{ route('penilaian.create') }}" class="btn btn-primary btn-lg"><i
-                        class="far fa-plus-square"></i> Berikan Penilaian</a><br><br>
+                        class="far fa-plus-square"></i> Berikan
+                    Penilaian
+                </a>
+                @elseif($aa->item_menu == 'Beri Penilaian' && $aa->status == 'Tidak')
+                <p class="text-lg mb-5">Untuk Saat Ini Form Untuk Pengisian Penilaian Belum Tersedia ...</p>
+                @endif
+                @endforeach
+                <br><br>
                 @include('components.alert')
                 <div class="row justify-content-center">
                     <table id="customers">
@@ -54,7 +67,6 @@
                                 @empty
                             <tr>
                                 <td colspan="12">Data tidak ada.</td>
-                            </tr>
                             </tr>
                         </tbody>
                         @endforelse

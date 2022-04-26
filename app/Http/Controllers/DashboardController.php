@@ -8,6 +8,7 @@ use App\Models\buyer;
 use App\Models\Contact;
 use App\Models\ImageClient;
 use App\Models\ItemEvalution;
+use App\Models\MenuDashboard;
 use App\Models\ResultSatis;
 use App\Models\Satisfaction;
 use Carbon\Carbon;
@@ -54,10 +55,11 @@ class DashboardController extends Controller
      */
     public function penilaian()
     {
+        $menuDashboard = MenuDashboard::all();
         $image = ImageClient::where('status', 'LIKE', 'Ya')->get();
         $kepuasan = Satisfaction::where('user_id', Auth::id())->orderBy('id','desc')->paginate(8);
 
-        return view('customer.penilaian.penilaian', compact('kepuasan', 'image'));
+        return view('customer.penilaian.penilaian', compact('kepuasan', 'image', 'menuDashboard'));
     }
 
 
@@ -83,11 +85,12 @@ class DashboardController extends Controller
      */
     public function create()
     {
+        $menuDashboard = MenuDashboard::all();
          $image = ImageClient::all();
          $kepuasan = Satisfaction::all();
         // $buyer = DB::table("buyers")->select("id","nama_buyer","alamat_buyer","cp_buyer")->get();
         $buyer = buyer::pluck('nama_buyer', 'id');
-        return view('customer.penilaian.create', compact('image', 'kepuasan', 'buyer'));
+        return view('customer.penilaian.create', compact('image', 'kepuasan', 'buyer','menuDashboard'));
     }
 
     /**
