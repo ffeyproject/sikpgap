@@ -92,6 +92,7 @@
                             alt="User Image">
                         <a href="#" class="btn btn-default btn-flat float-right"
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            {{ Auth::user()->name }}<br>
                             Sign out
                         </a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
