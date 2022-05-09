@@ -90,7 +90,7 @@
                     <div class="ml-auto">
                         <img src="{{ Auth::user()->avatar }}" width='30%' class="user-image img-circle elevation-1"
                             alt="User Image">
-                        <a href="#" class="btn btn-default btn-flat float-right"
+                        <a href="#" class="btn btn-default btn-flat"
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             {{ Auth::user()->name }}<br>
                             Sign out

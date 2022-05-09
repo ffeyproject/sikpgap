@@ -48,21 +48,7 @@
         <li class="nav-item">
             <a href="{{ route('menu.index') }}" class="nav-link">
                 <i class="fas fa-bars"></i>
-                <p>Home</p>
-                </p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="#" class="nav-link">
-                <i class="fas fa-ellipsis-h"></i>
-                <p>Penilaian</p>
-                </p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="{{ route('pesan.index') }}" class="nav-link">
-                <i class="far fa-envelope"></i>
-                <p>Kelola Contact</p>
+                <p>Kelola</p>
                 </p>
             </a>
         </li>
