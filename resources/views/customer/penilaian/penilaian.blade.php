@@ -10,7 +10,7 @@
                         class="far fa-plus-square"></i> Berikan
                     Penilaian
                 </a>
-                @elseif($aa->item_menu == 'Info Penilaian' && $aa->status == 'Aktif')
+                @elseif($aa->item_menu == 'Beri Penilaian' && $aa->status == 'Tidak')
                 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
                     <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
                         <path
