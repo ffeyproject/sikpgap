@@ -35,25 +35,6 @@
         <p>Manage Pesan</p>
     </a>
 </li>
-<li class="nav-header">MANAGE MENU</li>
-<li class="nav-item">
-    <a href="#" class="nav-link nav-item">
-        <i class="fas fa-caret-square-down"></i>
-        <p>
-            Menu
-            <i class="right fas fa-angle-left"></i>
-        </p>
-    </a>
-    <ul class="nav nav-treeview">
-        <li class="nav-item">
-            <a href="{{ route('menu.index') }}" class="nav-link">
-                <i class="fas fa-bars"></i>
-                <p>Kelola</p>
-                </p>
-            </a>
-        </li>
-    </ul>
-</li>
 <li class="nav-header">MANAGE IMAGE</li>
 <li
     class="nav-item {{ (request()->is('client')) ||  (request()->is('client/create')) || (request()->is('client/*')) || (request()->is('defect')) || (request()->is('defect/*')) || (request()->routeIs('defect.update}')) || (request()->is('asal-masalah')) || (request()->is('asal-masalah/*')) || (request()->is('item-penilaian')) || (request()->is('item-penilaian/*')) ? 'active menu-open' : '' }}">
@@ -78,7 +59,25 @@
 </li>
 @endrole
 @endauth
-
+<li class="nav-header">MANAGE MENU</li>
+<li class="nav-item">
+    <a href="#" class="nav-link nav-item">
+        <i class="fas fa-caret-square-down"></i>
+        <p>
+            Menu
+            <i class="right fas fa-angle-left"></i>
+        </p>
+    </a>
+    <ul class="nav nav-treeview">
+        <li class="nav-item">
+            <a href="{{ route('menu.index') }}" class="nav-link">
+                <i class="fas fa-bars"></i>
+                <p>Kelola</p>
+                </p>
+            </a>
+        </li>
+    </ul>
+</li>
 <li class="nav-header">MASTER</li>
 <li
     class="nav-item {{ (request()->is('buyer')) ||  (request()->is('buyer/create')) || (request()->is('buyer/*')) || (request()->is('defect')) || (request()->is('defect/*')) || (request()->routeIs('defect.update}')) || (request()->is('asal-masalah')) || (request()->is('asal-masalah/*')) || (request()->is('item-penilaian')) || (request()->is('item-penilaian/*')) ? 'active menu-open' : '' }}">
