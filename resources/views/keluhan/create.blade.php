@@ -123,17 +123,6 @@
                             @endif
                         </div>
 
-                        <div class="form-group">
-                            <label for="g_keluhan">Gambar Pendukung</label>
-                            <input type="file" name="g_keluhan"
-                                class="form-control @error('g_keluhan') is-invalid @enderror" id="g_keluhan"
-                                value="{{ old('g_keluhan') ?: '' }}" placeholder="">
-                            @if ($errors->has('g_keluhan'))
-                            <div class="invalid-feedback">{{
-                                $errors->first('g_keluhan') }}</div>
-                            @endif
-                            <p class="help-block">Max.800kb</p>
-                        </div>
                     </div>
 
                     <div class="col-sm-2">

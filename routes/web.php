@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartementController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImageClientController;
+use App\Http\Controllers\ImageComplaintController;
 use App\Http\Controllers\ItemEvaluationController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\RolesController;
@@ -21,6 +22,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Middleware\Customer;
 use App\Models\ImageClient;
+use App\Models\ImageComplaint;
 use App\Models\MenuDashboard;
 
 /*
@@ -128,6 +130,10 @@ Route::patch('keluhan/update{complaint}', [ComplaintController::class, 'update']
 Route::patch('keluhan/update/gambar/{complaint}', [ComplaintController::class, 'egambar'])->name('keluhan.egambar');
 Route::delete('keluhan/{complaint}', [ComplaintController::class, 'destroy'])->name('keluhan.destroy');
 
+//Route Image Complaint
+Route::post('keluhan/show/image', [ImageComplaintController::class, 'store'])->name('icomplaint.store');
+Route::delete('image/delete/{id}', [ImageComplaintController::class, 'destroy'])->name('icomplaint.destroy');
+
 //Route Result
 Route::get('keluhan/proses/{complaint}', [ResultController::class, 'index'])->name('proses.index');
 Route::post('keluhan/proses', [ResultController::class, 'store'])->name('proses.store');
@@ -202,6 +208,7 @@ Route::group(['middleware' => ['auth','customer']], function() {
     Route::get('customer-penilaian/create', [DashboardController::class, 'create'])->name('penilaian.create');
     Route::post('customer-penilaian/store', [DashboardController::class, 'store'])->name('penilaian.store');
     Route::get('customer-penilaian/index/{kepuasan}', [DashboardController::class, 'cvpenilaian'])->name('penilaian.cvpenilaian');
+    Route::get('customer-penilaian/index/view/{kepuasan}', [DashboardController::class, 'fpenilaian'])->name('penilaian.fpenilaian');
     Route::post('customer-penilaian/index', [DashboardController::class, 'spenilaian'])->name('penilaian.spenilaian');
 
 

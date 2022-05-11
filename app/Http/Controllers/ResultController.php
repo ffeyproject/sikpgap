@@ -7,6 +7,7 @@ use App\Http\Requests\ResultComplaintRequest;
 use App\Models\Complaint;
 use App\Models\Defect;
 use App\Models\Departement;
+use App\Models\ImageComplaint;
 use App\Models\Result;
 use App\Models\User;
 // use Carbon\Carbon;
@@ -133,8 +134,9 @@ class ResultController extends Controller
         $user = User::all();
         $keluhan = Complaint::with('buyer')->findOrFail($id);
         $result = Result::with('complaint','defect')->where('complaints_id', '=', $id)->get();
+         $icomplaint = ImageComplaint::with('complaint')->where('complaints_id', '=', $id)->get();
 
-        return view('keluhan.proses.detail', compact('defect', 'user', 'keluhan', 'result', 'ab', 'ac'));
+        return view('keluhan.proses.detail', compact('defect', 'user', 'keluhan', 'result', 'ab', 'ac', 'icomplaint'));
     }
 
     public function cetak($id)

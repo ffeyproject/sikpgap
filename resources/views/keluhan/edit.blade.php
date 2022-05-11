@@ -124,7 +124,7 @@
                             @endif
                         </div>
 
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label>Gambar Pendukung</label><br>
                             <img src="{{ url('image/keluhan/'.$keluhan->g_keluhan) }}"
                                 style="width: 100px; height: 100px;"><br>
@@ -136,7 +136,7 @@
                             <div class="invalid-feedback">{{ $errors->first('g_keluhan') }}</div>
                             @endif
                             <p class="help-block">Max.800kb</p>
-                        </div>
+                        </div> --}}
                     </div>
 
                     @if ($keluhan->jenis == 'Dyeing')

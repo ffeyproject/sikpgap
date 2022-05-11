@@ -125,8 +125,8 @@ class ImageClientController extends Controller
     {
         $exist = Storage::disk('image/client')->exists($image->g_client);
 
-        if(isset($image->g_clie) && $exist){
-            $delete = Storage::disk('g_clie')->delete($image->g_clie);
+        if(isset($image->g_clients) && $exist){
+            $delete = Storage::disk('g_client')->delete($image->g_client);
                 if ($delete){
                     return true;
                 }

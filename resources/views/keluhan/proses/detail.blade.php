@@ -110,26 +110,52 @@
                             : {{ $keluhan->cw_qty }}<br>
                             : {{ $keluhan->jenis }}<br>
                             <td>
+                                {{-- <button type="button" class="btn btn-info btn-large" data-toggle="modal"
+                                    data-target="#largeModal" id="open">Lihat Gambar</button> --}}
                                 <button type="button" class="btn btn-info btn-large" data-toggle="modal"
-                                    data-target="#myModal" id="open">Lihat Gambar</button>
+                                    data-target="#largeModal" id="open">Show All
+                                    Image
+                                </button>
                             </td>
-                            <!-- Modal -->
-                            <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-                                aria-labelledby="myModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal fade" id="largeModal" tabindex="-1" role="dialog"
+                                aria-labelledby="basicModal" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
                                     <div class="modal-content">
-                                        <div class="modal-header">
-                                        </div>
                                         <div class="modal-body">
-                                            @if($keluhan->g_keluhan == null)
-                                            Maaf Tidak Ada Gambar Pendukung
-                                            @else
-                                            <img src="{{ url('image/keluhan/'.$keluhan->g_keluhan) }}"
-                                                style="width: 760px; height: 700px;">
-                                            @endif
+                                            <!-- carousel -->
+                                            <div id='carouselExampleIndicators' class='carousel slide'
+                                                data-ride='carousel'>
+                                                <ol class='carousel-indicators'>
+                                                    <li data-target='#carouselExampleIndicators' data-slide-to='0'
+                                                        class='active'></li>
+                                                    <li data-target='#carouselExampleIndicators' data-slide-to='1'></li>
+                                                    <li data-target='#carouselExampleIndicators' data-slide-to='2'></li>
+                                                </ol>
+                                                <div class='carousel-inner'>
+                                                    <?php $i=0; ?>
+                                                    @foreach ($icomplaint as $gg)
+                                                    <?php if ($i==0) {$set_ = 'active'; } else {$set_ = ''; } ?>
+                                                    <div class='carousel-item <?php echo $set_; ?>'>
+                                                        <img src="{{ url('image/keluhan/'.$gg->nama_image) }}"
+                                                            style="width: 760px; height: 700px;">
+                                                    </div>
+                                                    <?php $i++;?>
+                                                    @endforeach
+                                                </div>
+                                                <a class='carousel-control-prev' href='#carouselExampleIndicators'
+                                                    role='button' data-slide='prev'>
+                                                    <span class='carousel-control-prev-icon' aria-hidden='true'></span>
+                                                    <span class='sr-only'>Previous</span>
+                                                </a>
+                                                <a class='carousel-control-next' href='#carouselExampleIndicators'
+                                                    role='button' data-slide='next'>
+                                                    <span class='carousel-control-next-icon' aria-hidden='true'></span>
+                                                    <span class='sr-only'>Next</span>
+                                                </a>
+                                            </div>
                                         </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
+                                        <div class=" modal-footer">
+                                            <button type="button" class="btn btn-default" 2
                                                 data-dismiss="modal">Close</button>
                                         </div>
                                     </div>

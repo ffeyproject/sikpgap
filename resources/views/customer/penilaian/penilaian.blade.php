@@ -18,7 +18,7 @@
                     </symbol>
                 </svg>
                 <div class="alert alert-warning d-flex align-items-center" role="alert">
-                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning">
+                    <svg class="bi flex-shrink-0 me-2" width="24" height="20" role="img" aria-label="Warning">
                         <use xlink:href="#exclamation-triangle-fill" />
                     </svg>
                     <div>
@@ -49,9 +49,9 @@
                             <tr>
                                 <td>{{ $no++ }}</td>
                                 <td>
-                                    <a href="{{ route('kepuasan.vpenilaian', $item->id) }}" target="_blank" <button
+                                    <a href="{{ route('penilaian.fpenilaian', $item->id) }}" target="_blank" <button
                                         type="button" class="btn btn-info btn-sm">
-                                        Detail</button></a>
+                                        Lihat Detail</button></a>
                                 </td>
                                 <td>{{ $item->kode_penilaian }}</td>
                                 <td>{{ $item->tgl_penilaian }}</td>

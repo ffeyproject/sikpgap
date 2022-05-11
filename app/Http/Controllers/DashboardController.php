@@ -58,8 +58,27 @@ class DashboardController extends Controller
         $menuDashboard = MenuDashboard::all();
         $image = ImageClient::where('status', 'LIKE', 'Ya')->get();
         $kepuasan = Satisfaction::where('user_id', Auth::id())->orderBy('id','desc')->paginate(8);
+         $item = ItemEvalution::all();
+        $aq = Satisfaction::all();
+        $buyer = Buyer::all();
+        // $coba = Satisfaction::with('buyer', 'itemevaluation')->findOrFail($id);
+        // $detail = ResultSatis::with('satisfaction','itemevaluation')->where('satisfactions_id', '=', $id)->get();
 
-        return view('customer.penilaian.penilaian', compact('kepuasan', 'image', 'menuDashboard'));
+        return view('customer.penilaian.penilaian', compact('kepuasan', 'image', 'menuDashboard', 'item', 'aq', 'buyer'));
+    }
+
+
+    public function fpenilaian($id)
+    {
+
+        $image = ImageClient::where('status', 'LIKE', 'Ya')->get();
+        $item = ItemEvalution::all();
+        $aq = Satisfaction::all();
+        $buyer = Buyer::all();
+        $kepuasan = Satisfaction::with('buyer', 'itemevaluation')->findOrFail($id);
+        $detail = ResultSatis::with('satisfaction','itemevaluation')->where('satisfactions_id', '=', $id)->get();
+
+        return view('customer.penilaian.vpenilaian', compact('kepuasan', 'detail', 'item', 'aq', 'buyer', 'image'));
     }
 
 

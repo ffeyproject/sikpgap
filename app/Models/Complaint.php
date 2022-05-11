@@ -20,6 +20,7 @@ class Complaint extends Model
         return $this->belongsTo(buyer::class, 'buyers_id');
     }
 
+
     public function users(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');

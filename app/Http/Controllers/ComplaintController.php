@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ComplaintRequest;
 use App\Models\buyer;
 use App\Models\Complaint;
+use App\Models\ImageComplaint;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -103,26 +104,26 @@ class ComplaintController extends Controller
         $complaint->jenis = $request->jenis;
         $complaint->masalah = $request->masalah;
         $complaint->solusi = $request->solusi;
-        // $g_keluhan = $request->file('g_keluhan');
-        //     $ext = $g_keluhan->getClientOriginalExtension();
-        //     $newName = "kel"."-".rand(100000,1001238912).".".$ext;
-        //     $g_keluhan->move('image/keluhan',$newName);
-        //     $complaint->g_keluhan = $newName;
-        if($request->hasFile('g_keluhan')){
-		$filenameWithExt = $request->file('g_keluhan')->getClientOriginalName();
-        $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-        $extension = $request->file('g_keluhan')->getClientOriginalExtension();
-        $filenameSimpan = $filename.'_'.date('Ymd').'_'.time().'.'.$extension;
-        $path = $request->file('g_keluhan')->move('image/keluhan', $filenameSimpan);
-	    }else{
-		$filenameSimpan = '/image/keluhan/default.png';
-	    }
-        $complaint->g_keluhan = $filenameSimpan;
+                        // $g_keluhan = $request->file('g_keluhan');
+                        //     $ext = $g_keluhan->getClientOriginalExtension();
+                        //     $newName = "kel"."-".rand(100000,1001238912).".".$ext;
+                        //     $g_keluhan->move('image/keluhan',$newName);
+                        //     $complaint->g_keluhan = $newName;
+        // if($request->hasFile('g_keluhan')){
+		// $filenameWithExt = $request->file('g_keluhan')->getClientOriginalName();
+        // $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+        // $extension = $request->file('g_keluhan')->getClientOriginalExtension();
+        // $filenameSimpan = $filename.'_'.date('Ymd').'_'.time().'.'.$extension;
+        // $path = $request->file('g_keluhan')->move('image/keluhan', $filenameSimpan);
+	    // }else{
+		// $filenameSimpan = '/image/keluhan/default.png';
+	    // }
+        $complaint->g_keluhan = 'default.png';
         $complaint->save();
 
-         Alert::info('Info', 'Data Tersimpan dan masuk ke tahap proses');
-    //    return redirect('keluhan/proses/' .  $complaint->id)->with('info', 'Silahkan Proses Data Ini.');
-       return redirect()->route('keluhan.index');
+         Alert::info('Info', 'Data Tersimpan dan Masukkan Gambar Pendukung');
+       return redirect('keluhan/show/' .  $complaint->id);
+    //    return redirect()->route('keluhan.index');
     }
 
     /**
@@ -135,8 +136,11 @@ class ComplaintController extends Controller
     {
          $keluhan = Complaint::with('buyer')->findOrFail($id);
 
+         $icomplaint = ImageComplaint::with('complaint')->where('complaints_id', '=', $id)->get();
+
         return view('keluhan.show', [
-                'keluhan' => $keluhan
+                'keluhan' => $keluhan,
+                'icomplaint' => $icomplaint
         ]);
     }
 
@@ -179,21 +183,24 @@ class ComplaintController extends Controller
         $complaint->jenis = $request->jenis;
         $complaint->masalah = $request->masalah;
         $complaint->solusi = $request->solusi;
-                if ($g_keluhan = $request->file('g_keluhan')) {
+        $complaint->g_keluhan = 'default.png';
 
-            $destinationPath = 'image/keluhan/';
+        //CARA PERTAMA
+        //         if ($g_keluhan = $request->file('g_keluhan')) {
 
-            $profileImage = date('YmdHis') . "." . $g_keluhan->getClientOriginalExtension();
+        //     $destinationPath = 'image/keluhan/';
 
-            $g_keluhan->move($destinationPath, $profileImage);
+        //     $profileImage = date('YmdHis') . "." . $g_keluhan->getClientOriginalExtension();
 
-            $complaint['g_keluhan'] = "$profileImage";
+        //     $g_keluhan->move($destinationPath, $profileImage);
 
-        }else{
+        //     $complaint['g_keluhan'] = "$profileImage";
 
-            unset($complaint['image']);
+        // }else{
 
-        }
+        //     unset($complaint['image']);
+
+        // }
 
         //CARA UNTUK DEFAULTNYA ADA IMAGENYA LALU UPDATE TERGANTI
         // if (empty($request->file('g_keluhan'))){
