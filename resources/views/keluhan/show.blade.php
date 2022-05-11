@@ -75,9 +75,6 @@
                         : {{ $keluhan->nama_motif }}<br>
                         : {{ $keluhan->cw_qty }}<br>
                         : {{ $keluhan->jenis }}<br>
-                        @foreach ($icomplaint as $gg)
-                        <img src="{{ url('image/keluhan/'.$gg->nama_image) }}" style="width: 760px; height: 700px;">
-                        @endforeach
                         <td>
                             <button type="button" class="btn btn-info btn-large" data-toggle="modal"
                                 data-target="#largeModal" id="open">Show All Image
