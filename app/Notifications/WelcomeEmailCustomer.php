@@ -47,7 +47,7 @@ class WelcomeEmailCustomer extends Notification
                 ->subject('Registration Account')
                 ->greeting('Hello, '.$this->user->name)
                 ->line('Welcome to SIKP GAP.')
-                ->line('Sistem Penilaian Keupasan Pelanggan.')
+                ->line('Sistem Penilaian Kepuasan Pelanggan.')
                 ->action('Home', url('customer.dashboard'))
                 ->line('Thank you for using our application!');
     }
