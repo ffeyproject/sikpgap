@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Notifications\WelcomeEmailCustomer;
+use App\Notifications\WelcomeEmailNotification;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -57,6 +59,7 @@ class UsersController extends Controller
         if (!$user) {
             $user = User::create($data);
             // Mail::to($user->email)->send(new AfterRegister($user));
+            $user->notify(new WelcomeEmailCustomer($user));
         }
         Auth::login($user, true);
 
@@ -122,6 +125,8 @@ class UsersController extends Controller
         //     'password' =>$request['password'],
         //     'g_ttd' =>  $filenameSimpan,
         // ]);
+
+        $user->notify(new WelcomeEmailNotification($user));
 
         return redirect()->route('users.index')->withSuccess(__('User created successfully.'));
     }
