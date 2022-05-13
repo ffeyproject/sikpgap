@@ -7,6 +7,8 @@ use App\Models\buyer;
 use App\Models\Complaint;
 use App\Models\ImageComplaint;
 use App\Models\User;
+use App\Notifications\CreateComplaintNotification;
+use CreateComplaintsTable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -120,6 +122,10 @@ class ComplaintController extends Controller
 	    // }
         $complaint->g_keluhan = 'default.png';
         $complaint->save();
+
+        $complaint->email = Auth::user()->email;
+
+        $complaint->notify(new CreateComplaintNotification($complaint));
 
          Alert::info('Info', 'Data Tersimpan dan Masukkan Gambar Pendukung');
        return redirect('keluhan/show/' .  $complaint->id);
