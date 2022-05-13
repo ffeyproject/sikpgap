@@ -7,6 +7,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+// use Notification;
 
 class CreateComplaintNotification extends Notification
 {
@@ -54,8 +55,8 @@ class CreateComplaintNotification extends Notification
                 ->line('Nama Buyer Anda : ' . $this->complaint->buyer->nama_buyer)
                 ->line('Nomer Wo : ' . $this->complaint->no_wo)
                 ->line('Jenis : ' . $this->complaint->jenis)
-                ->line('Masalah : ' . $this->complaint->masalah)
-                ->action('View Data Complaint', $url);
+                ->action('View Data Complaint', $url)
+                ->line('Masalah : ' . $this->complaint->masalah);
     }
 
     /**
