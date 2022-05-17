@@ -10,6 +10,7 @@ use App\Models\Departement;
 use App\Models\ImageComplaint;
 use App\Models\Result;
 use App\Models\User;
+use App\Notifications\UpdateProsesEmailComplaint;
 // use Carbon\Carbon;
 use Carbon;
 use Carbon\Doctrine\CarbonType;
@@ -102,6 +103,10 @@ class ResultController extends Controller
         $complaint->tgl_proses = Carbon::today();
         $complaint->status = 'proses';
         $complaint->update();
+
+        $complaint->email = Auth::user()->email;
+
+        $complaint->notify(new UpdateProsesEmailComplaint($complaint));
 
         Alert::info('Info', 'Complaint Telah Di Proses ...');
         return redirect()->back();
