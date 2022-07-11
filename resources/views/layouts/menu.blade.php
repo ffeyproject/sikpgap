@@ -59,9 +59,9 @@
 </li>
 <li class="nav-header">RAW DATA</li>
 <li
-    class="nav-item {{ (request()->is('raw-data/kepuasan')) ||  (request()->is('client/create')) || (request()->is('raw-data/kepuasan/*')) || (request()->is('defect')) || (request()->is('defect/*')) || (request()->routeIs('defect.update}')) || (request()->is('asal-masalah')) || (request()->is('asal-masalah/*')) || (request()->is('item-penilaian')) || (request()->is('item-penilaian/*')) ? 'active menu-open' : '' }}">
+    class="nav-item {{ (request()->is('raw-data/kepuasan')) ||  (request()->is('raw-data/keluhan')) || (request()->is('raw-data/kepuasan/*')) || (request()->is('defect')) || (request()->is('defect/*')) || (request()->routeIs('defect.update}')) || (request()->is('asal-masalah')) || (request()->is('asal-masalah/*')) || (request()->is('item-penilaian')) || (request()->is('item-penilaian/*')) ? 'active menu-open' : '' }}">
     <a href="#"
-        class="nav-link nav-item {{ (request()->is('raw-data/kepuasan')) || (request()->is('client/create')) || (request()->is('raw-data/kepuasan/*')) ||  (request()->is('defect')) || (request()->is('asal-masalah'))  ? 'active menu-open' : '' }}">
+        class="nav-link nav-item {{ (request()->is('raw-data/kepuasan')) || (request()->is('raw-data/keluhan')) || (request()->is('raw-data/kepuasan/*')) ||  (request()->is('defect')) || (request()->is('asal-masalah'))  ? 'active menu-open' : '' }}">
         <i class="fas fa-caret-square-down"></i>
         <p>
             Menu Raw
@@ -78,8 +78,8 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{ route('client.index') }}"
-                class="nav-link {{ (request()->is('client')) || (request()->is('client/create')) || (request()->is('buyer/*')) ||  (request()->is('defect')) || (request()->is('asal-masalah'))  ? 'active menu-open' : '' }}">
+            <a href="{{ route('raw-data.keluhan') }}"
+                class="nav-link {{ (request()->is('raw-data/keluhan')) || (request()->is('raw-data/create')) || (request()->is('buyer/*')) ||  (request()->is('defect')) || (request()->is('asal-masalah'))  ? 'active menu-open' : '' }}">
                 <i class="fas fa-bars"></i>
                 <p>Keluhan Pelanggan</p>
                 </p>

@@ -195,6 +195,11 @@ Route::delete('menu/customer/{menuDashboard}', [MenuDashboardController::class, 
 Route::get('raw-data/kepuasan', [RawSatisfactionController::class, 'index'])->name('raw-data.kepuasan');
 Route::get('raw-data/kepuasan/detail/{kepuasan}', [RawSatisfactionController::class, 'detail'])->name('raw-data.detail');
 Route::patch('raw-data/kepuasan/update/{kepuasan}', [RawSatisfactionController::class, 'update'])->name('raw-data.update');
+Route::get('raw-data/keluhan', [RawSatisfactionController::class, 'view'])->name('raw-data.keluhan');
+Route::get('raw-data/keluhan/show/{keluhan}', [RawSatisfactionController::class, 'show'])->name('raw-data.keluhan.show');
+Route::get('raw-data/keluhan/update/{keluhan}', [RawSatisfactionController::class, 'edit'])->name('raw-data.keluhan.update');
+Route::patch('raw-data/keluhan/update/edit/{keluhan}', [RawSatisfactionController::class, 'urdkeluhan'])->name('raw-data.keluhan.edit');
+
 
 
 Route::get('permissions', [PermissionsController::class, 'index'])->name('permissions.index');
@@ -218,7 +223,7 @@ Route::group(['middleware' => ['auth','customer']], function() {
     Route::get('customer-penilaian/index/{kepuasan}', [DashboardController::class, 'cvpenilaian'])->name('penilaian.cvpenilaian');
     Route::get('customer-penilaian/index/view/{kepuasan}', [DashboardController::class, 'fpenilaian'])->name('penilaian.fpenilaian');
     Route::post('customer-penilaian/index', [DashboardController::class, 'spenilaian'])->name('penilaian.spenilaian');
-
+    
 
     //contact
     Route::get('customer-contact', [DashboardController::class, 'contact'])->name('customer.contact');
