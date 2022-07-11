@@ -15,6 +15,7 @@ use App\Http\Controllers\PermissionsController;
 use App\Http\Controllers\Master\BuyerController;
 use App\Http\Controllers\Master\DefectController;
 use App\Http\Controllers\MenuDashboardController;
+use App\Http\Controllers\RawData\RawSatisfactionController;
 use App\Http\Controllers\ResultController;
 use App\Http\Controllers\ResultSatisfactionsController;
 use App\Http\Controllers\SatisfactionController;
@@ -24,6 +25,8 @@ use App\Http\Middleware\Customer;
 use App\Models\ImageClient;
 use App\Models\ImageComplaint;
 use App\Models\MenuDashboard;
+use App\Models\RawSatisfaction;
+use Balping\JsonRaw\Raw;
 
 /*
 |--------------------------------------------------------------------------
@@ -187,6 +190,11 @@ Route::post('menu/customer', [MenuDashboardController::class, 'store'])->name('m
 Route::get('menu/customer/update/{menuDashboard}', [MenuDashboardController::class, 'edit'])->name('menu.edit');
 Route::patch('menu/customer/update/{menuDashboard}', [MenuDashboardController::class, 'update'])->name('menu.update');
 Route::delete('menu/customer/{menuDashboard}', [MenuDashboardController::class, 'destroy'])->name('menu.destroy');
+
+//ROUTE RAW DATA
+Route::get('raw-data/kepuasan', [RawSatisfactionController::class, 'index'])->name('raw-data.kepuasan');
+Route::get('raw-data/kepuasan/detail/{kepuasan}', [RawSatisfactionController::class, 'detail'])->name('raw-data.detail');
+Route::patch('raw-data/kepuasan/update/{kepuasan}', [RawSatisfactionController::class, 'update'])->name('raw-data.update');
 
 
 Route::get('permissions', [PermissionsController::class, 'index'])->name('permissions.index');
