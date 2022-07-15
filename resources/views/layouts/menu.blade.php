@@ -180,10 +180,32 @@
         </li>
     </ul>
 </li>
-<li class="nav-item">
-    <a href="{{ route('keluhan.index') }}"
+<li
+    class="nav-item {{ (request()->is('keluhan')) || (request()->is('keluhan/create')) || (request()->is('keluhan/*')) || (request()->is('keluhan-penilaian/*'))  ? 'active menu-open' : '' }} ">
+    <a href="#"
         class="nav-link {{ (request()->is('keluhan')) || (request()->is('keluhan/create')) || (request()->is('keluhan/*')) ? 'active' : '' }} ">
         <i class="fas fa-tasks"></i>
-        <p>Keluhan Pelanggan</p>
+        <p>Keluhan Pelanggan
+            <i class="right fas fa-angle-left"></i>
+        </p>
     </a>
+    <ul class="nav nav-treeview">
+        <li class="nav-item">
+            <a href="{{ route('keluhan.index') }}"
+                class="nav-link {{ (request()->is('keluhan')) || (request()->is('keluhan/proses')) || (request()->is('keluhan/create')) ? 'active' : '' }} ">
+                <i class="fas fa-tasks"></i>
+                <p>Data Keluhan
+                </p>
+            </a>
+        </li>
+    </ul>
+    <ul class="nav nav-treeview">
+        <li class="nav-item">
+            <a href="{{ route('keluhan.data.cetak') }}" target="_blank"
+                class="nav-link {{ (request()->is('keluhan/rekap/get'))  ? 'active' : '' }} ">
+                <i class="fas fa-file-alt"></i>
+                <p>Rekap</p>
+            </a>
+        </li>
+    </ul>
 </li>

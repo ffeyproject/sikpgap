@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+Use PDF;
 use App\Http\Requests\ComplaintRequest;
 use App\Models\buyer;
 use App\Models\Complaint;
@@ -13,7 +14,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
+use App\Models\Result;
 use RealRashid\SweetAlert\Facades\Alert;
+use Yajra\Datatables\Datatables;
 
 class ComplaintController extends Controller
 {
@@ -38,6 +41,69 @@ class ComplaintController extends Controller
             'complaint' => $complaint
         ]);
     }
+
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function rekap(Request $request)
+    {
+        //  $complaint = Complaint::orderBy('id', 'DESC')->get();
+        // $complaints = Result::first();
+        // $complaints = Result::with('complaint')->first();
+        // $result = Result::all();
+        // $complaints = Complaint::with('results', 'buyer', 'departements', 'defect')->orderBy('id', 'DESC')->paginate(10);
+        // $users = User::all();
+        return view('keluhan.rekap.index', [
+            // 'complaints' => $complaints
+            // 'users' => $users
+        ]);
+
+    // return view('keluhan.rekap.index');
+    }
+
+     public function anyData(Request $request)
+    {
+        // $users = User::select(['id', 'name', 'email', 'created_at', 'updated_at']);
+
+        // return Datatables::of($users)->make(true);
+
+        $start_date = Carbon::parse($request->start_date)
+                             ->toDateTimeString();
+
+       $end_date = Carbon::parse($request->end_date)
+                             ->toDateTimeString();
+
+    //    $aa = Complaint::whereBetween('created_at',[$start_date,$end_date])->orderBy('id', 'DESC')->paginate(30);
+         $complaints = Complaint::with('results', 'buyer', 'departements', 'defect')->whereBetween('tgl_keluhan',[$start_date,$end_date])->orderBy('id', 'DESC')->paginate(30);
+    //    $complaints = Complaint::with('results', 'buyer', 'departements', 'defect')->orderBy('id', 'DESC')->paginate(10);
+
+        return view('keluhan.rekap.index', [
+            'complaints' => $complaints
+            // 'aa' => $aa
+        ]);
+    }
+
+    public function cetak(Request $request)
+    {
+
+       $start_date = Carbon::parse($request->start_date)
+                             ->toDateTimeString();
+
+       $end_date = Carbon::parse($request->end_date)
+                             ->toDateTimeString();
+
+         $complaints = Complaint::with('results', 'buyer', 'departements', 'defect')->whereBetween('tgl_keluhan',[$start_date,$end_date])->orderBy('id', 'DESC')->paginate(30);
+
+        $pdf = PDF::loadview('keluhan.rekap.cetak', compact('complaints'))
+        ->setPaper('Legal', 'landscape');
+         set_time_limit(1200);
+
+        return $pdf->stream();
+
+      }
 
     /**
      * Show the form for creating a new resource.
@@ -123,9 +189,9 @@ class ComplaintController extends Controller
         $complaint->g_keluhan = 'default.png';
         $complaint->save();
 
-        $complaint->email = Auth::user()->email;
+        // $complaint->email = Auth::user()->email;
 
-        $complaint->notify(new CreateComplaintNotification($complaint));
+        // $complaint->notify(new CreateComplaintNotification($complaint));
 
          Alert::info('Info', 'Data Tersimpan dan Masukkan Gambar Pendukung');
        return redirect('keluhan/show/' .  $complaint->id);
@@ -275,6 +341,8 @@ class ComplaintController extends Controller
         }
     }
 
+
+    
 
     /**
      * Remove the specified resource from storage.

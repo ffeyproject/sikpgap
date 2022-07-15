@@ -11,9 +11,9 @@ class Result extends Model
 {
     use HasFactory;
 
+    public $table = "result_complaints";
     protected $fillable = ['users_id', 'complaints_id', 'defects_id', 'hasil_penelusuran', 'tindakan', 'tgl_verifikasi', 'target_waktu', 'hasil_verifikasi','asal_masalah'];
 
-    public $table = "result_complaints";
 
 
     public function complaint(): BelongsTo
@@ -25,6 +25,7 @@ class Result extends Model
     {
         return $this->belongsTo(Defect::class,  'defects_id');
     }
+    
 
     public function departements(): BelongsTo
     {

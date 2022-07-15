@@ -125,6 +125,8 @@ Route::delete('asalah_masalah/{departement}', [DepartementController::class, 'de
 
 //Route Complaint
 Route::get('keluhan', [ComplaintController::class, 'index'])->name('keluhan.index');
+Route::get('keluhan/rekap', [ComplaintController::class, 'rekap'])->name('keluhan.data');
+Route::get('keluhan/rekap/get', [ComplaintController::class, 'anyData'])->name('keluhan.data.cetak');
 Route::get('keluhan/create', [ComplaintController::class, 'create'])->name('keluhan.create');
 Route::post('keluhan', [ComplaintController::class, 'store'])->name('keluhan.store');
 Route::get('keluhan/show/{complaint}', [ComplaintController::class, 'show'])->name('keluhan.show');
