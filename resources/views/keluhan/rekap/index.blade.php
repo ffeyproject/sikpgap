@@ -15,7 +15,7 @@
             </div>
         </div>
         <div class="mb-2 row">
-            <div class="container">
+            <div class="col-sm-6">
                 <h3>REGISTER KELUHAN PELANGGAN EKSTERNAL</h3>
             </div>
         </div>

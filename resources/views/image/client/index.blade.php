@@ -3,7 +3,7 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <div class="container-fluid">
-        <div class="row mb-2">
+        <div class="mb-2 row">
             <div class="col-sm-6">
                 <h1>Data Client</h1><br>
             </div>
@@ -14,8 +14,8 @@
                 </ol>
             </div>
         </div>
-        <div class="row mb-2">
-            <div class="container">
+        <div class="mb-2 row">
+            <div class="col-sm-6">
                 <a href="{{ route('client.create') }}" class="btn btn-primary btn-lg">Add</a>
             </div>
         </div>
