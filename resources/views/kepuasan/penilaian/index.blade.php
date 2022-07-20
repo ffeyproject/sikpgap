@@ -4,13 +4,37 @@
     <div class="card card-primary card-outline">
         <div class="row">
             <div class="card-body">
-                @if($kepuasan->status == 'closed')
+                @if($kepuasan->status == 'Tersimpan')
+                <div class="alert alert-warning alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h5><i class="icon fas fa-info"></i> Info!</h5>
+                    Data Nilai Belum Tersimpan.
+                </div>
+                <form method="post" action="{{route('kepuasan.rnilai', $kepuasan->id)}}" id="form">
+                    @csrf
+                    @method('PATCH')
+                    {{-- <input type="number" name="satisfactions_id" value="{{ $kepuasan->id }}"> --}}
+                    <input type="hidden" name="r_nilai" class="form-control @error('') is-invalid @enderror" id=""
+                        value="{{round($detail->avg('score'), 2)}}">
+                    @if ($errors->has(''))
+                    <div class="invalid-feedback">{{
+                        $errors->first('') }}
+                    </div>
+                    @endif
+                    <div class="mb-2 row">
+                        <div class="col-sm-6">
+                            <button class="btn btn-success ">Simpan Nilai</button>
+                        </div>
+                    </div>
+                </form>
+                @include('components.alert')
+                @elseif($kepuasan->status == 'closed')
                 <div class="alert alert-danger alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                     <h5><i class="icon fas fa-info"></i> Info!</h5>
                     Data Ini Sudah Close.
                 </div>
-                <div class="row mb-2">
+                <div class="mb-2 row">
                     <div class="container">
                         <a href="{{ route('kepuasan.index') }}" class="btn btn-block btn-dark btn-lg">Back To Index</a>
                     </div>
@@ -29,7 +53,7 @@
     </div>
     <div class="row">
         <div class="col-12">
-            <div class="invoice p-3 mb-3">
+            <div class="p-3 mb-3 invoice">
                 <div class="row">
                     <div class="col-12">
                         <h4>
@@ -158,7 +182,7 @@
                             !!}</b><br>
                     </div>
 
-                    @if($kepuasan->status == 'closed')
+                    @if($kepuasan->status == 'Tersimpan')
                     <table class="table table-bordered table-striped" border="2">
                         <thead>
                             <tr>
@@ -182,7 +206,41 @@
                     <div class="form-group">
                         <label for="rata-rata">NILAI RATA RATA : {{round($detail->avg('score'), 2)}}</label>
                     </div>
-
+                    <div class="card-body">
+                        <div class="callout callout-info">
+                            <h5>Kesesuaian Produk terhadap persyaratan Sertifikasi SNI 56-2017 untuk Merek MAFELA dan
+                                GAIA</h5>
+                            <p>{!! $kepuasan->desc_kesesuaian !!}</p>
+                        </div>
+                        <div class="callout callout-danger">
+                            <h5>Kritik dan Saran</h5>
+                            <p>{!! $kepuasan->kritik_saran !!}.</p>
+                        </div>
+                    </div>
+                    @elseif($kepuasan->status == 'closed')
+                    <table class="table table-bordered table-striped" border="2">
+                        <thead>
+                            <tr>
+                                <th class="text-center">No</th>
+                                <th class="text-center">Item Penilaian</th>
+                                <th>Score</th>
+                            </tr>
+                        </thead>
+                        <?php $no = 1 ?>
+                        <tbody>
+                            @foreach ($detail as $row)
+                            <input type="hidden" name="satisfactions_id" value="{{ $kepuasan->id }}">
+                            <tr>
+                                <td>{{ $no++ }}.</td>
+                                <td>{{ $row->itemevaluation->nama_penilaian}}
+                                <td>{{ $row->score}}</td>
+                            </tr>
+                        </tbody>
+                        @endforeach
+                    </table>
+                    <div class="form-group">
+                        <label for="rata-rata">NILAI RATA RATA : {{round($detail->avg('score'), 2)}}</label>
+                    </div>
                     <div class="card-body">
                         <div class="callout callout-info">
                             <h5>Kesesuaian Produk terhadap persyaratan Sertifikasi SNI 56-2017 untuk Merek MAFELA dan

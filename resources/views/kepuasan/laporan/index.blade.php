@@ -3,7 +3,7 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <div class="container-fluid">
-        <div class="row mb-2">
+        <div class="mb-2 row">
             <div class="col-sm-6">
                 <h1>Laporan Kepuasan</h1><br>
             </div>
@@ -31,24 +31,51 @@
                     <!-- /.card-header -->
                     <div class="card-body">
                         <table class="table table-bordered table-striped" border="1" id="mytable" width="100px">
-                            <tr>
-                                <td>Nama Buyer</td>
-                                <td>Nama Penilaian</td>
-                            <tr>
-                                @if(isset($unique) && isset($index))
-                                @foreach($unique as $key => $sfn)
-                            <tr>
-                                <td>{{ $sfn->kode_penilaian }}</td>
-                                <td>{{$index[$key]}}</td>
-                            </tr>
-                            @endforeach
-                            @endif
-                            {{-- @foreach (array_merge($unique,$laporan) as $aa )
-                            <tr>
-                                <td>{{ $aa->kode_penelitian }}</td>
-
-                            </tr>
-                            @endforeach --}}
+                            <thead>
+                                {{-- <tr>
+                                    <th rowspan="2" style="width: 90px;">No</th>
+                                    <th rowspan="2" style="width: 90px;">Penilaian</th>
+                                    <th colspan="3" style="width: 90px;">Buyer</th>
+                                    <th rowspan="2" style="width: 90px;">Rata-Rata</th>
+                                    <th rowspan="2" style="width: 90px;">Keterangan</th>
+                                </tr>
+                                <tr role="row">
+                                    @foreach($index as $item)
+                                    <th>{{ $item->kode_penilaian}}</th>
+                                    @endforeach
+                                </tr> --}}
+                                <th>No</th>
+                                <th>Kode Penilaian</th>
+                                <th>Buyer</th>
+                                <th>Tanggal Penilaian</th>
+                                <th>Penilaian</th>
+                                <th>Score</th>
+                            </thead>
+                            <?php $no = 1 ?>
+                            <tbody>
+                                @foreach ( $coba as $item )
+                                <tr>
+                                    <td>{{ $no++ }}</td>
+                                    <td>{{ $item->satisfaction->kode_penilaian }}</td>
+                                    <td>{{ $item->satisfaction->buyer->nama_buyer }}</td>
+                                    <td>{{ $item->satisfaction->tgl_penilaian }}</td>
+                                    <td>{{ $item->itemevaluation->nama_penilaian }}</td>
+                                    <td>{{ $item->score }}</td>
+                                    {{-- @foreach ($item->itemevaluation as $nilai )
+                                    <td>{{ $nilai->nama_penilaian }}</td>
+                                    @endforeach --}}
+                                </tr>
+                                @endforeach
+                                {{-- @foreach ( $index as $item )
+                                <tr role="row">
+                                    <td></td>
+                                    <td></td>
+                                    <td>{{ $item->kode_penilaian }}</td>
+                                    <td>{{ $item->kode_penilaian }}</td>
+                                </tr>
+                                @endforeach
+                                </tr> --}}
+                            </tbody>
                         </table>
                         {{-- <b> NILAI RATA RATA : {{round($laporan->avg('score'), 2)}}</b> --}}
                     </div>
@@ -68,7 +95,7 @@
 
 @section('tablejs')
 
-<script>
+{{-- <script>
     $(document).ready(function() {
             $('#mytable thead tr').clone(true).appendTo( '#mytable thead' );
             $('#mytable thead tr:eq() th').each( function (i) {
@@ -94,7 +121,7 @@
                         responsive: true
                         });
     });
-</script>
+</script> --}}
 
 <script>
     $(function () {

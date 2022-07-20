@@ -70,15 +70,18 @@ class ResultSatisfactionsController extends Controller
 			// $abc->desc_kesesuaian = $data['desc_kesesuaian'];
 			// $abc->kritik_saran = $data['kritik_saran'];
 			$abc->save();
+
+            
 		}
 
         $status = Satisfaction::findOrFail($request->satisfactions_id);
         $status->desc_kesesuaian = $request->desc_kesesuaian;
         $status->kritik_saran = $request->kritik_saran;
-        $status->status = 'closed';
+        $status->r_nilai = '0';
+        $status->status = 'Tersimpan';
         $status->save();
 
-         return redirect()->back()->with('info', 'Data Penilaian Tersimpan');
+         return redirect()->back()->with('info', 'Silahkan Simpan Penilaian');
     }
 
     /**

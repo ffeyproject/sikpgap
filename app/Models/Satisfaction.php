@@ -5,12 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Satisfaction extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['users_id', 'buyers_id', 'kode_penilaian', 'nama_pelanggan', 'nama_kontak', 'alamat', 'tgl_penilaian', 'desc_kesesuaian', 'kritik_saran', 'status'];
+    protected $fillable = ['users_id', 'buyers_id', 'kode_penilaian', 'nama_pelanggan', 'nama_kontak', 'alamat', 'tgl_penilaian', 'desc_kesesuaian', 'kritik_saran', 'status', 'r_nilai'];
 
     public $table = "satisfactions";
 
@@ -29,4 +30,12 @@ class Satisfaction extends Model
     {
         return $this->belongsTo(ItemEvalution::class, 'item_evaluations_id');
     }
+
+      public function resultsatis(): HasMany
+   {
+     return $this->hasMany(ResultSatis::class, 'id');
+   }
+
+
+    
 }

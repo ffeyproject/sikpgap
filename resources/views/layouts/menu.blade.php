@@ -172,8 +172,7 @@
     </ul>
     <ul class="nav nav-treeview">
         <li class="nav-item">
-            <a href="{{ route('kepuasan.laporan') }}"
-                class="nav-link {{ (request()->is('kepuasan/laporan')) ? 'active' : '' }} ">
+            <a href="#" class="nav-link {{ (request()->is('kepuasan/laporan')) ? 'active' : '' }} ">
                 <i class="fas fa-sticky-note"></i>
                 <p>Laporan Penilaian</p>
             </a>

@@ -165,6 +165,7 @@ Route::get('kepuasan/laporan', [SatisfactionController::class, 'laporan'])->name
 Route::get('kepuasan/laporan-search', [SatisfactionController::class, 'search'])->name('laporan.search');
 Route::patch('kepuasan/update/{kepuasan}', [SatisfactionController::class, 'update'])->name('kepuasan.update');
 Route::get('kepuasan-penilaian/index/{kepuasan}', [SatisfactionController::class, 'vpenilaian'])->name('kepuasan.vpenilaian');
+Route::patch('kepuasan-penilaian/index/update/{kepuasan}', [SatisfactionController::class, 'rnilai'])->name('kepuasan.rnilai');
 Route::post('kepuasan-penilaian', [ResultSatisfactionsController::class, 'store'])->name('kepuasan-penilaian.store');
 Route::get('/kepuasan/create/nyari', 'SatisfactionController@loadNyari');
 Route::get('get-customer-list', [SatisfactionController::class, 'getCustomerList'])->name('getCustomerList');

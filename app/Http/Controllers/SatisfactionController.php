@@ -116,6 +116,7 @@ class SatisfactionController extends Controller
         $kepuasan->tgl_penilaian = $request->tgl_penilaian;
         $kepuasan->desc_kesesuaian = '-';
         $kepuasan->kritik_saran = '-';
+        $kepuasan->r_nilai = '0';
         $kepuasan->status = "open";
         $kepuasan->save();
 
@@ -164,9 +165,10 @@ class SatisfactionController extends Controller
     {
 
 
-
+        $nilai = ItemEvalution::all();
         // $users = User::all();
-        $index = ItemEvalution::all();
+        $index = Satisfaction::with('resultsatis', 'itemevaluation','buyer')->get();
+        $coba = ResultSatis::with('satisfaction', 'itemevaluation')->get();
         $collection = ResultSatis::join('satisfactions', 'result_satisfactions.satisfactions_id', '=', 'satisfactions.id')
         ->join('item_evaluations', 'result_satisfactions.item_evaluations_id', '=', 'item_evaluations.id')
         // ->where('satisfactions.id')
@@ -180,8 +182,12 @@ class SatisfactionController extends Controller
         return view('kepuasan.laporan.index', [
             'unique' => $unique,
             'index' => $index,
+            'coba' => $coba,
+            'nilai' => $nilai,
             'laporan' => $laporan
         ]);
+
+        // return $coba;
     }
 
     public function search(Request $request)
@@ -262,6 +268,16 @@ class SatisfactionController extends Controller
         $kepuasan->update();
         return redirect()->back()->with('success','Data Telah Di Update');
     }
+
+    public function rnilai(Request $request, Satisfaction $kepuasan)
+    {
+       
+        $kepuasan->r_nilai = $request->r_nilai;
+        $kepuasan->status = 'closed';
+        $kepuasan->update();
+        return redirect()->back()->with('success','Data Penilaian Telah Di Tersimpan');
+    }
+
 
     /**
      * Remove the specified resource from storage.
