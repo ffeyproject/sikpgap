@@ -41,6 +41,7 @@
                                     <th>Nama Pelanggan</th>
                                     <th>Nama Kontak</th>
                                     <th>Alamat</th>
+                                    <th>Rata Rata Nilai</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -59,6 +60,7 @@
                                     <td>{{ $item->buyer->nama_buyer }}</td>
                                     <td>{{ $item->nama_kontak }}</td>
                                     <td>{{ $item->alamat }}</td>
+                                    <td>{{ $item->r_nilai }}</td>
                                     <td>
                                         @if($item->status == 'open')
                                         <div class="container">
