@@ -172,7 +172,7 @@ Route::get('get-customer-list', [SatisfactionController::class, 'getCustomerList
 Route::post('kepuasan', [SatisfactionController::class, 'store'])->name('kepuasan.store');
 Route::get('kepuasan/update/{kepuasan}', [SatisfactionController::class, 'edit'])->name('kepuasan.edit');
 Route::get('kepuasan-penilaian/cetak/{kepuasan}', [ResultSatisfactionsController::class, 'cetak'])->name('kepuasan.cetak');
-Route::delete('kepuasan/{kepuasan}', [SatissfactionController::class, 'destroy'])->name('kepuasan.destroy');
+Route::delete('kepuasan/{kepuasan}', [SatisfactionController::class, 'destroy'])->name('kepuasan.destroy');
 
 //ROUTE CONTACT
 Route::get('pesan', [ContactController::class, 'index'])->name('pesan.index');
