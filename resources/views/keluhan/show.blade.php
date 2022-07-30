@@ -180,7 +180,8 @@
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">Daftar Gambar No : {{ $keluhan->nomer_keluhan }} </h3><br><br>
-                @if($keluhan->status == 'open' || $keluhan->status == 'proses')
+                @if($keluhan->status == 'open' || $keluhan->status == 'proses' || $keluhan->status == 'selesai' ||
+                $keluhan->status == 'closed')
                 <button type="button" class="btn btn-success btn-large" data-toggle="modal" data-target="#myImage"
                     id="open">Tambah
                     Gambar</button>

@@ -58,12 +58,14 @@
                                     <td>{{ $no++ }}</td>
                                     <td>{{ $item->satisfaction->kode_penilaian }}</td>
                                     <td>{{ $item->satisfaction->buyer->nama_buyer }}</td>
-                                    <td>{{ $item->satisfaction->tgl_penilaian }}</td>
+                                    <td>{{ $item->tgl_penilaian }}</td>
                                     <td>{{ $item->itemevaluation->nama_penilaian }}</td>
-                                    <td>{{ $item->score }}</td>
-                                    {{-- @foreach ($item->itemevaluation as $nilai )
+                                    <td>{{ $item->satisfaction->r_nilai }}</td>
+                                    {{-- @foreach ($item->resultsatis as $nilai )
+                                <tr role="row">
                                     <td>{{ $nilai->nama_penilaian }}</td>
-                                    @endforeach --}}
+                                </tr>
+                                @endforeach --}}
                                 </tr>
                                 @endforeach
                                 {{-- @foreach ( $index as $item )
