@@ -15,7 +15,7 @@
             </div>
         </div>
         <div class="mb-2 row">
-           <div class="col-sm-6">
+            <div class="col-sm-6">
                 <a href="{{ route('keluhan.create') }}" class="btn btn-primary btn-lg">Tambah Keluhan</a>
             </div>
         </div>
@@ -98,6 +98,8 @@
                                             <a href="{{ route('proses.index', $item->id) }}" class="btn btn-primary"><i
                                                     class="fa fa-edit"></i>
                                                 Proses</a>
+                                            <a href="{{ route('keluhan.print', $item->id) }}"
+                                                class="btn btn-warning">Cetak</a>
                                         </div>
                                         @elseif($item->status == 'proses')
                                         <div class="container">

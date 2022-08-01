@@ -130,6 +130,7 @@ Route::get('keluhan/rekap/get', [ComplaintController::class, 'anyData'])->name('
 Route::get('keluhan/create', [ComplaintController::class, 'create'])->name('keluhan.create');
 Route::post('keluhan', [ComplaintController::class, 'store'])->name('keluhan.store');
 Route::get('keluhan/show/{complaint}', [ComplaintController::class, 'show'])->name('keluhan.show');
+Route::get('keluhan/show/print/{complaint}', [ComplaintController::class, 'print'])->name('keluhan.print');
 Route::get('keluhan/update/{complaint}', [ComplaintController::class, 'edit'])->name('keluhan.edit');
 Route::patch('keluhan/update{complaint}', [ComplaintController::class, 'update'])->name('keluhan.update');
 Route::patch('keluhan/update/gambar/{complaint}', [ComplaintController::class, 'egambar'])->name('keluhan.egambar');

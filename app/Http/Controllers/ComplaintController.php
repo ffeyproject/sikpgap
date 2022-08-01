@@ -64,6 +64,35 @@ class ComplaintController extends Controller
     // return view('keluhan.rekap.index');
     }
 
+    public function print($id)
+    {
+        // $keluhan = Complaint::with('buyer','users')->findOrFail($id);
+        $keluhan = Complaint::with('buyer')->findOrFail($id);
+        $icomplaint = ImageComplaint::with('complaint')->where('complaints_id', '=', $id)->get();
+
+
+
+
+        $pdf = PDF::loadview('keluhan.print', compact('icomplaint','keluhan'))
+        ->setPaper('Legal', 'potrait')
+        ->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true ,'chroot' => public_path()]);
+        $pdf->getDomPDF()->setHttpContext(
+        stream_context_create([
+            'ssl' => [
+                'allow_self_signed'=> TRUE,
+                'verify_peer' => FALSE,
+                'verify_peer_name' => FALSE,
+                ]
+            ])
+        );
+         set_time_limit(1200);
+
+        return $pdf->stream();
+
+
+        
+    }
+
      public function anyData(Request $request)
     {
         // $users = User::select(['id', 'name', 'email', 'created_at', 'updated_at']);

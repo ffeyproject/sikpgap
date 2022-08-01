@@ -38,7 +38,7 @@
     <div class="col-12">
 
 
-        <div class="invoice p-3 mb-3">
+        <div class="p-3 mb-3 invoice">
 
             <div class="row">
                 <div class="col-12">
@@ -46,6 +46,11 @@
                         <i class="fas fa-tasks"></i> FORM KELUHAN PELANGGAN
                         <small class="float-right">No : {{ $keluhan->nomer_keluhan }}</small>
                     </h4>
+                </div>
+                <div class="mb-2 row">
+                    <div class="col-sm-6">
+                        <a href="{{ route('keluhan.print', $keluhan->id) }}" class="btn btn-warning">Cetak</a>
+                    </div>
                 </div>
 
             </div>
@@ -238,7 +243,7 @@
                 </form>
                 <div class="card-tools">
                     <div class="input-group input-group-sm" style="width: 150px;">
-                        <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+                        <input type="text" name="table_search" class="float-right form-control" placeholder="Search">
                         <div class="input-group-append">
                             <button type="submit" class="btn btn-default">
                                 <i class="fas fa-search"></i>
@@ -248,7 +253,7 @@
                 </div>
             </div>
 
-            <div class="card-body table-responsive p-0" style="height: 300px;">
+            <div class="p-0 card-body table-responsive" style="height: 300px;">
                 <table class="table table-head-fixed text-nowrap">
                     <thead>
                         <tr>
