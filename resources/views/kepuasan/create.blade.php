@@ -55,7 +55,7 @@
                         <div class="form-group">
                             <label for="keterangan">Description</label>
                             <textarea class="form-control @error('keterangan') is-invalid @enderror" name="keterangan"
-                                id="summernote" value="{{ old('keterangan') ?: '' }}"></textarea>
+                                id="summernote" value="{{ old('keterangan') ?: '' }}">-</textarea>
                             @if ($errors->has('keterangan'))
                             <div class="invalid-feedback">{{
                                 $errors->first('keterangan') }}</div>
