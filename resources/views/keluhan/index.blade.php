@@ -19,8 +19,6 @@
                 <a href="{{ route('keluhan.create') }}" class="btn btn-primary btn-lg">Tambah Keluhan</a>
             </div>
         </div>
-        @include('components.alert')
-        @include('sweetalert::alert')
     </div>
 </section>
 
@@ -49,6 +47,7 @@
                                     <th></th>
                                     @else
                                     <th>Aksi</th>
+                                    <th>Hasil Scan Penyelesaian</th>
                                     @endif
                                 </tr>
                             </thead>
@@ -114,6 +113,47 @@
                                                 Lihat</a>
                                         </div>
                                         @endif
+                                    </td>
+                                    <td>
+                                        @if( $item->status == 'open' && Auth::user()->posisi == 'marketing' )
+                                        <div class="container">
+                                        </div>
+                                        @elseif($item->status == 'open')
+                                        <div class="container">
+                                            <span class="badge badge-warning">Belum Ada Hasil Upload</span>
+                                        </div>
+                                        @elseif($item->status == 'proses')
+                                        <div class="container">
+                                            <span class="badge badge-warning">Belum Ada Hasil Upload</span>
+                                        </div>
+                                        @elseif($item->status == 'selesai')
+                                        <div class="container">
+                                            <span class="badge badge-warning">Belum Ada Hasil Upload</span>
+                                        </div>
+                                        @else
+                                        <button type="button" class="btn btn-info btn-large" data-toggle="modal"
+                                            data-target="#largeModal{{ $item->id }}" id="open">Lihat Hasil Upload
+                                        </button>
+                                    </td>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="largeModal{{ $item->id }}" tabindex="-1" role="dialog"
+                                        aria-labelledby="basicModal" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-body">
+                                                    <div class="form-group">
+                                                        <img src="{{ url('image/scan/'.$item->hasil_scan) }}"
+                                                            style="width: 760px; height: 700px;">
+                                                    </div>
+                                                </div>
+                                                <div class=" modal-footer">
+                                                    <button type="button" class="btn btn-default" 2
+                                                        data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endif
                                     </td>
                                     @empty
                                 <tr>

@@ -108,6 +108,8 @@
         </tbody>
         @endforelse
     </table>
+    </td>
+    </table>
 </body>
 
 </html>

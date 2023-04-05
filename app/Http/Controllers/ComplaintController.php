@@ -216,6 +216,7 @@ class ComplaintController extends Controller
 		// $filenameSimpan = '/image/keluhan/default.png';
 	    // }
         $complaint->g_keluhan = 'default.png';
+        $complaint->hasil_scan = null;
         $complaint->save();
 
         // $complaint->email = Auth::user()->email;
@@ -243,6 +244,37 @@ class ComplaintController extends Controller
                 'keluhan' => $keluhan,
                 'icomplaint' => $icomplaint
         ]);
+    }
+
+    public function scan(Request $request)
+    {
+        $this->validate($request, [
+             'hasil_scan' => 'image|mimes:jpeg,png,jpg,gif,svg|max:1500',
+    ]);
+
+        $scan = Complaint::findOrFail($request->complaints_id);
+        
+        // if (empty($request->file('hasil_scan'))){
+        //         $scan->hasil_scan = $scan->hasil_scan;
+        //     }
+        //     else{
+        //         unlink('image/scan/'.$scan->hasil_scan); //menghapus file lama
+        //         $hasil_scan = $request->file('hasil_scan');
+        //         $ext = $hasil_scan->getClientOriginalExtension();
+        //         $newName = rand(100000,1001238912).".".$ext;
+        //         $hasil_scan->move('image/scan',$newName);
+        //         $scan->hasil_scan = $newName;
+        //     }
+
+		$hasil_scan = $request->file('hasil_scan');
+            $ext = $hasil_scan->getClientOriginalExtension();
+            $newName = rand(100000,1001238912).".".$ext;
+            $hasil_scan->move('image/scan',$newName);
+            $scan->hasil_scan = $newName;
+        $scan->save();
+    
+         Alert::success('Berhasil', 'Silahkan Tambah Gambar Pendukung');
+        return redirect()->back();
     }
 
     /**

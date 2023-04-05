@@ -80,19 +80,19 @@ class ResultController extends Controller
         $result->target_waktu = $request->target_waktu;
         $result->defects_id = $request->defects_id;
         $result->hasil_penelusuran = $request->hasil_penelusuran;
-        $result->tindakan = $request->tindakan;
-        $result->tgl_verifikasi = $request->tgl_verifikasi;
-        $result->hasil_verifikasi = $request->hasil_verifikasi;
+        $result->tindakan = "-";
+        $result->tgl_verifikasi = null;
+        $result->hasil_verifikasi = "-";
         $result->penyelidik = $request->penyelidik;
         $result->departements_id = $request->departements_id;
         $result->user_id = $request->penyelidik;
         $result->save();
 
         $status = Complaint::findOrFail($request->complaints_id);
-        $status->status = 'selesai';
+        $status->status = 'proses';
         $status->save();
 
-        Alert::info('Info', 'Silahkan Closed Data Ini, Jika Sudah Terisi..');
+        Alert::info('Info', 'Silahkan Isi Proses Ketahap berikutnya..');
 
         return redirect()->back();
     }
@@ -209,6 +209,26 @@ class ResultController extends Controller
 
         return $pdf->stream();
 
+      }
+
+
+      public function next(Request $request, Result $result)
+      {
+
+       $status = Complaint::findOrFail($request->complaints_id);
+        $status->status = 'selesai';
+        $status->update();
+        
+        $result = Result::findOrFail($request->id);
+        $result->tindakan = $request->tindakan;
+        $result->tgl_verifikasi = $request->tgl_verifikasi;
+        $result->hasil_verifikasi = $request->hasil_verifikasi;
+        $result->update();
+
+       
+
+        Alert::info('Info', 'Silahkan Close Form Jika Sudah Selesai !!');
+        return redirect()->back();
       }
 
     /**

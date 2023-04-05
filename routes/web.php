@@ -97,7 +97,7 @@ Route::get('/dashboard', function () {
 
 
 //Route Buyer
- Route::prefix('buyer')->namespace('Buyer')->group(function(){
+Route::prefix('buyer')->namespace('Buyer')->group(function(){
 Route::get('/', [BuyerController::class, 'index'])->name('buyer.index');
 Route::get('buyer/create', [BuyerController::class, 'create'])->name('buyer.create');
 Route::post('buyer', [BuyerController::class, 'store'])->name('buyer.store');
@@ -134,6 +134,7 @@ Route::get('keluhan/show/print/{complaint}', [ComplaintController::class, 'print
 Route::get('keluhan/update/{complaint}', [ComplaintController::class, 'edit'])->name('keluhan.edit');
 Route::patch('keluhan/update{complaint}', [ComplaintController::class, 'update'])->name('keluhan.update');
 Route::patch('keluhan/update/gambar/{complaint}', [ComplaintController::class, 'egambar'])->name('keluhan.egambar');
+Route::patch('keluhan/update/scan/{complaint}', [ComplaintController::class, 'scan'])->name('keluhan.scan');
 Route::delete('keluhan/{complaint}', [ComplaintController::class, 'destroy'])->name('keluhan.destroy');
 
 //Route Image Complaint
@@ -148,6 +149,7 @@ Route::get('keluhan/cetak/{complaint}', [ResultController::class, 'cetak'])->nam
 Route::patch('keluhan/proses/{complaint}', [ResultController::class, 'closed'])->name('proses.closed');
 Route::patch('keluhan/proses/closed/{complaint}', [ResultController::class, 'status'])->name('proses.status');
 Route::patch('keluhan/proses/solusi/{complaint}', [ResultController::class, 'esolusi'])->name('proses.esolusi');
+Route::patch('keluhan/proses/next/{complaint}', [ResultController::class, 'next'])->name('proses.next');
 Route::delete('keluhan/proses/delete/{result}', [ResultController::class, 'destroy'])->name('proses.destroy');
 
 

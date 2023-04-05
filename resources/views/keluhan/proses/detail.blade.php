@@ -11,6 +11,50 @@
                     <h5><i class="icon fas fa-info"></i> Info!</h5>
                     Data Ini Sudah Close.
                 </div>
+                <button type="button" class="btn btn-primary btn-large" data-toggle="modal" data-target="#myImage"
+                    id="open"><i class="fas fa-file-upload"></i> Upload Data Form Penyelesaian
+                </button>
+                <form method="post" action="{{route('keluhan.scan', $keluhan->id)}}" id="form"
+                    enctype="multipart/form-data">
+                    @csrf
+                    @method('PATCH')
+                    <!-- Modal -->
+                    <div id="myImage" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="alert alert-danger" style="display:none"></div>
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Add Hasil Scan</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="hidden" name="complaints_id" value="{{ $keluhan->id }}">
+
+                                    <div class="form-group">
+                                        <label for="hasil_scan">Gambar Hasil Scan</label>
+                                        <input type="file" name="hasil_scan"
+                                            class="form-control @error('hasil_scan') is-invalid @enderror"
+                                            id="hasil_scan" value="{{ old('hasil_scan') ?: '' }}" placeholder="">
+                                        @if ($errors->has('hasil_scan'))
+                                        <div class="invalid-feedback">{{
+                                            $errors->first('hasil_scan') }}</div>
+                                        @endif
+                                        <p class="help-block">Max.800kb</p>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Close</button>
+                                        <button class="btn btn-success " id="ajaxSubmit">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
                 @else
                 <div class="alert alert-info alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>

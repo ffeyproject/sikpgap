@@ -13,6 +13,15 @@
                 </button>
             </div>
         </div>
+        <div>
+            <br>
+            <div class="col-md-12">
+                <div class="callout callout-danger">
+                    <h5>Informasi !</h5>
+                    <p>Setiap Keluhan Pelanggan harus diisikan Lengkap disertai Bukti Pendukung yang Cukup.</p>
+                </div>
+            </div>
+        </div>
         <form method="post" action="{{route('keluhan.store')}}" id="form" enctype="multipart/form-data">
             @csrf
             <div class="card-body">
@@ -123,6 +132,18 @@
                             @endif
                         </div>
 
+                        <div class="form-group">
+                            <label for="keterangan_sample">* Keterangan Sample / Bukti Pendukung</label>
+                            <input type="text" name="keterangan_sample"
+                                class="form-control @error('keterangan_sample') is-invalid @enderror"
+                                id="keterangan_sample" value="{{ old('keterangan_sample') ?: '' }}"
+                                placeholder="Masukkan Keterangan Sample / Bukti Pendukung" required>
+                            @if ($errors->has('keterangan_sample'))
+                            <div class="invalid-feedback">{{
+                                $errors->first('keterangan_sample') }}</div>
+                            @endif
+                        </div>
+
                     </div>
 
                     <div class="col-sm-2">
@@ -149,6 +170,8 @@
                             </div>
                         </div>
                     </div>
+
+
                 </div>
             </div>
             <div class="card-footer">

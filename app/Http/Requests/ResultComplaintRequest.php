@@ -28,9 +28,9 @@ class ResultComplaintRequest extends FormRequest
              'target_waktu' => 'required',
              'defects_id' => 'required',
              'hasil_penelusuran' => 'required',
-             'tindakan' => 'required',
-             'tgl_verifikasi' => 'required',
-             'hasil_verifikasi' => 'required',
+            //  'tindakan' => 'required',
+            //  'tgl_verifikasi' => 'required',
+            //  'hasil_verifikasi' => 'required',
              'penyelidik' => 'required',
              'departements_id' => 'required',
 

@@ -18,6 +18,13 @@
                     @method('PATCH')
                     <button type="submit" class="btn btn-danger"><i class="fa fa-close"> Close Proses</i></button>
                 </form>
+                @elseif ($keluhan->status == 'closed')
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h5><i class="icon fas fa-ban"></i> Info !</h5>
+                    Data Ini Sudah Close.
+                </div>
+
                 @else
                 <div class="alert alert-info alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -177,15 +184,19 @@
             </div>
 
         </div>
+
         <div class="card-header">
             @if($keluhan->status == 'selesai' || $keluhan->status == 'proses' )
             <h1 class="card-title"><button type="button" class="btn btn-primary btn-block" data-toggle="modal"
                     data-target="#myModal" id="open"><i class="fa fa-pen"></i>
-                    Proses Keluhan</button></h1>
+                    Proses Awal Keluhan</button></h1>
             @else
             <h3>Data tidak bisa diproses..</h3>
             @endif
         </div>
+
+
+
         <form method="post" action="{{route('proses.store')}}" id="form">
             @csrf
             <!-- Modal -->
@@ -266,10 +277,51 @@
                                     $errors->first('hasil_penelusuran') }}</div>
                                 @endif
                             </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button class="btn btn-success " id="ajaxSubmit">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+
+        @foreach ($result as $item )
+        @if($keluhan->status == 'selesai' || $keluhan->status == 'proses' )
+        <h1 class="card-title"><button type="button" class="btn btn-block btn-success" data-toggle="modal"
+                data-target="#myModal2{{$item->id}}" id="open"><i class="fas fa-arrow-circle-right"
+                    style="color: #00ffff;"></i>
+                Lanjutkan Proses</button></h1>
+        @else
+        <hr>
+        @endif
+
+        <form method="post" action="{{route('proses.next', $item->id)}}" id="form">
+            @csrf
+            @method('PATCH')
+            <!-- Modal -->
+            <div id="myModal2{{$item->id}}" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="alert alert-danger" style="display:none"></div>
+                        <div class="modal-header">
+                            <h5 class="modal-title">Tambah Transaksi Item</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" name="complaints_id" value="{{ $item->complaint->id }}" required>
+                            <input type="hidden" name="id" value="{{ $item->id }}" required>
+
                             <div class="form-group">
                                 <label for="tindakan">Tindakan</label>
                                 <textarea class="form-control @error('tindakan') is-invalid @enderror" name="tindakan"
-                                    id="tindakan" value="{{ old('tindakan') ?: '' }}"></textarea>
+                                    id="tindakan" value="{{ old('tindakan') ?: '' }}">{{ $item->tindakan }}</textarea>
                                 @if ($errors->has('tindakan'))
                                 <div class="invalid-feedback">{{
                                     $errors->first('tindakan') }}</div>
@@ -295,7 +347,7 @@
                                 <label for="hasil_verifikasi">Hasil Verifikasi</label>
                                 <textarea class="form-control @error('hasil_verifikasi') is-invalid @enderror"
                                     name="hasil_verifikasi" id="hasil_verifikasi"
-                                    value="{{ old('hasil_verifikasi') ?: '' }}"></textarea>
+                                    value="{{ old('hasil_verifikasi') ?: '' }}">{{ $item->hasil_verifikasi }}</textarea>
                                 @if ($errors->has('hasil_verifikasi'))
                                 <div class="invalid-feedback">{{
                                     $errors->first('hasil_verifikasi') }}</div>
@@ -311,6 +363,7 @@
                 </div>
             </div>
         </form>
+        @endforeach
         <div class="card">
             <div class="card-body">
                 <table id="t_barang" class="table table-bordered table-striped" border="1">
@@ -320,11 +373,11 @@
                             <th>Target Waktu</th>
                             <th>Penyebab Komplain</th>
                             <th>Hasil Penelusuran Masalah</th>
+                            <th>Asal Masalah</th>
+                            <th>Penyelidik</th>
                             <th>Tindakan Perbaikan</th>
                             <th>Tgl Verifikasi</th>
                             <th>Hasil Verifikasi</th>
-                            <th>Asal Masalah</th>
-                            <th>Penyelidik</th>
                             <th>#</th>
                         </tr>
                     </thead>
@@ -336,11 +389,11 @@
                             <td>{{ $item->target_waktu }}</td>
                             <td>{{ $item->defect->nama }}</td>
                             <td>{!! $item->hasil_penelusuran !!}</td>
+                            <td>{{ $item->departements->asal_masalah }}</td>
+                            <td>{{ $item->users['name'] }}</td>
                             <td>{!! $item->tindakan !!}</td>
                             <td>{{ $item->tgl_verifikasi }}</td>
                             <td>{!! $item->hasil_verifikasi !!}</td>
-                            <td>{{ $item->departements->asal_masalah }}</td>
-                            <td>{{ $item->users['name'] }}</td>
                             <td>
                                 <div class="container">
                                     @if($keluhan->status == 'proses' || $keluhan->status =='selesai')
