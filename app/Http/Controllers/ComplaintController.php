@@ -221,7 +221,7 @@ class ComplaintController extends Controller
 
         // $complaint->email = Auth::user()->email;
 
-        // $complaint->notify(new CreateComplaintNotification($complaint));
+        $complaint->notify(new CreateComplaintNotification($complaint));
 
          Alert::info('Info', 'Data Tersimpan dan Masukkan Gambar Pendukung');
        return redirect('keluhan/show/' .  $complaint->id);
