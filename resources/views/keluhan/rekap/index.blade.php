@@ -88,7 +88,8 @@
                                 <?php $no = 1 ?>
                                 <tbody>
                                     @foreach($complaints as $complaint)
-                                    @if( $complaint->status == 'selesai' || $complaint->status == 'closed' )
+                                    @if( $complaint->status == 'selesai' || $complaint->status == 'proses' ||
+                                    $complaint->status == 'closed' )
                                     <tr>
                                         <td>{{ $no++ }}</td>
                                         <td>{{$complaint->nomer_keluhan}}</td>
