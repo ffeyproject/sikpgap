@@ -89,6 +89,13 @@
 </li>
 @endrole
 @endauth
+<li class="nav-header">Fitur Chat</li>
+<li class="nav-item">
+    <a href="{{ route('fitur-chat') }}" class="nav-link {{ (request()->is('fitur-chat')) ? 'active' : '' }}">
+        <i class="nav-icon fas fa-user-plus"></i>
+        <p>Fitur Chat</p>
+    </a>
+</li>
 <li class="nav-header">MANAGE MENU</li>
 <li class="nav-item">
     <a href="#" class="nav-link nav-item">

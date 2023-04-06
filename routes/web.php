@@ -92,6 +92,10 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'permission'])->name('dashboard');
 
+// Route::get('/fitur-chat', function () {
+//     return view('vendor/Chatify/pages/app');
+// })->middleware(['auth', 'permission'])->name('fitur-chat');
+
 //FRONT END
 
 
