@@ -219,7 +219,7 @@ class ComplaintController extends Controller
         $complaint->hasil_scan = null;
         $complaint->save();
 
-        // $complaint->email = Auth::user()->email;
+        $complaint->email = Auth::user()->email;
 
         $complaint->notify(new CreateComplaintNotification($complaint));
 
