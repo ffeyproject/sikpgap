@@ -104,9 +104,9 @@ class ResultController extends Controller
         $complaint->status = 'proses';
         $complaint->update();
 
-        // $complaint->email = Auth::user()->email;
+        $complaint->email = Auth::user()->email;
 
-        // $complaint->notify(new UpdateProsesEmailComplaint($complaint));
+        $complaint->notify(new UpdateProsesEmailComplaint($complaint));
 
         Alert::info('Info', 'Complaint Telah Di Proses ...');
         return redirect()->back();

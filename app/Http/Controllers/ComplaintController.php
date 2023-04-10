@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 use App\Models\Result;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Testing\Fakes\NotificationFake;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\Datatables\Datatables;
 
@@ -219,9 +221,12 @@ class ComplaintController extends Controller
         $complaint->hasil_scan = null;
         $complaint->save();
 
-        $complaint->email = Auth::user()->email;
+        
 
-        $complaint->notify(new CreateComplaintNotification($complaint));
+        $complaint->email = Auth::user()->email;
+        
+
+     $complaint->notify( new CreateComplaintNotification($complaint));
 
          Alert::info('Info', 'Data Tersimpan dan Masukkan Gambar Pendukung');
        return redirect('keluhan/show/' .  $complaint->id);

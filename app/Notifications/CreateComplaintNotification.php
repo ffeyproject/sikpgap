@@ -59,6 +59,15 @@ class CreateComplaintNotification extends Notification
                 ->line('Masalah : ' . $this->complaint->masalah);
     }
 
+    public function routeNotificationForMail(Notification $notification)
+    {
+        // Return email address only...
+        return $this->complaint->user->email;
+ 
+        // Return com address and name...
+        return [$this->complaint->user->email => $this->complaint->user->name];
+    }
+
     /**
      * Get the array representation of the notification.
      *
