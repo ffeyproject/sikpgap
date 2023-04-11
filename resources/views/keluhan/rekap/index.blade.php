@@ -99,6 +99,14 @@
                                         <td>{{$complaint->no_wo}}, {{ $complaint->no_sc }}</td>
                                         <td>{{$complaint->nama_motif}}, {{ $complaint->cw_qty }}</td>
                                         <td>{!!$complaint->masalah!!}</td>
+                                        @if($complaint->results->isEmpty())
+                                        <td><i>(Belum ada Data)</i></td>
+                                        <td><i>(Belum ada Data)</i></td>
+                                        <td><i>(Belum ada Data)</i></td>
+                                        <td><i>(Belum ada Data)</i></td>
+                                        <td><i>(Belum ada Data)</i></td>
+                                        <td><i>(Belum ada Data)</i></td>
+                                        @else
                                         @foreach ($complaint->results as $item )
                                         <td>{!!$item->hasil_penelusuran!!}</td>
                                         <td>{!! $item->tindakan !!}</td>
@@ -111,6 +119,7 @@
                                         <td>{{ $item->target_waktu }}</td>
                                         <td>{!! $item->hasil_verifikasi !!}</td>
                                         @endforeach
+                                        @endif
                                         <td>{!! $complaint->solusi !!}</td>
                                         <td>{{$complaint->updated_at}}</td>
                                         <td>{{$complaint->status}}</td>
@@ -218,7 +227,7 @@
     $('#mytable thead tr').clone(true).appendTo( '#mytable thead' );
     $('#mytable thead tr:eq(1) th').each( function (i) {
     var title = $(this).text();
-    $(this).html( '<input type="text" placeholder=" Search '+title+'" />' );
+    $(this).html( '<input type="text" placeholder=" Cari '+title+'" />' );
     
     $( 'input', this ).on( 'keyup change', function () {
     if ( table.column(i).search() !== this.value ) {
