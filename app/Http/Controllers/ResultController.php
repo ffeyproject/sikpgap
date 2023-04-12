@@ -250,7 +250,7 @@ class ResultController extends Controller
      */
     public function edit(Result $result)
     {
-        //
+         
     }
 
     /**
@@ -262,7 +262,20 @@ class ResultController extends Controller
      */
     public function update(Request $request, Result $result)
     {
-        //
+        $this->validate($request, [
+        'defects_id'   => 'required',
+        'departements_id'   => 'required',
+        'hasil_penelusuran'   => 'required'
+        ]);
+
+        $result = Result::findOrFail($request->id);
+        $result->defects_id = $request->defects_id;
+        $result->departements_id = $request->departements_id;
+        $result->hasil_penelusuran = $request->hasil_penelusuran;
+        $result->update();
+
+        Alert::info('Info', 'Proses Data Telah Di Update !!');
+        return redirect()->back();
     }
 
     /**

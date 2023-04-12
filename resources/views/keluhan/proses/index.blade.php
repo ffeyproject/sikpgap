@@ -37,7 +37,7 @@
     </div>
     <div class="row">
         <div class="col-12">
-            <div class="invoice p-3 mb-3">
+            <div class="p-3 mb-3 invoice">
                 <div class="row">
                     <div class="col-12">
                         <h4>
@@ -396,15 +396,105 @@
                             <td>{!! $item->hasil_verifikasi !!}</td>
                             <td>
                                 <div class="container">
+                                    <a class="btn btn-primary" data-toggle="modal"
+                                        data-target="#myModalEdit{{$item->id}}" id="open">
+                                        <i class="fas fa-pencil-alt">
+                                        </i>
+                                    </a>
+                                    <form method="post" action="{{route('proses.edit', $item->id)}}" id="form">
+                                        @csrf
+                                        @method('PATCH')
+                                        <!-- Modal -->
+                                        <div id="myModalEdit{{$item->id}}" class="modal hide fade" role="dialog"
+                                            aria-labelledby="myModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg" role="document">
+                                                <div class="modal-content">
+                                                    <div class="alert alert-danger" style="display:none"></div>
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Edit Proses Awal</h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <input type="hidden" name="complaints_id"
+                                                            value="{{ $item->complaint->id }}" required>
+                                                        <input type="hidden" name="id" value="{{ $item->id }}" required>
+
+                                                        <div class="form-group">
+                                                            <label for="defects_id">Penyebab Komplaint</label>
+                                                            <select name="defects_id" id="defects_edit"
+                                                                class="form-control @error('defects_id') is-invalid @enderror">
+                                                                <option value="{{ $item->defects_id }}">{{
+                                                                    $item->defect->nama }}</option>
+                                                                @foreach($ab as $abc)
+                                                                <option value="{{ $abc->id }}">{{ $abc->nama }}
+                                                                </option>
+                                                                @endforeach
+                                                            </select>
+                                                            @if ($errors->has('defects_id'))
+                                                            <div class="invalid-feedback">{{
+                                                                $errors->first('defects_id') }}</div>
+                                                            @endif
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label for="departements_id">Penyebab Komplaint</label>
+                                                            <select name="departements_id" id="departements_edit"
+                                                                class="form-control @error('departements_id') is-invalid @enderror">
+                                                                <option value="{{ $item->departements_id }}">{{
+                                                                    $item->departements->asal_masalah }}</option>
+                                                                @foreach($ad as $abc)
+                                                                <option value="{{ $abc->id }}">{{ $abc->asal_masalah }}
+                                                                </option>
+                                                                @endforeach
+                                                            </select>
+                                                            @if ($errors->has('departments_id'))
+                                                            <div class="invalid-feedback">{{
+                                                                $errors->first('departments_id') }}</div>
+                                                            @endif
+                                                        </div>
+
+
+                                                        <div class="form-group">
+                                                            <label for="hasil_penelusuran">Hasil Verifikasi</label>
+                                                            <textarea
+                                                                class="form-control @error('hasil_penelusuran') is-invalid @enderror"
+                                                                name="hasil_penelusuran" id="hasil_penelurusanE"
+                                                                value="{{ old('hasil_penelusuran') ?: '' }}">{{ $item->hasil_penelusuran }}</textarea>
+                                                            @if ($errors->has('hasil_penelusuran'))
+                                                            <div class="invalid-feedback">{{
+                                                                $errors->first('hasil_penelusuran') }}</div>
+                                                            @endif
+                                                        </div>
+
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-dismiss="modal">Close</button>
+                                                            <button class="btn btn-success "
+                                                                id="ajaxSubmit">Save</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                {{-- <button type="button" class="btn btn-block btn-success" data-toggle="modal"
+                                    data-target="#myModal2{{$item->id}}" id="open"><i class="fas fa-pencil-alt"
+                                        style="color: #00ffff;"></i>
+                                </button> --}}
+                                <div class="container">
                                     @if($keluhan->status == 'proses' || $keluhan->status =='selesai')
                                     <form action="{{ route('proses.destroy', $item->id) }}" method="POST"
                                         style="display: inline-block;">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger"
+                                        <a type="submit" class="btn btn-danger"
                                             onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
                                             <i class="fa fa-trash"></i>
-                                        </button>
+                                        </a>
                                     </form>
                                     @endif
                                 </div>
@@ -453,6 +543,28 @@
 </script>
 <script>
     $(document).ready(function(){
+          $('#defects_edit').select2({
+            dropdownParent: $("#myModalEdit{{$item->id}}"),
+              placeholder: 'Pilih Penyebab ---',
+              minimumInputLength: 1,
+              width: '100%',
+              allowClear: true
+        });
+       });
+</script>
+<script>
+    $(document).ready(function(){
+          $('#departements_edit').select2({
+            dropdownParent: $("#myModalEdit{{$item->id}}"),
+              placeholder: 'Pilih Asal Masalah',
+              minimumInputLength: 1,
+              width: '100%',
+              allowClear: true
+        });
+       });
+</script>
+<script>
+    $(document).ready(function(){
           $('#penyelidik').select2({
               dropdownParent: $("#myModal"),
               placeholder: 'Pilih Penyelidik',
@@ -479,7 +591,9 @@
     // Summernote
     $('#hasil_penelurusan').summernote()
     $('#tindakan').summernote()
+    $('#tindakanE').summernote()
     $('#hasil_verifikasi').summernote()
+    $('#hasil_penelurusanE').summernote()
   })
 </script>
 
