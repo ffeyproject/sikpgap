@@ -28,7 +28,7 @@ class UsersController extends Controller
     //     $posts = Post::all();
     //   return view('posts.index')->with(compact('posts'));
 
-        $users = User::latest()->paginate(10);
+        $users = User::all();
 
         return view('users.index', compact('users'));
     }
