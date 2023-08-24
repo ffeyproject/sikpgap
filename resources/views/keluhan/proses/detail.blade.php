@@ -74,7 +74,8 @@
                             <i class="fas fa-tasks"></i> FORM KELUHAN PELANGGAN
                             <small class="float-right">No : {{ $keluhan->nomer_keluhan }}</small>
                         </h4>
-                        @if ($keluhan->status == 'proses' || $keluhan->status == 'selesai' || Auth::user()->posisi ==
+                        @if ($keluhan->status == 'proses' || $keluhan->status == 'selesai' || $keluhan->status ==
+                        'closed' || Auth::user()->posisi ==
                         'marketing' || Auth::user()->posisi ==
                         'admin')
                         <form method="post" action="{{route('close.marketing', $keluhan->id)}}" id="form">
