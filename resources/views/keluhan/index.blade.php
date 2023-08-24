@@ -31,6 +31,7 @@
                 <div class="card">
                     <!-- /.card-header -->
                     <div class="card-body">
+                        @include('sweetalert::alert')
                         <table id="t_barang" class="table table-bordered table-striped" border="1">
                             <thead>
                                 <tr>
@@ -42,7 +43,8 @@
                                     <th>Nama Buyer</th>
                                     <th>Nama Marketing</th>
                                     <th>Tgl Proses</th>
-                                    <th>Status</th>
+                                    <th>Status Internal</th>
+                                    <th>Close Marketing</th>
                                     @if (Auth::user()->posisi == 'marketing')
                                     <th></th>
                                     @else
@@ -74,8 +76,8 @@
                                         <span class="badge bg-warning">Data Belum Di Proses</span>
                                         @else
                                         {{ $item->tgl_proses }}
+                                        @endif
                                     </td>
-                                    @endif
                                     <td>
                                         @if( $item->status == 'open' )
                                         <span class="badge bg-primary">{{ $item->status }}
@@ -87,6 +89,14 @@
                                                     <span class="badge bg-danger">{{ $item->status }}
                                                         @endif
                                                     </span>
+                                    </td>
+                                    <td>
+                                        @if( $item->status_marketing == '0' )
+                                        <span class="badge bg-warning">Tidak</span>
+                                        @else
+                                        <span class="badge bg-danger">Ya</span>
+                                        @endif
+
                                     </td>
                                     <td>
                                         @if( $item->status == 'open' && Auth::user()->posisi == 'marketing' )

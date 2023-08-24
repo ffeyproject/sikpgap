@@ -408,6 +408,28 @@ class ComplaintController extends Controller
     }
 
 
+
+    public function c_marketing(Request $request, Complaint $complaint)
+    {
+
+    if ( Auth::user()->id == $complaint->user_id ) {
+       $complaint->status_marketing = '1';
+        $complaint->update();
+        Alert::success('Success', 'Complaint Telah Di Close Oleh Marketing');
+        return redirect('keluhan');
+        
+    }
+    else {
+       Alert::warning('Info', 'Anda Bukan User Yang Membuat Data Complaint Ini');
+        return redirect()->back();
+    }
+
+        
+
+        
+    }
+
+
     
 
     /**

@@ -139,6 +139,7 @@ Route::get('keluhan/update/{complaint}', [ComplaintController::class, 'edit'])->
 Route::patch('keluhan/update{complaint}', [ComplaintController::class, 'update'])->name('keluhan.update');
 Route::patch('keluhan/update/gambar/{complaint}', [ComplaintController::class, 'egambar'])->name('keluhan.egambar');
 Route::patch('keluhan/update/scan/{complaint}', [ComplaintController::class, 'scan'])->name('keluhan.scan');
+Route::patch('keluhan/close/marketing/{complaint}', [ComplaintController::class, 'c_marketing'])->name('close.marketing');
 Route::delete('keluhan/{complaint}', [ComplaintController::class, 'destroy'])->name('keluhan.destroy');
 
 //Route Image Complaint

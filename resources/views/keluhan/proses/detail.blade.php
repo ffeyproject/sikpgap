@@ -67,13 +67,24 @@
     </div>
     <div class="row">
         <div class="col-12">
-            <div class="invoice p-3 mb-3">
+            <div class="p-3 mb-3 invoice">
                 <div class="row">
                     <div class="col-12">
                         <h4>
                             <i class="fas fa-tasks"></i> FORM KELUHAN PELANGGAN
                             <small class="float-right">No : {{ $keluhan->nomer_keluhan }}</small>
                         </h4>
+                        @if ($keluhan->status == 'proses' || $keluhan->status == 'selesai' || Auth::user()->posisi ==
+                        'marketing' || Auth::user()->posisi ==
+                        'admin')
+                        <form method="post" action="{{route('close.marketing', $keluhan->id)}}" id="form">
+                            @csrf
+                            @method('PATCH')
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-close">Close
+                                    Marketing</i></button>
+                        </form>
+                        @endif
+                        <br>
                         @if ($errors->any())
                         <div class="alert alert-danger">
                             <strong>Whoops!</strong> Update data gagal.<br><br>
