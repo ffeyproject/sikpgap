@@ -40,6 +40,7 @@
     <link rel="stylesheet" href="{{ asset('plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css')}}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('plugins/bs-stepper/css/bs-stepper.min.css')}}">
     <!-- overlayScrollbars -->
     <link rel="stylesheet" href="{{ asset('plugins/overlayScrollbars/css/OverlayScrollbars.min.css')}}">
     <!-- Daterange picker -->
@@ -130,7 +131,8 @@
     <script src="{{ asset('dist/js/adminlte.js') }}"></script>
     <!-- Summernote -->
     <script src="{{ asset('plugins/summernote/summernote-bs4.min.js') }}"></script>
-    <script src="{{ asset('plugins/chart.js/Chart.min.js') }"></script>
+    <script src="{{ asset('plugins/chart.js/Chart.min.js') }}"></script>
+    <script src="{{ asset('plugins/bs-stepper/js/bs-stepper.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 </body>
 
