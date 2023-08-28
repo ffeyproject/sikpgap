@@ -195,8 +195,32 @@
         $("#t_barang").DataTable({
             "responsive": true,
             "lengthChange": false,
+            "searching": true,
             "autoWidth": false,
-            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            "buttons": [
+                {
+                extend: 'copy'
+                },
+                {
+                extend: 'pdfHtml5',
+                orientation: 'landscape',
+                pageSize: 'LEGAL'
+                },
+                {
+                    extend: 'csv'
+                },
+                {
+                    extend: 'print'
+                },
+                {
+                    extend: 'excel'
+                },
+                {
+                extend: 'colvis'
+                }
+                // "copy", "csv", "excel", "pdf", "print", "colvis"
+               
+            ]
         }).buttons().container().appendTo('#t_barang_wrapper .col-md-6:eq(0)');
     });
 
