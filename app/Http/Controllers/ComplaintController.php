@@ -17,6 +17,8 @@ use Illuminate\Support\Carbon;
 use App\Models\Result;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Testing\Fakes\NotificationFake;
+use LDAP\Result as LDAPResult;
+use PgSql\Result as PgSqlResult;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\Datatables\Datatables;
 
@@ -40,6 +42,15 @@ class ComplaintController extends Controller
          $complaint = Complaint::orderBy('id', 'DESC')->get();
 
         return view('keluhan.index', [
+            'complaint' => $complaint
+        ]);
+    }
+    
+    public function rverifikasi()
+    {
+         $complaint = Complaint::orderBy('id', 'DESC')->get();
+
+        return view('keluhan.rekap_verifikasi', [
             'complaint' => $complaint
         ]);
     }
@@ -90,6 +101,30 @@ class ComplaintController extends Controller
          set_time_limit(1200);
 
         return $pdf->stream();
+        
+    }
+
+     public function pdf($id)
+    {
+        // $keluhan = Complaint::with('buyer','users')->findOrFail($id);
+        $keluhan = Complaint::with('buyer')->findOrFail($id);
+        $icomplaint = ImageComplaint::with('complaint')->where('complaints_id', '=', $id)->get();
+
+        $pdf = PDF::loadview('keluhan.print', compact('icomplaint','keluhan'))
+        ->setPaper('Legal', 'potrait')
+        ->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true ,'chroot' => public_path()]);
+        $pdf->getDomPDF()->setHttpContext(
+        stream_context_create([
+            'ssl' => [
+                'allow_self_signed'=> TRUE,
+                'verify_peer' => FALSE,
+                'verify_peer_name' => FALSE,
+                ]
+            ])
+        );
+         set_time_limit(1200);
+
+        return $pdf->stream();
 
 
         
@@ -107,12 +142,29 @@ class ComplaintController extends Controller
        $end_date = Carbon::parse($request->end_date)
                              ->toDateTimeString();
 
+                             $currentTime = Carbon::now()->startOfMonth();
+                             $currentTime2 = Carbon::now()->endOfMonth();
+
     //    $aa = Complaint::whereBetween('created_at',[$start_date,$end_date])->orderBy('id', 'DESC')->paginate(30);
-         $complaints = Complaint::with('results', 'buyer', 'departements', 'defect')->whereBetween('tgl_keluhan',[$start_date,$end_date])->orderBy('id', 'DESC')->paginate(30);
+        //  $complaints = Complaint::with('results', 'buyer', 'departements', 'defect')->whereBetween('tgl_keluhan',[$start_date,$end_date])->orderBy('id', 'DESC')->paginate(30);
     //    $complaints = Complaint::with('results', 'buyer', 'departements', 'defect')->orderBy('id', 'DESC')->paginate(10);
 
+    $complaints = Result::select('result_complaints.*')
+    ->join('complaints', 'complaints.id', '=', 'complaints_id')
+    ->join('defects', 'defects.id', '=', 'defects_id')
+    ->join('buyers', 'buyers.id', '=', 'buyers_id')
+    ->whereBetween('tgl_keluhan',[$start_date,$end_date])
+    ->select('result_complaints.*', 
+    'complaints.*',
+    'buyers.nama_buyer',
+    'defects.nama')
+    ->orderBy('complaints.id', 'DESC')
+    ->paginate(30);
+
         return view('keluhan.rekap.index', [
-            'complaints' => $complaints
+            'complaints' => $complaints,
+            'currentTime' => $currentTime,
+            'currentTime2' => $currentTime2,
             // 'aa' => $aa
         ]);
     }
@@ -233,6 +285,7 @@ class ComplaintController extends Controller
     //    return redirect()->route('keluhan.index');
     }
 
+
     /**
      * Display the specified resource.
      *
@@ -278,7 +331,45 @@ class ComplaintController extends Controller
             $scan->hasil_scan = $newName;
         $scan->save();
     
-         Alert::success('Berhasil', 'Silahkan Tambah Gambar Pendukung');
+         Alert::success('Berhasil', 'Terimakasih Sudah Upload');
+        return redirect()->back();
+    }
+    
+    public function verifikasi(Request $request, Complaint $verifikasi)
+    {
+        $this->validate($request, [
+        'cutting_point' => 'required|numeric',
+        'verifikasi_akhir'   => 'required',
+    ]);
+
+        $verifikasi = Complaint::findOrFail($request->complaints_id);
+		$verifikasi->cutting_point = $request->cutting_point;
+        $verifikasi->verifikasi_akhir = $request->verifikasi_akhir;
+        $verifikasi->is_verifikasi = '1';
+        $verifikasi->save();
+    
+         Alert::success('Berhasil', 'Data Sudah Di Verifikasi');
+        return redirect()->back();
+    }
+
+
+    public function uverifikasi(Request $request)
+    {
+        $this->validate($request, [
+             'tindakan_verifikasi' => 'image|mimes:jpeg,png,jpg,gif,svg|max:1500',
+    ]);
+
+        $scan = Complaint::findOrFail($request->complaints_id);
+        
+
+		$tindakan_verifikasi = $request->file('tindakan_verifikasi');
+            $ext = $tindakan_verifikasi->getClientOriginalExtension();
+            $newName = rand(100000,1001238912).".".$ext;
+            $tindakan_verifikasi->move('image/verifikasi',$newName);
+            $scan->tindakan_verifikasi = $newName;
+        $scan->save();
+    
+         Alert::success('Berhasil', 'Terimakasih Sudah Upload Tindakan Verifikasi');
         return redirect()->back();
     }
 

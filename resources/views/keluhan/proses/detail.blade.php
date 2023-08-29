@@ -42,7 +42,63 @@
                                         <div class="invalid-feedback">{{
                                             $errors->first('hasil_scan') }}</div>
                                         @endif
-                                        <p class="help-block">Max.800kb</p>
+                                        <p class="help-block">Max.1.2Mb</p>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Close</button>
+                                        <button class="btn btn-success " id="ajaxSubmit">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form><br>
+
+                @if( Auth::user()->posisi == 'kabagqa' || Auth::user()->posisi == 'Admin' && $keluhan->is_verifikasi ==
+                false )
+                <button type="button" class="btn btn-warning btn-large" data-toggle="modal" data-target="#myModal"
+                    id="open"><i class="fab fa-get-pocket"></i> Verifikasi Akhir
+                </button>
+                <form method="post" action="{{route('verifikasi.store', $keluhan->id)}}" id="form">
+                    @csrf
+                    @method('PATCH')
+                    <!-- Modal -->
+                    <div id="myModal" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="alert alert-danger" style="display:none"></div>
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Verifikasi Akhir</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="hidden" name="complaints_id" value="{{ $keluhan->id }}">
+                                    <div class="form-group">
+                                        <label for="cutting_point">Cutting Point</label>
+                                        <input type="number" name="cutting_point"
+                                            class="form-control @error('cutting_point') is-invalid @enderror"
+                                            id="cutting_point" value="{{ old('cutting_point') ?: '' }}"
+                                            placeholder="Masukkan Cutting Point">
+                                        @if ($errors->has('cutting_point'))
+                                        <div class="invalid-feedback">{{
+                                            $errors->first('cutting_point') }}</div>
+                                        @endif
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="verifikasi_akhir">Verifikasi Akhir</label>
+                                        <textarea class="form-control @error('verifikasi_akhir') is-invalid @enderror"
+                                            name="verifikasi_akhir" id="verifikasi_akhir"
+                                            value="{{ old('verifikasi_akhir') ?: '' }}"></textarea>
+                                        @if ($errors->has('verifikasi_akhir'))
+                                        <div class="invalid-feedback">{{
+                                            $errors->first('verifikasi_akhir') }}</div>
+                                        @endif
                                     </div>
 
                                     <div class="modal-footer">
@@ -55,6 +111,54 @@
                         </div>
                     </div>
                 </form>
+                @else
+                <button type="button" class="btn btn-success btn-large" data-toggle="modal" data-target="#myUpload"
+                    id="open"><i class="fas fa-upload"></i> Silahkan Upload Tindakan Verifikasi
+                </button>
+                <form method="post" action="{{route('upload.verifikasi', $keluhan->id)}}" id="form"
+                    enctype="multipart/form-data">
+                    @csrf
+                    @method('PATCH')
+                    <!-- Modal -->
+                    <div id="myUpload" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="alert alert-danger" style="display:none"></div>
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Add Dokumen Hasil Tindakan Verifikasi</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="hidden" name="complaints_id" value="{{ $keluhan->id }}">
+
+                                    <div class="form-group">
+                                        <label for="tindakan_verifikasi">Upload Hasil</label>
+                                        <input type="file" name="tindakan_verifikasi"
+                                            class="form-control @error('tindakan_verifikasi') is-invalid @enderror"
+                                            id="tindakan_verifikasi" value="{{ old('tindakan_verifikasi') ?: '' }}"
+                                            placeholder="">
+                                        @if ($errors->has('tindakan_verifikasi'))
+                                        <div class="invalid-feedback">{{
+                                            $errors->first('tindakan_verifikasi') }}</div>
+                                        @endif
+                                        <p class="help-block">Max.1.5Mb</p>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Close</button>
+                                        <button class="btn btn-success " id="ajaxSubmit">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form><br>
+                @endif
+
                 @else
                 <div class="alert alert-info alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -432,6 +536,31 @@
   })
     $(function () {
     // Summernote
-    $('#solusi').summernote()
+    $('#verifikasi_akhir').summernote()
   })
         </script>
+
+        <script>
+            $(function () {
+
+//Datemask dd/mm/yyyy
+$('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
+//Datemask2 mm/dd/yyyy
+$('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
+//Money Euro
+$('[data-mask]').inputmask()
+
+//Date picker
+$('#reservationdate').datetimepicker({
+format: 'L'
+});
+
+//Date and time picker
+$('#reservationdatetime').datetimepicker({ icons: { time: 'far fa-clock' } });
+
+
+})
+        </script>
+
+
+        @endsection
