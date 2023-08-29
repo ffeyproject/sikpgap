@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-<div class="bg-light p-4 rounded">
+<div class="p-4 rounded bg-light">
     <h1>Add new user</h1>
     <div class="lead">
         Add new user and assign role.
@@ -16,7 +16,7 @@
                     required>
 
                 @if ($errors->has('name'))
-                <span class="text-danger text-left">{{ $errors->first('name') }}</span>
+                <span class="text-left text-danger">{{ $errors->first('name') }}</span>
                 @endif
             </div>
             <div class="mb-3">
@@ -24,7 +24,7 @@
                 <input value="{{ $user->email }}" type="email" class="form-control" name="email"
                     placeholder="Email address" required>
                 @if ($errors->has('email'))
-                <span class="text-danger text-left">{{ $errors->first('email') }}</span>
+                <span class="text-left text-danger">{{ $errors->first('email') }}</span>
                 @endif
             </div>
             <div class="mb-3">
@@ -32,7 +32,7 @@
                 <input value="{{ $user->username }}" type="text" class="form-control" name="username"
                     placeholder="Username" required>
                 @if ($errors->has('username'))
-                <span class="text-danger text-left">{{ $errors->first('username') }}</span>
+                <span class="text-left text-danger">{{ $errors->first('username') }}</span>
                 @endif
             </div>
             <div class="mb-3">
@@ -57,6 +57,56 @@
                             <input class="form-check-input" type="radio" name="posisi" value="{{ $user->posisi }}"
                                 checked>
                             <label class="form-check-label">Marketing</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="posisi" value="kabagqa">
+                            <label class="form-check-label">Kabag Qa</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="posisi" value="qa">
+                            <label class="form-check-label">Qa</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="posisi" value="Admin">
+                            <label class="form-check-label">Admin</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="posisi" value="user">
+                            <label class="form-check-label">User</label>
+                        </div>
+                    </div>
+                </div>
+                @elseif ($user->posisi == 'kabagqa')
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="posisi" value="marketing">
+                            <label class="form-check-label">Marketing</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="posisi" value="{{ $user->posisi }}"
+                                checked>
+                            <label class="form-check-label">Kabag Qa</label>
                         </div>
                     </div>
                 </div>
@@ -90,6 +140,14 @@
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="posisi" value="marketing">
                             <label class="form-check-label">Marketing</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="posisi" value="kabagqa" checked>
+                            <label class="form-check-label">Kabag Qa</label>
                         </div>
                     </div>
                 </div>
@@ -130,6 +188,14 @@
                 <div class="col-sm-2">
                     <div class="form-group">
                         <div class="form-check">
+                            <input class="form-check-input" type="radio" name="posisi" value="kabagqa">
+                            <label class="form-check-label">Kabag Qa</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <div class="form-check">
                             <input class="form-check-input" type="radio" name="posisi" value="qa">
                             <label class="form-check-label">Qa</label>
                         </div>
@@ -158,6 +224,14 @@
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="posisi" value="marketing">
                             <label class="form-check-label">Marketing</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="posisi" value="kabagqa">
+                            <label class="form-check-label">Kabag Qa</label>
                         </div>
                     </div>
                 </div>
