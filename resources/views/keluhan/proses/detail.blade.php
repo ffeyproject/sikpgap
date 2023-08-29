@@ -94,8 +94,8 @@
                                     <div class="form-group">
                                         <label for="verifikasi_akhir">Verifikasi Akhir</label>
                                         <textarea class="form-control @error('verifikasi_akhir') is-invalid @enderror"
-                                            name="verifikasi_akhir" id="verifikasi_akhir"
-                                            value="{{ old('verifikasi_akhir') ?: '' }}"></textarea>
+                                            name="verifikasi_akhir"
+                                            id="verifikasi_akhir">{{ old('verifikasi_akhir') ?: '' }}</textarea>
                                         @if ($errors->has('verifikasi_akhir'))
                                         <div class="invalid-feedback">{{
                                             $errors->first('verifikasi_akhir') }}</div>

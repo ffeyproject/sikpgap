@@ -50,6 +50,8 @@
                                     @else
                                     <th>Aksi</th>
                                     <th>Hasil Scan Penyelesaian</th>
+                                    <th>CT/SP</th>
+                                    <th>Verifikasi AKhir</th>
                                     @endif
                                 </tr>
                             </thead>
@@ -165,6 +167,8 @@
                                     </div>
                                     @endif
                                     </td>
+                                    <td>{{ $item->cutting_point }}</td>
+                                    <td>{!! $item->verifikasi_akhir !!}</td>
                                     @empty
                                 <tr>
                                     <td colspan="12">Data tidak ada.</td>

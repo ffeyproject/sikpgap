@@ -148,26 +148,25 @@ class ComplaintController extends Controller
                              $currentTime2 = Carbon::now()->endOfMonth();
 
     //    $aa = Complaint::whereBetween('created_at',[$start_date,$end_date])->orderBy('id', 'DESC')->paginate(30);
-         $complaints = Complaint::with('results', 'buyer', 'departements', 'defect')->whereBetween('tgl_keluhan',[$start_date,$end_date])->orderBy('id', 'DESC')->paginate(30);
+        //  $complaints = Complaint::with('results', 'buyer', 'departements', 'defect')->whereBetween('tgl_keluhan',[$start_date,$end_date])->orderBy('id', 'DESC')->paginate(30);
     //    $complaints = Complaint::with('results', 'buyer', 'departements', 'defect')->orderBy('id', 'DESC')->paginate(10);
 
-    // $complaints = Result::select('result_complaints.*')
-    // ->join('complaints', 'complaints.id', '=', 'complaints_id')
-    // ->join('defects', 'defects.id', '=', 'defects_id')
-    // ->join('buyers', 'buyers.id', '=', 'buyers_id')
-    // ->whereBetween('tgl_keluhan',[$start_date,$end_date])
-    // ->select('result_complaints.*', 
-    // 'complaints.*',
-    // 'buyers.nama_buyer',
-    // 'defects.nama')
-    // ->orderBy('complaints.id', 'DESC')
-    // ->paginate(30);
+    $complaints = Result::select('result_complaints.*')
+    ->join('complaints', 'complaints.id', '=', 'complaints_id')
+    ->join('defects', 'defects.id', '=', 'defects_id')
+    ->join('buyers', 'buyers.id', '=', 'buyers_id')
+    ->whereBetween('tgl_keluhan',[$start_date,$end_date])
+    ->select('result_complaints.*', 
+    'complaints.*',
+    'buyers.nama_buyer',
+    'defects.nama')
+    ->orderBy('complaints.id', 'DESC')
+    ->paginate(30);
 
         return view('keluhan.rekap.index', [
             'complaints' => $complaints,
             'currentTime' => $currentTime,
             'currentTime2' => $currentTime2,
-            // 'aa' => $aa
         ]);
     }
 
