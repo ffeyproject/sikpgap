@@ -12,12 +12,17 @@
                     @method('PATCH')
                     <button type="submit" class="btn btn-success"><i class="fa fa-mouse"> Proses Sekarang </i></button>
                 </form>
-                @elseif ($keluhan->status == 'selesai')
-                <form method="post" action="{{route('proses.status', $keluhan->id)}}" id="form">
+                @elseif ($keluhan->status == 'selesai' || $keluhan->status == 'va')
+                {{-- <form method="post" action="{{route('proses.status', $keluhan->id)}}" id="form">
                     @csrf
                     @method('PATCH')
                     <button type="submit" class="btn btn-danger"><i class="fa fa-close"> Close Proses</i></button>
-                </form>
+                </form> --}}
+                <div class="alert alert-warning alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h5><i class="icon fas fa-ban"></i> Info !</h5>
+                    Silahkan Tunggu Data Verifikasi Di Proses.
+                </div>
                 @elseif ($keluhan->status == 'closed')
                 <div class="alert alert-danger alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>

@@ -76,10 +76,12 @@
                                             <span class="badge bg-warning">{{ $item->status }}
                                                 @elseif( $item->status == 'selesai' )
                                                 <span class="badge bg-success">{{ $item->status }}
-                                                    @else
-                                                    <span class="badge bg-danger">{{ $item->status }}
-                                                    </span>
-                                                    @endif
+                                                    @elseif( $item->status == 'va' )
+                                                    <span class="badge bg-info">{{ $item->status }}
+                                                        @else
+                                                        <span class="badge bg-danger">{{ $item->status }}
+                                                        </span>
+                                                        @endif
                                     </td>
                                     <td>
                                         @if( $item->status_marketing == '0' )

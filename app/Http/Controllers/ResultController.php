@@ -216,7 +216,7 @@ class ResultController extends Controller
       {
 
        $status = Complaint::findOrFail($request->complaints_id);
-        $status->status = 'selesai';
+        $status->status = 'va';
         $status->update();
         
         $result = Result::findOrFail($request->id);

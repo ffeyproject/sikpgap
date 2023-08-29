@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 use App\Models\Result;
+use App\Notifications\UpdateProsesEmailComplaint;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Testing\Fakes\NotificationFake;
 use LDAP\Result as LDAPResult;
@@ -354,23 +355,28 @@ class ComplaintController extends Controller
     }
 
 
-    public function uverifikasi(Request $request)
+    public function uverifikasi(Request $request, Complaint $complaint)
     {
         $this->validate($request, [
              'tindakan_verifikasi' => 'image|mimes:jpeg,png,jpg,gif,svg|max:1500',
     ]);
 
-        $scan = Complaint::findOrFail($request->complaints_id);
+        $complaint = Complaint::findOrFail($request->complaints_id);
         
 
 		$tindakan_verifikasi = $request->file('tindakan_verifikasi');
             $ext = $tindakan_verifikasi->getClientOriginalExtension();
             $newName = rand(100000,1001238912).".".$ext;
             $tindakan_verifikasi->move('image/verifikasi',$newName);
-            $scan->tindakan_verifikasi = $newName;
-        $scan->save();
+            $complaint->tindakan_verifikasi = $newName;
+            $complaint->status = 'closed';
+        $complaint->save();
+
+        $complaint->email = Auth::user()->email;
+
+        $complaint->notify(new UpdateProsesEmailComplaint($complaint));
     
-         Alert::success('Berhasil', 'Terimakasih Sudah Upload Tindakan Verifikasi');
+         Alert::success('Berhasil', 'Terimakasih Sudah Upload Tindakan Verifikasi, Data Ini di Close');
         return redirect()->back();
     }
 

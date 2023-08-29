@@ -87,10 +87,12 @@
                                             <span class="badge bg-warning">{{ $item->status }}
                                                 @elseif( $item->status == 'selesai' )
                                                 <span class="badge bg-success">{{ $item->status }}
-                                                    @else
-                                                    <span class="badge bg-danger">{{ $item->status }}
-                                                        @endif
-                                                    </span>
+                                                    @elseif( $item->status == 'va' )
+                                                    <span class="badge bg-info">{{ $item->status }}
+                                                        @else
+                                                        <span class="badge bg-danger">{{ $item->status }}
+                                                            @endif
+                                                        </span>
                                     </td>
                                     <td>
                                         @if( $item->status_marketing == '0' )
@@ -118,7 +120,7 @@
                                                     class="fa fa-edit"></i>
                                                 Lanjutkan</a>
                                         </div>
-                                        @elseif($item->status == 'selesai')
+                                        @elseif($item->status == 'selesai' || $item->status =='va')
                                         <div class="container">
                                             <a href="{{ route('proses.index', $item->id) }}" class="btn btn-success"><i
                                                     class="fa fa-edit"></i>

@@ -55,9 +55,16 @@
                         </div>
                     </div>
                 </form><br>
+                @else
+                <div class="alert alert-info alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h5><i class="icon fas fa-info"></i> Info!</h5>
+                    Data Ini Sedang di Proses.
+                </div>
+                @endif
 
-                @if( Auth::user()->posisi == 'qa' && $keluhan->is_verifikasi ==
-                false || Auth::user()->posisi == 'Admin' && $keluhan->is_verifikasi ==
+                @if( $keluhan->status == 'va' && Auth::user()->posisi == 'qa' && $keluhan->is_verifikasi ==
+                false || $keluhan->status == 'va' && Auth::user()->posisi == 'Admin' && $keluhan->is_verifikasi ==
                 false )
                 <button type="button" class="btn btn-warning btn-large" data-toggle="modal" data-target="#myModal"
                     id="open"><i class="fab fa-get-pocket"></i> Verifikasi Akhir
@@ -112,7 +119,9 @@
                         </div>
                     </div>
                 </form>
-                @else
+                @elseif( $keluhan->status == 'va' && Auth::user()->posisi == 'qa' && $keluhan->is_verifikasi ==
+                true || $keluhan->status == 'va' && Auth::user()->posisi == 'Admin' && $keluhan->is_verifikasi ==
+                true )
                 <button type="button" class="btn btn-success btn-large" data-toggle="modal" data-target="#myUpload"
                     id="open"><i class="fas fa-upload"></i> Silahkan Upload Tindakan Verifikasi
                 </button>
@@ -158,15 +167,11 @@
                         </div>
                     </div>
                 </form><br>
+                @else
+                <h4>Data Ini Sudah Dilakukan Verifikasi.</h4>
                 @endif
 
-                @else
-                <div class="alert alert-info alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    <h5><i class="icon fas fa-info"></i> Info!</h5>
-                    Data Ini Sedang di Proses.
-                </div>
-                @endif
+
             </div>
         </div>
         <div class="row">
@@ -215,10 +220,21 @@
                                     </button>
                                 </div>
                                 <div class="line"></div>
+                                <div class="step" data-target="#va">
+                                    <button type="button" class="step-trigger" role="tab" aria-controls="va" id="va">
+                                        <span class="bs-stepper-circle">4</span>
+                                        @if ($keluhan->status == 'va' )
+                                        <span class="badge bg-primary">Va</span>
+                                        @else
+                                        <span class="bs-stepper-label">Va</span>
+                                        @endif
+                                    </button>
+                                </div>
+                                <div class="line"></div>
                                 <div class="step" data-target="#closed">
                                     <button type="button" class="step-trigger" role="tab" aria-controls="closed"
                                         id="closed">
-                                        <span class="bs-stepper-circle">4</span>
+                                        <span class="bs-stepper-circle">5</span>
                                         @if ($keluhan->status == 'closed' )
                                         <span class="badge bg-primary">Closed</span>
                                         @else
@@ -266,7 +282,7 @@
                     </div>
 
                     <div class="card-footer">
-                        Jika bewarna biru maka proses status terakhir yang sedan dilakukan.
+                        Jika bewarna biru maka proses status terakhir yang sedang dilakukan.
                     </div>
                 </div>
             </div>
