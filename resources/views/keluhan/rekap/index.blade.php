@@ -40,18 +40,20 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="">Start Date</label>
-                                <input type="date" class="form-control" name="start_date">
+                                <input type="date" class="form-control" name="start_date"
+                                    value="{{ $currentTime->format('Y-m-d') }}">
                             </div>
                         </div>
 
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="">End Date</label>
-                                <input type="date" class="form-control" name="end_date">
+                                <input type="date" class="form-control" name="end_date"
+                                    value="{{ $currentTime2->format('Y-m-d') }}">
                             </div>
                         </div>
 
-                        <div class="col-md-2" style="margin-top: 24px;">
+                        <div class=" col-md-2" style="margin-top: 24px;">
                             <div class="form-group">
                                 <input type="submit" class="btn btn-primary" value="Submit">
                                 <a href="{{ route('keluhan.data.cetak') }}" class="btn btn-warning">
@@ -95,31 +97,16 @@
                                         <td>{{$complaint->nomer_keluhan}}</td>
                                         <td>{{$complaint->tgl_keluhan}}</td>
                                         <td>{{$complaint->nama_marketing}}</td>
-                                        <td>{{$complaint->buyer->nama_buyer}}</td>
+                                        <td>{{$complaint->nama_buyer}}</td>
                                         <td>{{$complaint->no_wo}}, {{ $complaint->no_sc }}</td>
                                         <td>{{$complaint->nama_motif}}, {{ $complaint->cw_qty }}</td>
                                         <td>{!!$complaint->masalah!!}</td>
-                                        @if($complaint->results->isEmpty())
-                                        <td><i>(Belum ada Data)</i></td>
-                                        <td><i>(Belum ada Data)</i></td>
-                                        <td><i>(Belum ada Data)</i></td>
-                                        <td><i>(Belum ada Data)</i></td>
-                                        <td><i>(Belum ada Data)</i></td>
-                                        <td><i>(Belum ada Data)</i></td>
-                                        @else
-                                        @foreach ($complaint->results as $item )
-                                        <td>{!!$item->hasil_penelusuran!!}</td>
-                                        <td>{!! $item->tindakan !!}</td>
-                                        <td>{{ $item->departements->asal_masalah }}</td>
-                                        <td>
-                                            @if ($item->defect)
-                                            {{ $item->defect->nama }}
-                                            @endif
-                                        </td>
-                                        <td>{{ $item->target_waktu }}</td>
-                                        <td>{!! $item->hasil_verifikasi !!}</td>
-                                        @endforeach
-                                        @endif
+                                        <td>{!!$complaint->hasil_penelusuran!!}</td>
+                                        <td>{!! $complaint->tindakan !!}</td>
+                                        <td>{{ $complaint->departements->asal_masalah }}</td>
+                                        <td>{{ $complaint->defect->nama }}</td>
+                                        <td>{{ $complaint->target_waktu }}</td>
+                                        <td>{!! $complaint->hasil_verifikasi !!}</td>
                                         <td>{!! $complaint->solusi !!}</td>
                                         <td>{{$complaint->updated_at}}</td>
                                         <td>{{$complaint->status}}</td>
@@ -130,8 +117,8 @@
                             </table>
                             {{-- Halaman : {{ $complaints->currentPage() }} <br />
                             Jumlah Data : {{ $complaints->total() }} <br /> --}}
-                            Data Per Halaman : {{ $complaints->perPage() }} Data <br />
-                            {{ $complaints->links() }}
+                            {{-- Data Per Halaman : {{ $complaints->perPage() }} Data <br />
+                            {{ $complaints->links() }} --}}
                     </div>
                     <!-- /.card-body -->
                 </div>
@@ -150,13 +137,13 @@
 @section('tablejs')
 <script>
     // $(function () {
-    //     $("#t_barang").DataTable({
-    //         "responsive": true,
-    //         "lengthChange": false,
-    //         "autoWidth": true,
-    //         "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-    //     }).buttons().container().appendTo('#t_barang_wrapper .col-md-9:eq(0)');
-    // });
+//     $("#t_barang").DataTable({
+//         "responsive": true,
+//         "lengthChange": false,
+//         "autoWidth": true,
+//         "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+//     }).buttons().container().appendTo('#t_barang_wrapper .col-md-9:eq(0)');
+// });
 
 // $(document).ready(function() {
 // $('#mytable').DataTable( {
@@ -191,7 +178,6 @@
 // }
 // } );
 // } );
-
 </script>
 {{-- <script>
     $(function() {
@@ -199,65 +185,79 @@
         processing: true,
         serverSide: true,
         ajax: "{{ route('keluhan.data') }}",
-        columns: [
-        {data: 'id', name: 'id'},
-        {data: 'name', name: 'name'},
-        {data: 'email', name: 'email'},
-        {data: 'created_at', name: 'created_at'},
-        {data: 'updated_at', name: 'updated_at'}
-        ],
-        initComplete: function () {
-        this.api().columns().every(function () {
-        var column = this;
-        var input = document.createElement("input");
-        $(input).appendTo($(column.footer()).empty())
-        .on('change', function () {
-        var val = $.fn.dataTable.util.escapeRegex($(this).val());
-        
-        column.search(val ? val : '', true, false).draw();
-        });
-        });
-        }
-    });
+columns: [
+{data: 'id', name: 'id'},
+{data: 'name', name: 'name'},
+{data: 'email', name: 'email'},
+{data: 'created_at', name: 'created_at'},
+{data: 'updated_at', name: 'updated_at'}
+],
+initComplete: function () {
+this.api().columns().every(function () {
+var column = this;
+var input = document.createElement("input");
+$(input).appendTo($(column.footer()).empty())
+.on('change', function () {
+var val = $.fn.dataTable.util.escapeRegex($(this).val());
+
+column.search(val ? val : '', true, false).draw();
+});
+});
+}
+});
 });
 </script> --}}
 
 <script>
     $(document).ready(function() {
-    $('#mytable thead tr').clone(true).appendTo( '#mytable thead' );
-    $('#mytable thead tr:eq(1) th').each( function (i) {
-    var title = $(this).text();
-    $(this).html( '<input type="text" placeholder=" Cari '+title+'" />' );
-    
-    $( 'input', this ).on( 'keyup change', function () {
-    if ( table.column(i).search() !== this.value ) {
-    table
-    .column(i)
-    .search( this.value )
-    .draw();
-    }
+    $('#mytable thead tr').clone(true).appendTo('#mytable thead');
+    $('#mytable thead tr:eq(1) th').each(function(i) {
+        var title = $(this).text();
+        $(this).html('<input type="text" placeholder=" Cari ' + title + '" />');
+
+        $('input', this).on('keyup change', function() {
+            if (table.column(i).search() !== this.value) {
+                table
+                    .column(i)
+                    .search(this.value)
+                    .draw();
+            }
+        });
     });
+
+    var table = $('#mytable').DataTable({
+        orderCellsTop: true,
+        fixedHeader: true,
+        fixedColumns: true,
+        autoFill: true,
+        autoWidth: true,
+        scrollX: true,
+        scrollCollapse: true,
+        scrollY: "600px",
+        dom: 'Bfrtip',
+        buttons: [
+            {
+            extend: 'copy'
+            },
+            {
+            extend: 'pdfHtml5',
+            orientation: 'landscape',
+            pageSize: 'LEGAL'
+            },
+            {
+            extend: 'csv'
+            },
+            {
+            extend: 'print'
+            },
+            {
+            extend: 'excel'
+            },
+            {
+            extend: 'colvis'
+            }
+        ]
     });
-    
-    var table = $('#mytable').DataTable( {
-    orderCellsTop: true,
-    fixedHeader: true,
-    fixedColumns: true,
-    autoFill: true,
-    autoWidth: true,
-    scrollX: true,
-    scrollCollapse: true,
-    scrollY: "600px",
-    dom: 'Bfrtip',
-    buttons: [
-    'copy', 'csv', 'excel', 'print',
-    {
-    extend: 'pdfHtml5',
-    orientation: 'landscape',
-    pageSize: 'LEGAL'
-    }
-    ]
-    });
-    });
+});
 </script>
 @endsection
