@@ -361,16 +361,19 @@ class ComplaintController extends Controller
              'tindakan_verifikasi' => 'image|mimes:jpeg,png,jpg,gif,svg|max:1500',
     ]);
 
-        $complaint = Complaint::findOrFail($request->complaints_id);
+        $scan = Complaint::findOrFail($request->complaints_id);
         
 
 		$tindakan_verifikasi = $request->file('tindakan_verifikasi');
             $ext = $tindakan_verifikasi->getClientOriginalExtension();
             $newName = rand(100000,1001238912).".".$ext;
             $tindakan_verifikasi->move('image/verifikasi',$newName);
-            $complaint->tindakan_verifikasi = $newName;
-            $complaint->status = 'closed';
-        $complaint->save();
+            $scan->tindakan_verifikasi = $newName;
+            $scan->status = 'closed';
+        $scan->save();
+
+        $complaint->status = 'closed';
+        $complaint->update();
 
         $complaint->email = Auth::user()->email;
 

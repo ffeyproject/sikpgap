@@ -167,6 +167,8 @@
                         </div>
                     </div>
                 </form><br>
+                @elseif( $keluhan->status == 'open' || $keluhan->status == 'proses' || $keluhan->status == 'selesai' )
+                <h4></h4>
                 @else
                 <h4>Data Ini Sudah Dilakukan Verifikasi.</h4>
                 @endif

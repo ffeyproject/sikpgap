@@ -169,7 +169,20 @@
                         <td colspan="12">Data Penelurusan Belum Ada.</td>
                     </tr>
                     @endforelse
+                </table><br>
+                <table width='100%' cellspacing='0' cellpadding='3' border='1' bordercolor='#CCCCCC'>
+                    <tr>
+                        <td align="center" width='100%' bordercolor='#ccc' bgcolor='#f2f2f2' style='font-size:16px;'>
+                            <strong>VERIFIKASI AKHIR
+                            </strong>
+                        </td>
+                    </tr>
+                    <tr style="display:none;">
+                        <td colspan="*">
+                    <tr>
+                        <td valign='top' style='font-size:12px;'>{!! $keluhan->verifikasi_akhir !!}</td>
                 </table><br><br>
+
                 <table width='100%' height='100' cellspacing='0' cellpadding='0'>
                     <tr>
                         <td valign='top' width='70%' style='font-size:16px;'>
