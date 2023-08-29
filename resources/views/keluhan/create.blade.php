@@ -125,7 +125,7 @@
                         <div class="form-group">
                             <label for="masalah">Deksripsi Masalah</label>
                             <textarea class="form-control @error('masalah') is-invalid @enderror" name="masalah"
-                                id="summernote" value="{{ old('masalah') ?: '' }}"></textarea>
+                                id="summernote">{{ old('masalah') ?: '' }}</textarea>
                             @if ($errors->has('masalah'))
                             <div class="invalid-feedback">{{
                                 $errors->first('masalah') }}</div>

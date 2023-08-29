@@ -45,7 +45,7 @@
                                     <th>Hasil Scan Penyelesaian</th>
                                     @endif
                                     <th>Kode Defect</th>
-                                    <th>Cutting Point</th>
+                                    <th>CT/SP</th>
                                     <th>Keterangan Verifikasi</th>
                                 </tr>
                             </thead>
@@ -54,7 +54,7 @@
                                 @forelse ($complaint as $item)
                                 <tr>
                                     <td>{{ $no++ }}</td>
-                                    <td><a href="{{ route('keluhan.show', $item->id) }}" target="_blank" </a> {{
+                                    <td><a href="{{ route('proses.detail', $item->id) }}" target="_blank" </a> {{
                                             $item->nomer_keluhan }}
                                     </td>
                                     <td>{{ $item->tgl_keluhan }}
