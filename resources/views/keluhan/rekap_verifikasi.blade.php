@@ -44,6 +44,7 @@
                                     @else
                                     <th>Hasil Scan Penyelesaian</th>
                                     @endif
+                                    <th>Kode Defect</th>
                                     <th>Cutting Point</th>
                                     <th>Keterangan Verifikasi</th>
                                 </tr>
@@ -110,6 +111,18 @@
                                     </td>
                                     <!-- Modal -->
                                     @endif
+
+                                    <td>
+                                        @foreach ($item->results as $aa )
+                                        {{--
+                                    <td>{{ $aa->departements->asal_masalah }}</td> --}}
+                                    @if ($aa->defect)
+                                    {{ $aa->defect->kode_defect }},
+                                    @endif
+                                    @endforeach
+                                    </td>
+
+
                                     <td>{{ $item->cutting_point }}</td>
                                     <td>{!! $item->verifikasi_akhir !!}</td>
                                     @empty

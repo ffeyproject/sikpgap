@@ -48,7 +48,9 @@ class ComplaintController extends Controller
     
     public function rverifikasi()
     {
-         $complaint = Complaint::orderBy('id', 'DESC')->get();
+        //  $complaint = Complaint::orderBy('id', 'DESC')->get();
+
+          $complaint = Complaint::with('results', 'buyer', 'departements', 'defect')->orderBy('id', 'DESC')->get();
 
         return view('keluhan.rekap_verifikasi', [
             'complaint' => $complaint
