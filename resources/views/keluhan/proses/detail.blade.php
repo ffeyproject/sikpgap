@@ -56,7 +56,8 @@
                     </div>
                 </form><br>
 
-                @if( Auth::user()->posisi == 'kabagqa' || Auth::user()->posisi == 'Admin' && $keluhan->is_verifikasi ==
+                @if( Auth::user()->posisi == 'qa' && $keluhan->is_verifikasi ==
+                false || Auth::user()->posisi == 'Admin' && $keluhan->is_verifikasi ==
                 false )
                 <button type="button" class="btn btn-warning btn-large" data-toggle="modal" data-target="#myModal"
                     id="open"><i class="fab fa-get-pocket"></i> Verifikasi Akhir
