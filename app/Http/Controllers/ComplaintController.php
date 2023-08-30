@@ -171,6 +171,75 @@ class ComplaintController extends Controller
         ]);
     }
 
+    public function dverifikasi(Request $request)
+    {
+
+        $start_date = Carbon::parse($request->start_date)
+                             ->toDateTimeString();
+
+       $end_date = Carbon::parse($request->end_date)
+                             ->toDateTimeString();
+
+                             $currentTime = Carbon::now()->startOfMonth();
+                             $currentTime2 = Carbon::now()->endOfMonth();
+        $status = $request->status;
+
+
+        $query = DB::table('node');
+
+        // $query = Complaint::with('results', 'buyer', 'departements', 'defect')->whereBetween('tgl_keluhan',[$start_date,$end_date])->where('status', $status)->orderBy('id', 'DESC')->paginate(30);
+        $query = Complaint::with('results', 'buyer', 'departements', 'defect');
+
+        if ($status == 'open')
+        {
+            $query->whereBetween('tgl_keluhan',[$start_date,$end_date])->where('status', '=', 'open' );
+        }
+        
+        elseif ($status == 'proses') {
+            $query->whereBetween('tgl_keluhan',[$start_date,$end_date])->where('status', '=', 'proses' );
+        }
+
+        elseif ($status == 'selesai') {
+            $query->whereBetween('tgl_keluhan',[$start_date,$end_date])->where('status', '=', 'selesai' );
+        }   
+        
+        elseif ($status == 'va') {
+            $query->whereBetween('tgl_keluhan',[$start_date,$end_date])->where('status', '=', 'va' );
+        }   
+
+        elseif ($status == 'closed') {
+            $query->whereBetween('tgl_keluhan',[$start_date,$end_date])->where('status', '=', 'closed' );
+        }   
+        
+        $complaints = $query->orderBy('id', 'DESC')->paginate(30);
+        
+        // if ($request->status == 'open') {
+        //  $complaints = Complaint::with('results', 'buyer', 'departements', 'defect')->whereBetween('tgl_keluhan',[$start_date,$end_date])->where('status', '=','open')->orderBy('id', 'DESC')->paginate(30);
+         
+        // }                     
+
+    //    $aa = Complaint::whereBetween('created_at',[$start_date,$end_date])->orderBy('id', 'DESC')->paginate(30);
+    //    $complaints = Complaint::with('results', 'buyer', 'departements', 'defect')->orderBy('id', 'DESC')->paginate(10);
+
+    // $complaints = Result::select('result_complaints.*')
+    // ->join('complaints', 'complaints.id', '=', 'complaints_id')
+    // ->join('defects', 'defects.id', '=', 'defects_id')
+    // ->join('buyers', 'buyers.id', '=', 'buyers_id')
+    // ->whereBetween('tgl_keluhan',[$start_date,$end_date])
+    // ->select('result_complaints.*', 
+    // 'complaints.*',
+    // 'buyers.nama_buyer',
+    // 'defects.nama')
+    // ->orderBy('complaints.id', 'DESC')
+    // ->paginate(30);
+
+        return view('keluhan.rekap.data_verifikasi', [
+            'complaints' => $complaints,
+            'currentTime' => $currentTime,
+            'currentTime2' => $currentTime2,
+        ]);
+    }
+
     public function cetak(Request $request)
     {
 
@@ -373,6 +442,7 @@ class ComplaintController extends Controller
         $scan->save();
 
         $complaint->status = 'closed';
+        $complaint->upload_tindakan = '1';
         $complaint->update();
 
         $complaint->email = Auth::user()->email;

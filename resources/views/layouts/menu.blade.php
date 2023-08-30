@@ -208,6 +208,15 @@
     </ul>
     <ul class="nav nav-treeview">
         <li class="nav-item">
+            <a href="{{ route('data.verifikasi') }}" target="_blank"
+                class="nav-link {{ (request()->is('keluhan/rekap/verifikasi/get'))  ? 'active' : '' }} ">
+                <i class="fas fa-file-alt"></i>
+                <p>Data Rekap Verifikasi</p>
+            </a>
+        </li>
+    </ul>
+    <ul class="nav nav-treeview">
+        <li class="nav-item">
             <a href="{{ route('keluhan.rverifikasi') }}" target="_blank"
                 class="nav-link {{ (request()->is('keluhan/rekap-verifikasi'))  ? 'active' : '' }} ">
                 <i class="fas fa-file-alt"></i>
