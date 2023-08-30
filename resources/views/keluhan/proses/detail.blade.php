@@ -302,11 +302,42 @@
                                 'closed' || Auth::user()->posisi ==
                                 'marketing' || Auth::user()->posisi ==
                                 'admin')
-                                <form method="post" action="{{route('close.marketing', $keluhan->id)}}" id="form">
+                                <button type="button" class="btn btn-warning btn-large" data-toggle="modal"
+                                    data-target="#editModal" id="open">Close
+                                    Marketing
+                                </button>
+                                <form method="post" action="{{route('close.marketing', $keluhan->id)}}"
+                                    enctype="multipart/form-data" id="form">
                                     @csrf
                                     @method('PATCH')
-                                    <button type="submit" class="btn btn-primary"><i class="fa fa-close">Close
-                                            Marketing</i></button>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="editModal" tabindex="-1" role="dialog"
+                                        aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="form-group">
+                                                        <label for="solusi">Solusi</label>
+                                                        <textarea
+                                                            class="form-control @error('solusi') is-invalid @enderror"
+                                                            name="solusi" id="solusi"
+                                                            value="{{ old('solusi') ?: '' }}">{{ $keluhan->solusi }}</textarea>
+                                                        @if ($errors->has('solusi'))
+                                                        <div class="invalid-feedback">{{
+                                                            $errors->first('solusi') }}</div>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </form>
                                 @endif
                                 <br>
@@ -325,15 +356,15 @@
                                     target="_blank"> Cetak
                                 </a>
                                 @endif
-                                @if ($keluhan->status == 'selesai' || Auth::user()->posisi == 'qa' ||
+                                {{-- @if ($keluhan->status == 'selesai' || Auth::user()->posisi == 'qa' ||
                                 Auth::user()->posisi ==
                                 'admin')
                                 <button type="button" class="btn btn-warning btn-large" data-toggle="modal"
                                     data-target="#editModal" id="open">Edit
                                     Informasi Solusi</button>
-                                @endif
+                                @endif --}}
                             </div>
-                            <form method="post" action="{{route('proses.esolusi', $keluhan->id)}}"
+                            {{-- <form method="post" action="{{route('proses.esolusi', $keluhan->id)}}"
                                 enctype="multipart/form-data" id="form">
                                 @csrf
                                 @method('PATCH')
@@ -348,7 +379,7 @@
                                                 <div class="form-group">
                                                     <label for="solusi">Solusi</label>
                                                     <textarea class="form-control @error('solusi') is-invalid @enderror"
-                                                        name="solusi" id="solusi"
+                                                        name="solusi1" id="solusi1"
                                                         value="{{ old('solusi') ?: '' }}">{{ $keluhan->solusi }}</textarea>
                                                     @if ($errors->has('solusi'))
                                                     <div class="invalid-feedback">{{
@@ -364,7 +395,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </form>
+                            </form> --}}
                         </div>
                         <hr>
                         <div class="row invoice-info">
@@ -556,6 +587,10 @@
     $(function () {
     // Summernote
     $('#verifikasi_akhir').summernote()
+  })
+    $(function () {
+    // Summernote
+    $('#solusi').summernote()
   })
         </script>
 

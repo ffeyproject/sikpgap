@@ -582,11 +582,15 @@ class ComplaintController extends Controller
 
     public function c_marketing(Request $request, Complaint $complaint)
     {
+        $this->validate($request, [
+        'solusi'   => 'required'
+        ]);
 
     if ( Auth::user()->id == $complaint->user_id ) {
        $complaint->status_marketing = '1';
+       $complaint->solusi = $request->solusi;
         $complaint->update();
-        Alert::success('Success', 'Complaint Telah Di Close Oleh Marketing');
+        Alert::success('Success', 'Complaint Telah Di Close dan Data Solusi Terisi');
         return redirect('keluhan');
         
     }

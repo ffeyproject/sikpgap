@@ -172,15 +172,31 @@
                 </table><br>
                 <table width='100%' cellspacing='0' cellpadding='3' border='1' bordercolor='#CCCCCC'>
                     <tr>
-                        <td align="center" width='100%' bordercolor='#ccc' bgcolor='#f2f2f2' style='font-size:16px;'>
+                        <td align="center" width='100%' bordercolor='#ccc' bgcolor='#f2f2f2' style='font-size:16px;'
+                            colspan="3">
                             <strong>VERIFIKASI AKHIR
                             </strong>
                         </td>
                     </tr>
                     <tr style="display:none;">
                         <td colspan="*">
+                        </td>
+                    </tr>
+
                     <tr>
-                        <td valign='top' style='font-size:12px;'>{!! $keluhan->verifikasi_akhir !!}</td>
+                        <td valign='top' style='font-size:12px;'>{!! $keluhan->verifikasi_akhir !!}</td><br><br><br>
+                        <td valign='top' width='10%' style='font-size:6px;'>
+                            @if ($keluhan->is_verifikasi == true && $keluhan->upload_tindakan == true)
+                            <strong>Sudah Di Verikasi </strong><br><br>
+                            <img src="{{ public_path('image/ttd/andre.png') }}" style="float:center;" widht="40"
+                                height="30">
+                            <br><br><br><br><br>
+                            ( Andree Ernady )<br>
+                            @else
+                            <br><strong>Data Belum Di Verikasi </strong><br><br>
+                            @endif
+                        </td>
+                    </tr>
                 </table><br><br>
 
                 <table width='100%' height='100' cellspacing='0' cellpadding='0'>
@@ -211,26 +227,6 @@
                     </tr>
                 </table>
                 <br>
-                <table width='100%' height='100' cellspacing='0' cellpadding='0'>
-                    <tr>
-                        <td valign='top' width='70%' style='font-size:16px;'>
-                        </td>
-                        <td valign='top' width='80%' style='font-size:16px;'>
-                            @if ($keluhan->is_verifikasi == true && $keluhan->upload_tindakan == true)
-                            <strong>Sudah Di Verikasi </strong><br><br>
-                            <img src="{{ public_path('image/ttd/andre.png') }}" style="float:center;" widht="80"
-                                height="85">
-                            <br><br><br><br><br>
-                            ( Andree Ernady )<br>
-                            @else
-                            <br><strong>Data Belum Di Verikasi </strong><br><br>
-                            @endif
-
-                        </td>
-                        <td valign='top' width='40%' style='font-size:16px;'>
-                        </td>
-                    </tr>
-                </table>
 
             </td>
         </tr>
