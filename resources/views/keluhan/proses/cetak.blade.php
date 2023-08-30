@@ -210,6 +210,27 @@
                         </td>
                     </tr>
                 </table>
+                <br>
+                <table width='100%' height='100' cellspacing='0' cellpadding='0'>
+                    <tr>
+                        <td valign='top' width='70%' style='font-size:16px;'>
+                        </td>
+                        <td valign='top' width='80%' style='font-size:16px;'>
+                            @if ($keluhan->is_verifikasi == true && $keluhan->upload_tindakan == true)
+                            <strong>Sudah Di Verikasi </strong><br><br>
+                            <img src="{{ public_path('image/ttd/andre.png') }}" style="float:center;" widht="80"
+                                height="85">
+                            <br><br><br><br><br>
+                            ( Andree Ernady )<br>
+                            @else
+                            <br><strong>Data Belum Di Verikasi </strong><br><br>
+                            @endif
+
+                        </td>
+                        <td valign='top' width='40%' style='font-size:16px;'>
+                        </td>
+                    </tr>
+                </table>
 
             </td>
         </tr>

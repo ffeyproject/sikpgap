@@ -56,7 +56,7 @@
 
                     </div>
 
-                    <div class="input-group mb-3">
+                    {{-- <div class="input-group mb-3">
                         <div class="col-md-6">
                             {!! NoCaptcha::display() !!}
                             {!! NoCaptcha::renderJs() !!}
@@ -67,7 +67,7 @@
                             @enderror
                         </div>
 
-                    </div>
+                    </div> --}}
 
                     <div class="row">
                         <div class="col-8">
