@@ -56,6 +56,19 @@
 
                     </div>
 
+                    <div class="input-group mb-3">
+                        <div class="col-md-6">
+                            {!! NoCaptcha::display() !!}
+                            {!! NoCaptcha::renderJs() !!}
+                            @error('g-recaptcha-response')
+                            <span class="text-danger" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+
+                    </div>
+
                     <div class="row">
                         <div class="col-8">
                             <div class="icheck-primary">

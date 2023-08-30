@@ -167,6 +167,7 @@ return [
         Milon\Barcode\BarcodeServiceProvider::class,
 
         Yajra\Datatables\DatatablesServiceProvider::class,
+        Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
 
 
         /*
@@ -243,6 +244,7 @@ return [
         'Carbon' => 'Carbon\Carbon',
         'Datatables' => Yajra\Datatables\Facades\Datatables::class,
         'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
+        'NoCaptcha' => Anhskohbo\NoCaptcha\Facades\NoCaptcha::class,
 
     ],
 
