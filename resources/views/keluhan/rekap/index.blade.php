@@ -84,7 +84,7 @@
                                     <th>Target Penyelesaian</th>
                                     <th>Hasil Verifikasi</th>
                                     <th>Tindakan Akhir</th>
-                                    <th>Updated Case</th>
+                                    <th>Verifikasi Akhir</th>
                                     <th>Status</th>
                                 </thead>
                                 <?php $no = 1 ?>
@@ -108,7 +108,11 @@
                                         <td>{{ $complaint->target_waktu }}</td>
                                         <td>{!! $complaint->hasil_verifikasi !!}</td>
                                         <td>{!! $complaint->solusi !!}</td>
-                                        <td>{{$complaint->updated_at}}</td>
+                                        @if ($complaint->is_verifikasi == true)
+                                        <td>{!! $complaint->verifikasi_akhir !!}</td>
+                                        @else
+                                        <td><span class="badge badge-warning">Belum Verifikasi</span></td>
+                                        @endif
                                         <td>{{$complaint->status}}</td>
                                     </tr>
                                     @endif

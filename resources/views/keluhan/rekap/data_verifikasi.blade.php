@@ -98,9 +98,13 @@
                                     <tr>
                                         <td>{{ $no++ }}</td>
                                         <td>
+                                            @if ($item->upload_tindakan == true)
                                             <button type="button" class="btn btn-info btn-large" data-toggle="modal"
                                                 data-target="#largeModal{{ $item->id }}" id="open">Lihat Hasil Upload
                                             </button>
+                                            @else
+                                            <span class="badge badge-warning">Belum Upload</span>
+                                            @endif
                                         </td>
                                         <td><a href="{{ route('proses.detail', $item->id) }}" target="_blank" </a> {{
                                                 $item->nomer_keluhan }}
@@ -112,12 +116,8 @@
                                                 <div class="modal-content">
                                                     <div class="modal-body">
                                                         <div class="form-group">
-                                                            @if ($item->upload_tindakan == true)
                                                             <img src="{{ url('image/verifikasi/'.$item->tindakan_verifikasi) }}"
                                                                 style="width: 760px; height: 700px;">
-                                                            @else
-                                                            <h4>Belum Ada Upload</h4>
-                                                            @endif
                                                         </div>
                                                     </div>
                                                     <div class=" modal-footer">
