@@ -294,15 +294,26 @@
         </form>
 
 
-        @foreach ($result as $item )
         @if($keluhan->status == 'selesai' || $keluhan->status == 'proses' )
+        <h1 class="card-title">
+            <form method="post" action="{{route('proses.selesai', $keluhan->id)}}" id="form">
+                @csrf
+                @method('PATCH')
+                <input type="hidden" name="complaints_id" value="{{ $keluhan->id }}" required>
+                <button type="submit" class="btn btn-primary"><i class="fa fa-mouse"> Proses Sekarang </i></button>
+            </form>
+            <br>
+        </h1>
+        <br>
+        @foreach ($result as $item )
         <h1 class="card-title"><button type="button" class="btn btn-block btn-success" data-toggle="modal"
                 data-target="#myModal2{{$item->id}}" id="open"><i class="fas fa-arrow-circle-right"
                     style="color: #00ffff;"></i>
-                Lanjutkan Proses</button></h1>
-        @else
+                Lanjutkan Proses</button>
+        </h1>
+
         <hr>
-        @endif
+
 
         <form method="post" action="{{route('proses.next', $item->id)}}" id="form">
             @csrf
@@ -369,6 +380,8 @@
             </div>
         </form>
         @endforeach
+        @else
+        @endif
         <div class="card">
             <div class="card-body">
                 <table id="t_barang" class="table table-bordered table-striped" border="1">
@@ -496,10 +509,10 @@
                                         style="display: inline-block;">
                                         @csrf
                                         @method('DELETE')
-                                        <a type="submit" class="btn btn-danger"
+                                        <button type="submit" class="btn btn-danger"
                                             onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
                                             <i class="fa fa-trash"></i>
-                                        </a>
+                                        </button>
                                     </form>
                                     @endif
                                 </div>

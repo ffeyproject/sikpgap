@@ -89,7 +89,7 @@ class ResultController extends Controller
         $result->save();
 
         $status = Complaint::findOrFail($request->complaints_id);
-        $status->status = 'proses';
+        $status->status = 'selesai';
         $status->save();
 
         Alert::info('Info', 'Silahkan Isi Proses Ketahap berikutnya..');
@@ -215,9 +215,9 @@ class ResultController extends Controller
       public function next(Request $request, Result $result)
       {
 
-       $status = Complaint::findOrFail($request->complaints_id);
-        $status->status = 'va';
-        $status->update();
+    //    $status = Complaint::findOrFail($request->complaints_id);
+    //     $status->status = 'va';
+    //     $status->update();
         
         $result = Result::findOrFail($request->id);
         $result->tindakan = $request->tindakan;
@@ -228,6 +228,17 @@ class ResultController extends Controller
        
 
         Alert::info('Info', 'Silahkan Close Form Jika Sudah Selesai !!');
+        return redirect()->back();
+      }
+
+      public function selesai(Request $request, Result $result)
+      {
+
+       $result = Complaint::findOrFail($request->complaints_id);
+        $result->status = 'va';
+        $result->update();
+        
+        Alert::info('Info', 'Terimakasih, Data akan di Verifikasi');
         return redirect()->back();
       }
 
@@ -286,6 +297,7 @@ class ResultController extends Controller
      */
     public function destroy(Result $result)
     {
+        
         $result->delete();
 
         Alert::warning('Deleted', 'Data Result Berhasil Di Hapus');

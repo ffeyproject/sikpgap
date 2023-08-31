@@ -157,6 +157,7 @@ Route::post('keluhan/proses', [ResultController::class, 'store'])->name('proses.
 Route::get('keluhan/proses/detail/{complaint}', [ResultController::class, 'detail'])->name('proses.detail');
 Route::get('keluhan/cetak/{complaint}', [ResultController::class, 'cetak'])->name('keluhan.cetak');
 Route::patch('keluhan/proses/{complaint}', [ResultController::class, 'closed'])->name('proses.closed');
+Route::patch('keluhan/proses/selesai/{complaint}', [ResultController::class, 'selesai'])->name('proses.selesai');
 Route::patch('keluhan/proses/edit/{complaint}', [ResultController::class, 'update'])->name('proses.edit');
 Route::patch('keluhan/proses/closed/{complaint}', [ResultController::class, 'status'])->name('proses.status');
 Route::patch('keluhan/proses/solusi/{complaint}', [ResultController::class, 'esolusi'])->name('proses.esolusi');
