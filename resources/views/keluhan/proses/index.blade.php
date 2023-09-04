@@ -234,7 +234,8 @@
                                     class="form-control @error('defects_id') is-invalid @enderror">
                                     <option value="{{ old('defects_id') ?: '' }}"></option>
                                     @foreach($ab as $item)
-                                    <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                    <option value="{{ $item->id }}">{{ $item->kode_defect }} - {{ $item->nama }}
+                                    </option>
                                     @endforeach
                                 </select>
                                 @if ($errors->has('defects_id'))
