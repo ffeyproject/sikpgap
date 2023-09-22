@@ -211,7 +211,7 @@ class ComplaintController extends Controller
             $query->whereBetween('tgl_keluhan',[$start_date,$end_date])->where('status', '=', 'closed' );
         }
 
-        $complaints = $query->orderBy('id', 'DESC')->paginate(30);
+        $complaints = $query->orderBy('id', 'DESC')->paginate(100);
 
         // if ($request->status == 'open') {
         //  $complaints = Complaint::with('results', 'buyer', 'departements', 'defect')->whereBetween('tgl_keluhan',[$start_date,$end_date])->where('status', '=','open')->orderBy('id', 'DESC')->paginate(30);
