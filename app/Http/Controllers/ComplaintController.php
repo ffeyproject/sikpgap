@@ -46,7 +46,7 @@ class ComplaintController extends Controller
             'complaint' => $complaint
         ]);
     }
-    
+
     public function rverifikasi()
     {
         //  $complaint = Complaint::orderBy('id', 'DESC')->get();
@@ -104,7 +104,7 @@ class ComplaintController extends Controller
          set_time_limit(1200);
 
         return $pdf->stream();
-        
+
     }
 
      public function pdf($id)
@@ -130,7 +130,7 @@ class ComplaintController extends Controller
         return $pdf->stream();
 
 
-        
+
     }
 
      public function anyData(Request $request)
@@ -157,12 +157,12 @@ class ComplaintController extends Controller
     ->join('defects', 'defects.id', '=', 'defects_id')
     ->join('buyers', 'buyers.id', '=', 'buyers_id')
     ->whereBetween('tgl_keluhan',[$start_date,$end_date])
-    ->select('result_complaints.*', 
+    ->select('result_complaints.*',
     'complaints.*',
     'buyers.nama_buyer',
     'defects.nama')
     ->orderBy('complaints.id', 'DESC')
-    ->paginate(30);
+    ->paginate(100);
 
         return view('keluhan.rekap.index', [
             'complaints' => $complaints,
@@ -194,29 +194,29 @@ class ComplaintController extends Controller
         {
             $query->whereBetween('tgl_keluhan',[$start_date,$end_date])->where('status', '=', 'open' );
         }
-        
+
         elseif ($status == 'proses') {
             $query->whereBetween('tgl_keluhan',[$start_date,$end_date])->where('status', '=', 'proses' );
         }
 
         elseif ($status == 'selesai') {
             $query->whereBetween('tgl_keluhan',[$start_date,$end_date])->where('status', '=', 'selesai' );
-        }   
-        
+        }
+
         elseif ($status == 'va') {
             $query->whereBetween('tgl_keluhan',[$start_date,$end_date])->where('status', '=', 'va' );
-        }   
+        }
 
         elseif ($status == 'closed') {
             $query->whereBetween('tgl_keluhan',[$start_date,$end_date])->where('status', '=', 'closed' );
-        }   
-        
+        }
+
         $complaints = $query->orderBy('id', 'DESC')->paginate(30);
-        
+
         // if ($request->status == 'open') {
         //  $complaints = Complaint::with('results', 'buyer', 'departements', 'defect')->whereBetween('tgl_keluhan',[$start_date,$end_date])->where('status', '=','open')->orderBy('id', 'DESC')->paginate(30);
-         
-        // }                     
+
+        // }
 
     //    $aa = Complaint::whereBetween('created_at',[$start_date,$end_date])->orderBy('id', 'DESC')->paginate(30);
     //    $complaints = Complaint::with('results', 'buyer', 'departements', 'defect')->orderBy('id', 'DESC')->paginate(10);
@@ -226,7 +226,7 @@ class ComplaintController extends Controller
     // ->join('defects', 'defects.id', '=', 'defects_id')
     // ->join('buyers', 'buyers.id', '=', 'buyers_id')
     // ->whereBetween('tgl_keluhan',[$start_date,$end_date])
-    // ->select('result_complaints.*', 
+    // ->select('result_complaints.*',
     // 'complaints.*',
     // 'buyers.nama_buyer',
     // 'defects.nama')
@@ -344,10 +344,10 @@ class ComplaintController extends Controller
         $complaint->hasil_scan = null;
         $complaint->save();
 
-        
+
 
         $complaint->email = Auth::user()->email;
-        
+
 
      $complaint->notify( new CreateComplaintNotification($complaint));
 
@@ -382,7 +382,7 @@ class ComplaintController extends Controller
     ]);
 
         $scan = Complaint::findOrFail($request->complaints_id);
-        
+
         // if (empty($request->file('hasil_scan'))){
         //         $scan->hasil_scan = $scan->hasil_scan;
         //     }
@@ -401,11 +401,11 @@ class ComplaintController extends Controller
             $hasil_scan->move('image/scan',$newName);
             $scan->hasil_scan = $newName;
         $scan->save();
-    
+
          Alert::success('Berhasil', 'Terimakasih Sudah Upload');
         return redirect()->back();
     }
-    
+
     public function verifikasi(Request $request, Complaint $verifikasi)
     {
         $this->validate($request, [
@@ -418,7 +418,7 @@ class ComplaintController extends Controller
         $verifikasi->verifikasi_akhir = $request->verifikasi_akhir;
         $verifikasi->is_verifikasi = '1';
         $verifikasi->save();
-    
+
          Alert::success('Berhasil', 'Data Sudah Di Verifikasi');
         return redirect()->back();
     }
@@ -431,7 +431,7 @@ class ComplaintController extends Controller
     ]);
 
         $scan = Complaint::findOrFail($request->complaints_id);
-        
+
 
 		$tindakan_verifikasi = $request->file('tindakan_verifikasi');
             $ext = $tindakan_verifikasi->getClientOriginalExtension();
@@ -448,7 +448,7 @@ class ComplaintController extends Controller
         $complaint->email = Auth::user()->email;
 
         $complaint->notify(new UpdateProsesEmailComplaint($complaint));
-    
+
          Alert::success('Berhasil', 'Terimakasih Sudah Upload Tindakan Verifikasi, Data Ini di Close');
         return redirect()->back();
     }
@@ -592,20 +592,20 @@ class ComplaintController extends Controller
         $complaint->update();
         Alert::success('Success', 'Complaint Telah Di Close dan Data Solusi Terisi');
         return redirect('keluhan');
-        
+
     }
     else {
        Alert::warning('Info', 'Anda Bukan User Yang Membuat Data Complaint Ini');
         return redirect()->back();
     }
 
-        
 
-        
+
+
     }
 
 
-    
+
 
     /**
      * Remove the specified resource from storage.
