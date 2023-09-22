@@ -91,6 +91,7 @@
                                 <tbody>
                                     @foreach($complaints as $complaint)
                                     @if( $complaint->status == 'selesai' || $complaint->status == 'proses' ||
+                                    $complaint->status == 'va' ||
                                     $complaint->status == 'closed' )
                                     <tr>
                                         <td>{{ $no++ }}</td>
