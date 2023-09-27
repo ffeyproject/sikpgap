@@ -26,7 +26,7 @@ class DefectController extends Controller
      */
     public function index()
     {
-         $defect = Defect::all();
+         $defect = Defect::orderBy('id', 'DESC')->get();
 
         return view('master.defect.index', [
             'defect' => $defect
@@ -51,18 +51,18 @@ class DefectController extends Controller
      */
     public function store(DefectRequest $request)
     {
-         $orderObj = DB::table('defects')->select('kode_defect')->latest('kode_defect')->first();
-        if ($orderObj) {
-            $orderNr = $orderObj->kode_defect;
-            $removed1char = substr($orderNr, 4);
-            $kdefect = 'D-' . str_pad($removed1char + 1, 5, "0", STR_PAD_LEFT);
-        } else {
-            $kdefect = "D-".str_pad(1, 5, "0", STR_PAD_LEFT);
-        }
+        //  $orderObj = DB::table('defects')->select('kode_defect')->latest('kode_defect')->first();
+        // if ($orderObj) {
+        //     $orderNr = $orderObj->kode_defect;
+        //     $removed1char = substr($orderNr, 4);
+        //     $kdefect = 'D-' . str_pad($removed1char + 1, 5, "0", STR_PAD_LEFT);
+        // } else {
+        //     $kdefect = "D-".str_pad(1, 5, "0", STR_PAD_LEFT);
+        // }
 
         $defect = new Defect();
         $defect->user_id = Auth::user()->id;
-        $defect->kode_defect = $kdefect;
+        $defect->kode_defect = $request->kode_defect;
         $defect->kategori = $request->kategori;
         $defect->nama = $request->nama;
         $defect->keterangan = $request->keterangan;

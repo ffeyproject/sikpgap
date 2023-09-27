@@ -15,6 +15,17 @@
                     @csrf
                     <div class="card-body">
                         <div class="form-group">
+                            <label for="kode_defect">Kode Defect</label>
+                            <input type="text" name="kode_defect"
+                                class="form-control @error('kode_defect') is-invalid @enderror" id="kode_defect"
+                                value="{{ old('kode_defect') ?: '' }}" placeholder="Masukkan Kode Defect"
+                                autocomplete="off">
+                            @if ($errors->has('kode_defect'))
+                            <div class="invalid-feedback">{{
+                                $errors->first('kode_defect') }}</div>
+                            @endif
+                        </div>
+                        <div class="form-group">
                             <label for="kategori">Kategori</label>
                             <select name="kategori" id="kategori"
                                 class="form-control @error('kategori') is-invalid @enderror">
@@ -22,6 +33,8 @@
                                 <option value="Dyeing">Dyeing</option>
                                 <option value="Printing">Printing</option>
                                 <option value="Weaving">Weaving</option>
+                                <option value="Makloon">Makloon</option>
+                                <option value="QA">Qa</option>
                             </select>
                             @if ($errors->has('kategori'))
                             <div class="invalid-feedback">{{
@@ -31,7 +44,8 @@
                         <div class="form-group">
                             <label for="nama">Nama</label>
                             <input type="text" name="nama" class="form-control @error('nama') is-invalid @enderror"
-                                id="nama" value="{{ old('nama') ?: '' }}" placeholder="Masukkan Nama Defect">
+                                id="nama" value="{{ old('nama') ?: '' }}" placeholder="Masukkan Nama Defect"
+                                autocomplete="off">
                             @if ($errors->has('nama'))
                             <div class="invalid-feedback">{{
                                 $errors->first('nama') }}</div>
