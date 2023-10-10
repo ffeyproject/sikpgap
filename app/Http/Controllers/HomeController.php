@@ -112,12 +112,30 @@ class HomeController extends Controller
 
      public function detail()
     {
+        $thn = Carbon::now()->format('Y');
+
+
+       $result = Result::select('result_complaints.*')
+    ->join('complaints', 'complaints.id', '=', 'complaints_id')
+    ->join('defects', 'defects.id', '=', 'defects_id')
+    ->join('buyers', 'buyers.id', '=', 'buyers_id')
+    ->select('result_complaints.*',
+    'complaints.*',
+    'buyers.nama_buyer',
+    'defects.nama')
+    ->orderBy('departements_id', 'DESC')
+    ->whereYear('result_complaints.created_at','=',Carbon::now()->year)
+    // ->groupBy('departements_id')
+    ->get();
+
+
         $defect = Result::with('complaint','defect')->get();
         $ab = Defect::all();
-        $ad = Departement::all();
+        $ad = Departement::first();
         $ac = User::where('posisi', 'Qa' ,"Qa")->get();
-        $result = Result::with('complaint','defect','departements')->get();
+        // $result = Result::with('complaint','defect','departements')->whereYear('created_at','=',Carbon::now()->year)->get();
+        // $coba = Result::with('complaint','defect','departements')->where('departements_id', '=', '6')->get();
 
-        return view('home_detail', compact('defect', 'ab', 'ad', 'ac', 'result'));
+        return view('home_detail', compact('defect', 'ab', 'ad', 'ac', 'result','coba'));
     }
 }
