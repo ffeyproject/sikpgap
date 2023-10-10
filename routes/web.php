@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\api\ApiUserController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\ContactController;
@@ -52,9 +53,6 @@ Route::get('customer-login', [DashboardController::class, 'index'])->name('custo
 // Route::get('customer/login', [UsersController::class, 'login'])->name('customer.login');
 
 
-
-
-
 Route::group(['middleware' => ['guest']], function() {
         /**
          * Register Routes
@@ -71,6 +69,7 @@ Route::group(['middleware' => ['guest']], function() {
     // Route::group(['middleware' => ['auth', 'permission']], function() {
         Route::middleware(['backend','permission'])->group(function () {
             Route::get('home', [HomeController::class, 'index'])->name('home');
+            Route::get('data-detail', [HomeController::class, 'detail'])->name('data.detail');
         /**
          * Logout Routes
          */
@@ -241,7 +240,7 @@ Route::group(['middleware' => ['auth','customer']], function() {
     Route::get('customer-penilaian/index/{kepuasan}', [DashboardController::class, 'cvpenilaian'])->name('penilaian.cvpenilaian');
     Route::get('customer-penilaian/index/view/{kepuasan}', [DashboardController::class, 'fpenilaian'])->name('penilaian.fpenilaian');
     Route::post('customer-penilaian/index', [DashboardController::class, 'spenilaian'])->name('penilaian.spenilaian');
-    
+
 
     //contact
     Route::get('customer-contact', [DashboardController::class, 'contact'])->name('customer.contact');

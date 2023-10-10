@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Complaint;
+use App\Models\Defect;
+use App\Models\Departement;
 use App\Models\Result;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -106,5 +108,16 @@ class HomeController extends Controller
                 ->count();
 
         return view('home', compact('chart','now','thn', 't_total', 'ac', 't_keluhan'));
+    }
+
+     public function detail()
+    {
+        $defect = Result::with('complaint','defect')->get();
+        $ab = Defect::all();
+        $ad = Departement::all();
+        $ac = User::where('posisi', 'Qa' ,"Qa")->get();
+        $result = Result::with('complaint','defect','departements')->get();
+
+        return view('home_detail', compact('defect', 'ab', 'ad', 'ac', 'result'));
     }
 }
