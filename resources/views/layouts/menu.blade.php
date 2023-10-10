@@ -6,6 +6,13 @@
         <p>Home</p>
     </a>
 </li>
+<li class="nav-item">
+    <a href="{{ route('data.detail') }}"
+        class="nav-link {{ (request()->is('data-detail')) || (request()->is('data-detail')) ? 'active' : '' }}">
+        <i class="nav-icon fas fa-file"></i>
+        <p>Data Detail</p>
+    </a>
+</li>
 @auth
 @role('admin')
 <li class="nav-header">MANAGE</li>
