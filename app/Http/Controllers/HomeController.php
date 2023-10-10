@@ -134,7 +134,7 @@ class HomeController extends Controller
         $ad = Departement::first();
         $ac = User::where('posisi', 'Qa' ,"Qa")->get();
         // $result = Result::with('complaint','defect','departements')->whereYear('created_at','=',Carbon::now()->year)->get();
-        // $coba = Result::with('complaint','defect','departements')->where('departements_id', '=', '6')->get();
+        $coba = Result::with('complaint','defect','departements')->where('departements_id', '=', '6')->get();
 
         return view('home_detail', compact('defect', 'ab', 'ad', 'ac', 'result','coba'));
     }
