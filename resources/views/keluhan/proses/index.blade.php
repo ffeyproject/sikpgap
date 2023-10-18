@@ -505,7 +505,8 @@
                                         style="color: #00ffff;"></i>
                                 </button> --}}
                                 <div class="container">
-                                    @if($keluhan->status == 'proses' || $keluhan->status =='selesai')
+                                    @if($keluhan->status == 'proses' || $keluhan->status =='selesai' || $keluhan->status
+                                    =='va')
                                     <form action="{{ route('proses.destroy', $item->id) }}" method="POST"
                                         style="display: inline-block;">
                                         @csrf
