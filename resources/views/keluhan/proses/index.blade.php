@@ -477,7 +477,7 @@
 
 
                                                         <div class="form-group">
-                                                            <label for="hasil_penelusuran">Hasil Verifikasi</label>
+                                                            <label for="hasil_penelusuran">Hasil Penelusuran</label>
                                                             <textarea
                                                                 class="form-control @error('hasil_penelusuran') is-invalid @enderror"
                                                                 name="hasil_penelusuran" id="hasil_penelurusanE"
@@ -485,6 +485,18 @@
                                                             @if ($errors->has('hasil_penelusuran'))
                                                             <div class="invalid-feedback">{{
                                                                 $errors->first('hasil_penelusuran') }}</div>
+                                                            @endif
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label for="hasil_verifikasi">Hasil Verifikasi</label>
+                                                            <textarea
+                                                                class="form-control @error('hasil_verifikasi') is-invalid @enderror"
+                                                                name="hasil_verifikasi" id="hasil_verifikasiE"
+                                                                value="{{ old('hasil_verifikasi') ?: '' }}">{{ $item->hasil_verifikasi }}</textarea>
+                                                            @if ($errors->has('hasil_verifikasi'))
+                                                            <div class="invalid-feedback">{{
+                                                                $errors->first('hasil_verifikasi') }}</div>
                                                             @endif
                                                         </div>
 
@@ -614,6 +626,7 @@
     $('#tindakanE').summernote()
     $('#hasil_verifikasi').summernote()
     $('#hasil_penelurusanE').summernote()
+    $('#hasil_verifikasiE').summernote()
   })
 </script>
 

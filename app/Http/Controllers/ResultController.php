@@ -161,7 +161,7 @@ class ResultController extends Controller
                 'icomplaint' => $icomplaint
         ]);
 
-        
+
     }
 
 
@@ -218,14 +218,14 @@ class ResultController extends Controller
     //    $status = Complaint::findOrFail($request->complaints_id);
     //     $status->status = 'va';
     //     $status->update();
-        
+
         $result = Result::findOrFail($request->id);
         $result->tindakan = $request->tindakan;
         $result->tgl_verifikasi = $request->tgl_verifikasi;
         $result->hasil_verifikasi = $request->hasil_verifikasi;
         $result->update();
 
-       
+
 
         Alert::info('Info', 'Silahkan Close Form Jika Sudah Selesai !!');
         return redirect()->back();
@@ -237,7 +237,7 @@ class ResultController extends Controller
        $result = Complaint::findOrFail($request->complaints_id);
         $result->status = 'va';
         $result->update();
-        
+
         Alert::info('Info', 'Terimakasih, Data akan di Verifikasi');
         return redirect()->back();
       }
@@ -261,7 +261,7 @@ class ResultController extends Controller
      */
     public function edit(Result $result)
     {
-         
+
     }
 
     /**
@@ -276,13 +276,15 @@ class ResultController extends Controller
         $this->validate($request, [
         'defects_id'   => 'required',
         'departements_id'   => 'required',
-        'hasil_penelusuran'   => 'required'
+        'hasil_penelusuran'   => 'required',
+        'hasil_verifikasi'   => 'required'
         ]);
 
         $result = Result::findOrFail($request->id);
         $result->defects_id = $request->defects_id;
         $result->departements_id = $request->departements_id;
         $result->hasil_penelusuran = $request->hasil_penelusuran;
+        $result->hasil_verifikasi = $request->hasil_verifikasi;
         $result->update();
 
         Alert::info('Info', 'Proses Data Telah Di Update !!');
@@ -297,7 +299,7 @@ class ResultController extends Controller
      */
     public function destroy(Result $result)
     {
-        
+
         $result->delete();
 
         Alert::warning('Deleted', 'Data Result Berhasil Di Hapus');
