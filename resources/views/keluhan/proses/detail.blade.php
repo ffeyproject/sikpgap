@@ -598,7 +598,7 @@
             $(document).ready(function(){
         $("#form-input").hide(); //Menghilangkan form-input ketika pertama kali dijalankan
         $(".form-check-input").click(function(){ //Memberikan even ketika class detail di klik (class detail ialah class radio button)
-        if ($("input[name='is_uploadVa']:checked").val() == "ya" ) { //Jika radio button "berbeda" dipilih maka tampilkan form-inputan
+        if ($("input[name='is_uploadVa']:checked").val() == "1" ) { //Jika radio button "berbeda" dipilih maka tampilkan form-inputan
         $("#form-input").show(); //Efek Slide Down (Menampilkan Form Input)
         } else {
         $("#form-input").hide(); //Efek Slide Up (Menghilangkan Form Input)
