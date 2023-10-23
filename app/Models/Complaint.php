@@ -13,7 +13,7 @@ class Complaint extends Model
 {
     use HasFactory, Notifiable;
 
-    protected $fillable = ['users_id', 'buyers_id', 'no_urut', 'nomer_keluhan', 'tgl_keluhan', 'nama_marketing', 'no_wo', 'no_sc', 'nama_motif', 'cw_qty','jenis','masalah','solusi', 'tgl_proses','status', 'hasil_scan','cutting_point','verifikasi_akhir'];
+    protected $fillable = ['users_id', 'buyers_id', 'no_urut', 'nomer_keluhan', 'tgl_keluhan', 'nama_marketing', 'no_wo', 'no_sc', 'nama_motif', 'cw_qty','jenis','masalah','solusi', 'tgl_proses','status', 'hasil_scan','cutting_point','verifikasi_akhir','qty_complaint','created_at'];
 
     public $table = "complaints";
 
@@ -33,12 +33,12 @@ class Complaint extends Model
    {
      return $this->hasMany(Defect::class, 'id');
    }
-   
+
    public function departements(): HasMany
    {
      return $this->hasMany(Departement::class, 'id');
    }
-   
+
 
     public function users(): BelongsTo
     {

@@ -37,7 +37,7 @@
                             <strong>Nomer Wo </strong><br>
                             <strong>No Sc </strong><br>
                             <strong>Nama Motif </strong><br>
-                            <strong>CW/.QTY </strong><br>
+                            <strong>CW/,QTY </strong><br>
                             <strong>Jenis </strong><br>
                         </td>
                         <td valign='top' width='70%' style='font-size:16px;'>
@@ -48,7 +48,7 @@
                             : {{ $keluhan->no_wo }} <br>
                             : {{ $keluhan->no_sc }} <br>
                             : {{ $keluhan->nama_motif }} <br>
-                            : {{ $keluhan->cw_qty }} <br>
+                            : {{ $keluhan->cw_qty }}, {{ $keluhan->qty_complaint }} <br>
                             : {{ $keluhan->jenis }} <br>
                         </td>
                         <td valign='top' width='10%' style='font-size:6px;'>

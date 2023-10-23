@@ -56,7 +56,7 @@
                         <td>
                             <button type="button" class="btn btn-info btn-large" data-toggle="modal"
                                 data-target="#largeModal" id="open">Show All Image
-                            </button>
+                            </button><br>
                         </td>
                         <!-- Modal -->
                         <div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="basicModal"

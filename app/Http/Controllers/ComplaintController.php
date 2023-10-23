@@ -342,6 +342,7 @@ class ComplaintController extends Controller
 	    // }
         $complaint->g_keluhan = 'default.png';
         $complaint->hasil_scan = null;
+        $complaint->qty_complaint = $request->qty_complaint;
         $complaint->save();
 
 

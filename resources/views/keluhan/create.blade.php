@@ -79,13 +79,32 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="solusi">Solusi</label>
+                            <label for="solusi">Informasi Solusi</label>
                             <textarea class="form-control @error('solusi') is-invalid @enderror" name="solusi"
                                 id="solusi" value="{{ old('solusi') ?: '' }}">-</textarea>
                             @if ($errors->has('solusi'))
                             <div class="invalid-feedback">{{
                                 $errors->first('solusi') }}</div>
                             @endif
+                        </div>
+                        <label for="jenis">Silahkan Pilih Jenis</label>
+                        <div class="form-group">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="jenis" value="Dyeing">
+                                <label class="form-check-label">Dyeing</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="jenis" value="Printing">
+                                <label class="form-check-label">Printing</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="jenis" value="Weaving">
+                                <label class="form-check-label">Weaving</label>
+                            </div>
                         </div>
 
                     </div>
@@ -113,14 +132,26 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="cw_qty">CW / QTY</label>
+                            <label for="cw_qty">CW Complaint</label>
                             <input type="text" name="cw_qty" class="form-control @error('cw_qty') is-invalid @enderror"
-                                id="cw_qty" value="{{ old('cw_qty') ?: '' }}" placeholder="Masukkan CW/MOTIF">
+                                id="cw_qty" value="{{ old('cw_qty') ?: '' }}" placeholder="Masukkan CW">
                             @if ($errors->has('cw_qty'))
                             <div class="invalid-feedback">{{
                                 $errors->first('cw_qty') }}</div>
                             @endif
                         </div>
+
+                        <div class="form-group">
+                            <label for="qty_complaint">QTY Complaint</label>
+                            <input type="text" name="qty_complaint"
+                                class="form-control @error('qty_complaint') is-invalid @enderror" id="qty_complaint"
+                                value="{{ old('qty_complaint') ?: '' }}" placeholder="Masukkan Qty">
+                            @if ($errors->has('qty_complaint'))
+                            <div class="invalid-feedback">{{
+                                $errors->first('qty_complaint') }}</div>
+                            @endif
+                        </div>
+
 
                         <div class="form-group">
                             <label for="masalah">Deksripsi Masalah</label>
@@ -144,31 +175,83 @@
                             @endif
                         </div>
 
-                    </div>
+                        {{-- <div class="form-group">
+                            <label for="keterangan_sample">Rencana Penanganan</label> <button type="button"
+                                class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                Lihat Keterangan Pilihan
+                            </button>
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="rencana_penanganan"
+                                        value="Tindakan Langsung">
+                                    <label class="form-check-label">Tindakan Langsung & Preventive Action</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="rencana_penanganan"
+                                        value="Tindakan Langsung">
+                                    <label class="form-check-label">Tindakan Langsung & Corrective Action</label>
+                                </div>
+                            </div>
 
-                    <div class="col-sm-2">
-                        <div class="form-group">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="jenis" value="Dyeing">
-                                <label class="form-check-label">Dyeing</label>
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Ket. Rencana Penanganan
+                                            </h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h5>Tindakan Langsung adalah tindakan yang berupaya mencapai tujuan secara
+                                                langsung dan dengan cara yang paling efektif
+                                                (keputusan telah dibuat tanpa dilakukan penelusuran asal dan penyebab
+                                                masalah).</h5> <br>
+                                            <h5>Preventive Action adalah langkah yang diambil untuk mencegah terjadinya
+                                                penyimpangan dalam proses produksi.</h5><br>
+                                            <h5>Corrective Action adalah tindakan yang diambil untuk mengatasi penyebab
+                                                dari penyimpangan yang telah dilakukan, dan
+                                                tindakan ini dirancang untuk mencegah terulangnya kembali penyimpangan.
+                                            </h5>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-2">
-                        <div class="form-group">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="jenis" value="Printing">
-                                <label class="form-check-label">Printing</label>
+
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="rencana_penanganan"
+                                        value="Preventive Action">
+                                    <label class="form-check-label">Preventive Action</label>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-2">
-                        <div class="form-group">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="jenis" value="Weaving">
-                                <label class="form-check-label">Weaving</label>
+
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="rencana_penanganan"
+                                        value="Corrective Action">
+                                    <label class="form-check-label">Corrective Action</label>
+                                </div>
                             </div>
-                        </div>
+
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="rencana_penanganan"
+                                        value="Corrective Action">
+                                    <label class="form-check-label">Corrective Action</label>
+                                </div>
+                            </div>
+
+                        </div> --}}
+
                     </div>
 
 

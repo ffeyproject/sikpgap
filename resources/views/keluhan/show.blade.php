@@ -78,7 +78,7 @@
                         : {{ $keluhan->no_wo }}<br>
                         : {{ $keluhan->no_sc }}<br>
                         : {{ $keluhan->nama_motif }}<br>
-                        : {{ $keluhan->cw_qty }}<br>
+                        : {{ $keluhan->cw_qty }}, {{$keluhan->qty_complaint}}<br>
                         : {{ $keluhan->jenis }}<br>
                         <td>
                             <button type="button" class="btn btn-info btn-large" data-toggle="modal"
