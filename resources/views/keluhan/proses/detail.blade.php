@@ -144,17 +144,32 @@
                                 <div class="modal-body">
                                     <input type="hidden" name="complaints_id" value="{{ $keluhan->id }}">
 
+                                    <label for="is_uploadVa">Apakah akan Upload Hasil Va ?</label>
                                     <div class="form-group">
-                                        <label for="tindakan_verifikasi">Upload Hasil</label>
-                                        <input type="file" name="tindakan_verifikasi"
-                                            class="form-control @error('tindakan_verifikasi') is-invalid @enderror"
-                                            id="tindakan_verifikasi" value="{{ old('tindakan_verifikasi') ?: '' }}"
-                                            placeholder="">
-                                        @if ($errors->has('tindakan_verifikasi'))
-                                        <div class="invalid-feedback">{{
-                                            $errors->first('tindakan_verifikasi') }}</div>
-                                        @endif
-                                        <p class="help-block">Max.1.5Mb</p>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="is_uploadVa" value="1">
+                                            <label class="form-check-label">Ya</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="is_uploadVa" value="0">
+                                            <label class="form-check-label">Tidak</label>
+                                        </div>
+                                    </div>
+                                    <div id="form-input">
+                                        <div class="form-group">
+                                            <label for="tindakan_verifikasi">Upload Hasil</label>
+                                            <input type="file" name="tindakan_verifikasi"
+                                                class="form-control @error('tindakan_verifikasi') is-invalid @enderror"
+                                                id="tindakan_verifikasi" value="{{ old('tindakan_verifikasi') ?: '' }}"
+                                                placeholder="">
+                                            @if ($errors->has('tindakan_verifikasi'))
+                                            <div class="invalid-feedback">{{
+                                                $errors->first('tindakan_verifikasi') }}</div>
+                                            @endif
+                                            <p class="help-block">Max.1.5Mb</p>
+                                        </div>
                                     </div>
 
                                     <div class="modal-footer">
@@ -578,6 +593,20 @@
         @endsection
 
         @section('tablejs')
+
+        <script>
+            $(document).ready(function(){
+        $("#form-input").hide(); //Menghilangkan form-input ketika pertama kali dijalankan
+        $(".form-check-input").click(function(){ //Memberikan even ketika class detail di klik (class detail ialah class radio button)
+        if ($("input[name='is_uploadVa']:checked").val() == "ya" ) { //Jika radio button "berbeda" dipilih maka tampilkan form-inputan
+        $("#form-input").show(); //Efek Slide Down (Menampilkan Form Input)
+        } else {
+        $("#form-input").hide(); //Efek Slide Up (Menghilangkan Form Input)
+        }
+        });
+        });
+        </script>
+
 
         <script>
             $(function () {

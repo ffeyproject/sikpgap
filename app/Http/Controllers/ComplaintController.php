@@ -434,13 +434,21 @@ class ComplaintController extends Controller
         $scan = Complaint::findOrFail($request->complaints_id);
 
 
-		$tindakan_verifikasi = $request->file('tindakan_verifikasi');
+        if ($request->is_uploadVa == true) {
+            	$tindakan_verifikasi = $request->file('tindakan_verifikasi');
             $ext = $tindakan_verifikasi->getClientOriginalExtension();
             $newName = rand(100000,1001238912).".".$ext;
             $tindakan_verifikasi->move('image/verifikasi',$newName);
             $scan->tindakan_verifikasi = $newName;
             $scan->status = 'closed';
         $scan->save();
+        } elseif ($request->is_uploadVa == false) {
+            $tindakan_verifikasi = false;
+            $scan->status = 'closed';
+        $scan->save();
+        }
+
+
 
         $complaint->status = 'closed';
         $complaint->upload_tindakan = '1';
