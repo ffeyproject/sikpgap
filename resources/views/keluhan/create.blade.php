@@ -283,11 +283,38 @@
 <script>
     $(function () {
     // Summernote
-    $('#summernote').summernote()
+    $('#summernote').summernote(
+        {
+        placeholder: 'Silahkan isi keterangan masalah',
+        tabsize: 2,
+        height: 120,
+        toolbar: [
+        ['style', ['style']],
+        ['font', ['bold', 'underline', 'clear']],
+        ['color', ['color']],
+        ['para', ['ul', 'ol', 'paragraph']],
+        ['table', ['table']],
+        ['view', ['fullscreen', 'codeview', 'help']]
+        ]
+        }
+    );
   })
     $(function () {
     // Summernote
-    $('#solusi').summernote()
+    $('#solusi').summernote(
+    {
+    placeholder: '',
+    tabsize: 2,
+    height: 120,
+    toolbar: [
+    ['style', ['style']],
+    ['font', ['bold', 'underline', 'clear']],
+    ['color', ['color']],
+    ['para', ['ul', 'ol', 'paragraph']],
+    ['table', ['table']],
+    ['view', ['fullscreen', 'codeview', 'help']]
+    ]
+    });
   })
 </script>
 
