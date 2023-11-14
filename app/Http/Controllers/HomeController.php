@@ -68,9 +68,9 @@ class HomeController extends Controller
                   ->join('complaints', 'result_complaints.complaints_id', '=', 'complaints.id')
                   ->select('defects.nama','defects_id', DB::raw("DATE_FORMAT(tgl_keluhan, '%Y') year, count(*) as total "))
                   ->groupBy('year','defects_id')
+                  ->take(10)
                   ->orderBy('total','desc')
                   ->pluck('total', 'nama')
-                  ->take(10)
                   ->all();
         // Generate random colours for the ab
         // Generate random colours for the ab
