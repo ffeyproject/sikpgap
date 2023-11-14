@@ -73,6 +73,7 @@ class HomeController extends Controller
                   ->take(10)
                   ->all();
         // Generate random colours for the ab
+        // Generate random colours for the ab
         for ($i=0; $i<=count($ab); $i++) {
                     $cc[] = '#' . substr(str_shuffle('ABCDEF0123456789'), 0, 6);
                 }
