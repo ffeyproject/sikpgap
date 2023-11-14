@@ -63,15 +63,25 @@ class HomeController extends Controller
                 $chart->colours = $colours;
 
 
-        $ab = DB::table('result_complaints')
+         $ab = DB::table('result_complaints')
                   ->join('defects', 'result_complaints.defects_id', '=', 'defects.id')
                   ->join('complaints', 'result_complaints.complaints_id', '=', 'complaints.id')
-                  ->select('defects.nama','defects_id', DB::raw("DATE_FORMAT(tgl_keluhan, '%Y') year, count(*) as total "))
+                  ->select('defects.nama','defects_id', DB::raw("DATE_FORMAT(tgl_keluhan, '%Y') year, count(*) as total"))
                   ->groupBy('year','defects_id')
-                  ->orderBy('total','desc')
+                  ->orderBy('total')
                   ->pluck('total', 'nama')
-                //   ->take(10)
                   ->all();
+
+
+        // $ab = DB::table('result_complaints')
+        //           ->join('defects', 'result_complaints.defects_id', '=', 'defects.id')
+        //           ->join('complaints', 'result_complaints.complaints_id', '=', 'complaints.id')
+        //           ->select('defects.nama','defects_id', DB::raw("DATE_FORMAT(tgl_keluhan, '%Y') year, count(*) as total "))
+        //           ->groupBy('year','defects_id')
+        //           ->orderBy('total','desc')
+        //           ->pluck('total', 'nama')
+        //         //   ->take(10)
+        //           ->all();
         // Generate random colours for the ab
         // Generate random colours for the ab
         for ($i=0; $i<=count($ab); $i++) {
