@@ -10,7 +10,7 @@
             <h4>Total Per Tahun {{ Carbon::now()->format('Y') }}</h4>
             <div class="row">
                 <div class="col-12 col-sm-6 col-md-3">
-                    <div class="info-box mb-3">
+                    <div class="mb-3 info-box">
                         <span class="info-box-icon bg-danger elevation-1"><i class="far fa-paper-plane"></i></i></span>
                         <div class="info-box-content">
                             <span class="info-box-text">Total Keluhan</span>
@@ -21,7 +21,7 @@
 
                 </div>
                 <div class="col-12 col-sm-6 col-md-3">
-                    <div class="info-box mb-3">
+                    <div class="mb-3 info-box">
                         <span class="info-box-icon bg-success elevation-1"><i
                                 class="far fa-building"></i></i></i></span>
                         <div class="info-box-content">
