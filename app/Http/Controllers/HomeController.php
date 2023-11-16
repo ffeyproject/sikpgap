@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use LaravelDaily\LaravelCharts\Classes\LaravelChart;
 
 class HomeController extends Controller
 {
@@ -69,6 +70,7 @@ class HomeController extends Controller
                   ->select('defects.nama','defects_id', DB::raw("DATE_FORMAT(tgl_keluhan, '%Y') year, count(*) as total"))
                   ->groupBy('year','defects_id')
                   ->orderBy('total')
+                  ->having('total', '>', 1)
                   ->pluck('total', 'nama')
                   ->all();
 
@@ -119,6 +121,7 @@ class HomeController extends Controller
       $t_keluhan = Complaint::whereYear('created_at','=',Carbon::now()->year)
                 ->select('created_at')
                 ->count();
+
 
         return view('home', compact('chart','now','thn', 't_total', 'ac', 't_keluhan'));
     }

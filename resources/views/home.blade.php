@@ -52,6 +52,7 @@
 
                 </div>
             </div>
+            <hr>
 
         </div>
 
@@ -106,7 +107,7 @@
             labels:  {!!json_encode($chart->labels)!!} ,
             datasets: [
                 {
-                    label: 'Asal Masalah',
+                    label: 'Asal Masalah (Tahun {{ Carbon::now()->format('Y') }})',
                     backgroundColor: {!! json_encode($chart->colours)!!} ,
                     data:  {!! json_encode($chart->dataset)!!} ,
                 },
@@ -157,7 +158,7 @@
             labels:  {!!json_encode($ac->labels)!!} ,
             datasets: [
                 {
-                    label: 'Penyebab Masalah',
+                    label: 'Penyebab Masalah (Tahun {{ Carbon::now()->format('Y') }}) ',
                     backgroundColor: {!! json_encode($ac->cc)!!} ,
                     data:  {!! json_encode($ac->dataset)!!} ,
                 },
