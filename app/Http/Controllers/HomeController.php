@@ -140,7 +140,7 @@ class HomeController extends Controller
     'buyers.nama_buyer',
     'defects.nama')
     ->orderBy('departements_id', 'DESC')
-    ->whereYear('result_complaints.created_at','=',Carbon::now()->year)
+    // ->whereYear('result_complaints.created_at','=',Carbon::now()->year)
     // ->groupBy('departements_id')
     ->get();
 
