@@ -171,6 +171,35 @@ class ComplaintController extends Controller
         ]);
     }
 
+     public function dopen(Request $request)
+    {
+        $start_date = Carbon::parse($request->start_date)
+                             ->toDateTimeString();
+
+       $end_date = Carbon::parse($request->end_date)
+                             ->toDateTimeString();
+
+                             $currentTime = Carbon::now()->startOfMonth();
+                             $currentTime2 = Carbon::now()->endOfMonth();
+
+
+    $complaints = Complaint::select('complaints.*')
+    ->join('buyers', 'buyers.id', '=', 'buyers_id')
+    ->whereBetween('tgl_keluhan',[$start_date,$end_date])
+    ->select(
+    'complaints.*',
+    'buyers.nama_buyer')
+    ->orderBy('complaints.id', 'DESC')
+    ->paginate(100);
+
+        return view('keluhan.rekap.rekap_open', [
+            'complaints' => $complaints,
+            'currentTime' => $currentTime,
+            'currentTime2' => $currentTime2,
+        ]);
+    }
+
+
     public function dverifikasi(Request $request)
     {
 
@@ -344,6 +373,23 @@ class ComplaintController extends Controller
         $complaint->hasil_scan = null;
         $complaint->qty_complaint = $request->qty_complaint;
         $complaint->save();
+
+        $url = 'https://fcm.googleapis.com/fcm/send';
+        $dataArr = array('click_action' => 'FLUTTER_NOTIFICATION_CLICK', 'id' => $request->id,'status'=>"done");
+        $notification = array('nomer_keluhan' =>$no_ak, 'text' => $request->nama_marketing, 'text'=> $request->nama_motif, 'sound' => 'default', 'badge' => '1',);
+        $arrayToSend = array('to' => "/topics/all", 'notification' => $notification, 'data' => $dataArr, 'priority'=>'high');
+        $fields = json_encode ($arrayToSend);
+        $headers = array (
+            'Authorization: key=' . "AAAA88xwZGI:APA91bH4UDBrGGTEAKDCEr2BmbU9_m8zRVncKrGvPCt1qgvyVIDb7OYALvONKxSzG_XhyZmCX-cKWtGmmM249wSmLtG8Zpb_8y6iuYberPmwRePD8hK5UuIC8ew96wxqc9lF7XOjhJ5h",
+            'Content-Type: application/json'
+        );        $ch = curl_init ();
+        curl_setopt ( $ch, CURLOPT_URL, $url );
+        curl_setopt ( $ch, CURLOPT_POST, true );
+        curl_setopt ( $ch, CURLOPT_HTTPHEADER, $headers );
+        curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
+        curl_setopt ( $ch, CURLOPT_POSTFIELDS, $fields );        $result = curl_exec ( $ch );
+        //var_dump($result);
+        curl_close ( $ch );
 
 
 
