@@ -82,7 +82,10 @@
                                 <?php $no = 1 ?>
                                 <tbody>
                                     @foreach($complaints as $complaint)
-                                    @if( $complaint->status == 'open' || $complaint->status == 'proses' )
+                                    @if( $complaint->status == 'open' || $complaint->status == 'proses' ||
+                                    $complaint->status == 'selesai' ||
+                                    $complaint->status == 'va' ||
+                                    $complaint->status == 'closed' )
                                     <tr>
                                         <td>{{ $no++ }}</td>
                                         <td>{{$complaint->nomer_keluhan}}</td>
