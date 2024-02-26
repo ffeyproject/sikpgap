@@ -154,4 +154,33 @@ class HomeController extends Controller
 
         return view('home_detail', compact('defect', 'ab', 'ad', 'ac', 'result','coba'));
     }
+
+
+    public function grafik()
+    {
+        // Tampilkan view dengan form pencarian tanpa grafik
+        return view('home_grafik');
+    }
+
+    public function search(Request $request)
+{
+    $tahun = $request->tahun;
+
+    $data = DB::table('result_complaints')
+                  ->join('defects', 'result_complaints.defects_id', '=', 'defects.id')
+                  ->join('complaints', 'result_complaints.complaints_id', '=', 'complaints.id')
+                  ->select('defects.nama as nama', DB::raw("DATE_FORMAT(tgl_keluhan, '%Y') as year, count(*) as total"))
+                  ->whereRaw("DATE_FORMAT(tgl_keluhan, '%Y') = ?", [$tahun]) // Assuming you want to filter by year
+                  ->groupBy('year', 'defects.nama') // Grouping also by 'defects.nama' instead of 'defects_id' for chart labels
+                //   ->havingRaw('count(*) >= ?', [5])
+                  ->orderBy('total', 'desc') // Assuming you might want the most significant issues first
+                  ->get(); // Using get() to fetch the results
+
+    // Since $data is a Collection, you can directly use pluck on it
+    $labels = $data->pluck('nama');
+    $values = $data->pluck('total');
+
+    // Mengirim data ke view
+    return view('home_grafik', compact('labels', 'values', 'tahun'));
+}
 }

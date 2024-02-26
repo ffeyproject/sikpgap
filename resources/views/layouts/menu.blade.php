@@ -13,6 +13,13 @@
         <p>Data Detail</p>
     </a>
 </li>
+<li class="nav-item">
+    <a href="{{ route('data.grafik') }}"
+        class="nav-link {{ (request()->is('home/grafik/search')) || (request()->is('home/grafik/search')) ? 'active' : '' }}">
+        <i class="nav-icon fas fa-file"></i>
+        <p>Data Grafik</p>
+    </a>
+</li>
 @auth
 @role('admin')
 <li class="nav-header">MANAGE</li>

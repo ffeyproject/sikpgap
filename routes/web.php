@@ -70,6 +70,8 @@ Route::group(['middleware' => ['guest']], function() {
         Route::middleware(['backend','permission'])->group(function () {
             Route::get('home', [HomeController::class, 'index'])->name('home');
             Route::get('data-detail', [HomeController::class, 'detail'])->name('data.detail');
+            Route::get('home/grafik', [HomeController::class, 'grafik'])->name('data.grafik');
+            Route::post('home/grafik/search', [HomeController::class, 'search'])->name('data.search');
         /**
          * Logout Routes
          */
