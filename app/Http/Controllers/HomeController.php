@@ -63,7 +63,7 @@ class HomeController extends Controller
                 ->whereRaw("DATE_FORMAT(tgl_keluhan, '%Y') = ?", [$yearNow]) // Menambahkan filter untuk tahun sekarang
                 ->groupBy('year', 'defects_id')
                 ->orderBy('total')
-                // ->havingRaw('count(*) >= ?', [3])
+                ->havingRaw('count(*) >= ?', [3])
                 ->pluck('total', 'nama')
                 ->all();
 
