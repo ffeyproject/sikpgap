@@ -31,25 +31,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        // $year = ['2022', '2023', '2024', '2025', '2026'];
-        // $keluhan = [];
-        // $result = [];
-
-        // foreach ($year as $key => $value) {
-
-        //     $keluhan[] = Complaint::where(DB::raw("DATE_FORMAT(created_at, '%Y')"),$value)->count();
-        //     $result[] = Result::where(DB::raw("DATE_FORMAT(created_at, '%Y')"),$value)->count();
-
-
-        // }
-
-
-        // return view('home')->with('year',json_encode($year,JSON_NUMERIC_CHECK))->with('keluhan',json_encode($keluhan,JSON_NUMERIC_CHECK))->with('result',json_encode($result,JSON_NUMERIC_CHECK));
+         $yearNow = date('Y'); // Mendapatkan tahun sekarang dengan PHP
 
         $groups = DB::table('result_complaints')
                   ->join('departements', 'result_complaints.departements_id', '=', 'departements.id')
                   ->join('complaints', 'result_complaints.complaints_id', '=', 'complaints.id')
                   ->select('asal_masalah','departements_id', DB::raw("DATE_FORMAT(complaints.tgl_keluhan, '%Y') year, count(*) as total"))
+                  ->whereRaw("DATE_FORMAT(tgl_keluhan, '%Y') = ?", [$yearNow]) // Menambahkan filter untuk tahun sekarang
                   ->groupBy('year','departements_id')
                   ->pluck('total', 'asal_masalah')
                   ->all();
@@ -63,54 +51,39 @@ class HomeController extends Controller
                 $chart->dataset = (array_values($groups));
                 $chart->colours = $colours;
 
-
-         $ab = DB::table('result_complaints')
-                  ->join('defects', 'result_complaints.defects_id', '=', 'defects.id')
-                  ->join('complaints', 'result_complaints.complaints_id', '=', 'complaints.id')
-                  ->select('defects.nama','defects_id', DB::raw("DATE_FORMAT(tgl_keluhan, '%Y') year, count(*) as total"))
-                  ->groupBy('year','defects_id')
-                  ->orderBy('total')
-                  ->having('total', '>', 1)
-                  ->pluck('total', 'nama')
-                  ->all();
+        $total2 = array_sum($chart->dataset);
+        $chart->total = $total2;
 
 
-        // $ab = DB::table('result_complaints')
-        //           ->join('defects', 'result_complaints.defects_id', '=', 'defects.id')
-        //           ->join('complaints', 'result_complaints.complaints_id', '=', 'complaints.id')
-        //           ->select('defects.nama','defects_id', DB::raw("DATE_FORMAT(tgl_keluhan, '%Y') year, count(*) as total "))
-        //           ->groupBy('year','defects_id')
-        //           ->orderBy('total','desc')
-        //           ->pluck('total', 'nama')
-        //         //   ->take(10)
-        //           ->all();
-        // Generate random colours for the ab
-        // Generate random colours for the ab
-        for ($i=0; $i<=count($ab); $i++) {
-                    $cc[] = '#' . substr(str_shuffle('ABCDEF0123456789'), 0, 6);
-                }
+
+        $ab = DB::table('result_complaints')
+                ->join('defects', 'result_complaints.defects_id', '=', 'defects.id')
+                ->join('complaints', 'result_complaints.complaints_id', '=', 'complaints.id')
+                ->select('defects.nama', 'defects_id', DB::raw("DATE_FORMAT(tgl_keluhan, '%Y') as year, count(*) as total"))
+                ->whereRaw("DATE_FORMAT(tgl_keluhan, '%Y') = ?", [$yearNow]) // Menambahkan filter untuk tahun sekarang
+                ->groupBy('year', 'defects_id')
+                ->orderBy('total')
+                // ->havingRaw('count(*) >= ?', [3])
+                ->pluck('total', 'nama')
+                ->all();
+
+        $cc = [];
+        for ($i = 0; $i < count($ab); $i++) {
+            $cc[] = '#' . substr(str_shuffle('ABCDEF0123456789'), 0, 6);
+        }
+
         // Prepare the data for returning with the view
         $ac = new Result();
-                $ac->labels = (array_keys($ab));
-                $ac->dataset = (array_values($ab));
-                $ac->cc = $cc ;
+        $ac->labels = array_keys($ab);
+        $ac->dataset = array_values($ab);
+        $ac->cc = $cc;
+
+        $total = array_sum($ac->dataset);
+        $ac->total = $total;
 
         $now = Carbon::now()->format('d-m-Y, H:i:s');
         $thn = Carbon::now()->format('Y');
-        // $t_total = DB::table('result_complaints')
 
-        //           ->count();
-        // $t_total[] = DB::table('result_complaints')
-        // // ->join('departements', 'result_complaints.departements_id', '=', 'departements.id')
-        //           ->join('complaints', 'result_complaints.complaints_id', '=', 'complaints.id')
-        //     ->select(                            DB::raw("(COUNT(*)) as count"),
-
-        //                     DB::raw("YEAR(complaints.tgl_keluhan) as year"))
-
-        //                     ->groupBy('year')
-        //                     // ->orderBy('complaints.tgl_keluhan', 'DESC')
-
-        //                 ->get();
         $t_total = DB::table('result_complaints')
                   ->join('departements', 'result_complaints.departements_id', '=', 'departements.id')
                   ->join('complaints', 'result_complaints.complaints_id', '=', 'complaints.id')

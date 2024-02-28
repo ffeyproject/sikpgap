@@ -99,6 +99,9 @@
 
 <script>
     var ctx = document.getElementById('userChart').getContext('2d');
+    var chart = {!! json_encode($chart) !!};
+    var total2 = chart.total;
+
     var chart = new Chart(ctx, {
         // The type of chart we want to create
         type: 'bar',
@@ -107,7 +110,7 @@
             labels:  {!!json_encode($chart->labels)!!} ,
             datasets: [
                 {
-                    label: 'Asal Masalah (Tahun {{ Carbon::now()->format('Y') }})',
+                    label: `Asal Masalah (Tahun ${new Date().getFullYear()}) - Total: ${total2}`,
                     backgroundColor: {!! json_encode($chart->colours)!!} ,
                     data:  {!! json_encode($chart->dataset)!!} ,
                 },
@@ -150,36 +153,32 @@
 
 <script>
     var ww = document.getElementById('defectChart').getContext('2d');
-    var ac = new Chart(ww, {
-        // The type of chart we want to create
+    var ac = {!! json_encode($ac) !!}; // Asumsi $ac sudah di-encode dan siap pakai di JS
+    var total = ac.total; // Mengambil total dari objek ac
+
+    var chart = new Chart(ww, {
         type: 'bar',
-// The data for our dataset
         data: {
-            labels:  {!!json_encode($ac->labels)!!} ,
+            labels: ac.labels,
             datasets: [
                 {
-                    label: 'Penyebab Masalah (Tahun {{ Carbon::now()->format('Y') }}) ',
-                    backgroundColor: {!! json_encode($ac->cc)!!} ,
-                    data:  {!! json_encode($ac->dataset)!!} ,
+                    label: `Penyebab Masalah Lebih Dari 2 (Tahun ${new Date().getFullYear()}) - Total: ${total}`,
+                    backgroundColor: ac.cc,
+                    data: ac.dataset,
                 },
             ]
         },
-// Configuration options go here
         options: {
             scales: {
                 yAxes: [{
                     ticks: {
                         beginAtZero: true,
                         callback: function(value) {if (value % 1 === 0) {return value;}}
-                    },
-                    scaleLabel: {
-                        display: false
                     }
                 }]
             },
             legend: {
                 labels: {
-                    // This more specific font property overrides the global property
                     fontColor: '#122C4B',
                     fontFamily: "'Muli', sans-serif",
                     padding: 25,
