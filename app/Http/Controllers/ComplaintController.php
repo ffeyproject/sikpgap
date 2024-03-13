@@ -316,8 +316,12 @@ class ComplaintController extends Controller
     public function store(ComplaintRequest $request)
     {
         //untuk membuat penomeran urut otomatis
-         $orderObj = Complaint::whereYear("created_at",Carbon::now()->year)->count();
-         $nn = $orderObj + 1;
+        //  $orderObj = Complaint::whereYear("created_at",Carbon::now()->year)->count();
+        //  $nn = $orderObj + 1;
+
+        $lastComplaint = Complaint::whereYear("created_at", Carbon::now()->year)->orderBy('no_urut', 'desc')->first();
+        $no_urut = $lastComplaint ? $lastComplaint->no_urut + 1 : 1;
+
 
         //untuk mengambil huruf jenis
           if ($request->jenis == 'Dyeing') {
@@ -331,20 +335,24 @@ class ComplaintController extends Controller
             }
 
         //penomeran no_keluhan
-          $romawi = array("", "I","II","III", "IV", "V","VI","VII","VIII","IX","X", "XI","XII");
-            $cc = Complaint::whereYear("created_at",Carbon::now()->year)->count();
-            $no = 0;
-            if($cc) {
-                $no_ak = sprintf("%02s", $cc+1). '/' . $i_jenis . '/' . $romawi[date('n')] .'/' . date('Y');
-            }
-            else {
-                $no_ak = sprintf("%02s", $cc+1). '/' . $i_jenis . '/' . $romawi[date('n')] .'/' . date('Y');
-            }
+        //   $romawi = array("", "I","II","III", "IV", "V","VI","VII","VIII","IX","X", "XI","XII");
+        //     $cc = Complaint::whereYear("created_at",Carbon::now()->year)->count();
+        //     $no = 0;
+        //     if($cc) {
+        //         $no_ak = sprintf("%02s", $cc+1). '/' . $i_jenis . '/' . $romawi[date('n')] .'/' . date('Y');
+        //     }
+        //     else {
+        //         $no_ak = sprintf("%02s", $cc+1). '/' . $i_jenis . '/' . $romawi[date('n')] .'/' . date('Y');
+        //     }
+
+        // Penomeran no_keluhan dengan memperhitungkan no_urut baru
+        $romawi = array("", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII");
+        $no_ak = sprintf("%03s", $no_urut) . '/' . $i_jenis . '/' . $romawi[date('n')] . '/' . date('Y');
 
         $complaint = new Complaint();
         $complaint->user_id = Auth::user()->id;
         $complaint->buyers_id = $request->buyers_id;
-        $complaint->no_urut = $nn;
+        $complaint->no_urut = $no_urut;
         $complaint->nomer_keluhan = $no_ak;
         $complaint->tgl_keluhan = $request->tgl_keluhan;
         $complaint->nama_marketing = $request->nama_marketing;
