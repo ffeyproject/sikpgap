@@ -197,6 +197,50 @@
                     <div class="card-header">
                         <h3 class="card-title">Progres Data</h3>
                     </div>
+                    <!-- Tombol untuk memicu modal -->
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#chatModal">Open
+                        Chat</button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="chatModal" tabindex="-1" aria-labelledby="chatModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="chatModalLabel">Open Chat Multi User</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- Chat Messages Area -->
+                                    <div class="direct-chat-messages" id="chatMessages">
+                                        <!-- Messages will be loaded here -->
+                                    </div>
+
+                                    <!-- Chat Form -->
+                                    <div class="card-footer">
+                                        <form id="chatForm" action="{{route('chat.store')}}" method="post">
+                                            @csrf
+                                            <div class="input-group">
+                                                <input type="hidden" name="complaints_id" value="{{$keluhan->id}}"
+                                                    class="form-control">
+                                                <input type="text" name="message" placeholder="Type Message ..."
+                                                    class="form-control">
+                                                <span class="input-group-append">
+                                                    <button type="submit" class="btn btn-primary">Send</button>
+                                                </span>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
                     <div class="p-0 card-body">
                         <div class="bs-stepper">
                             <div class="bs-stepper-header" role="tablist">
@@ -593,6 +637,247 @@
         @endsection
 
         @section('tablejs')
+
+        <script>
+            // Mengirim ID pengguna yang sedang login ke JavaScript
+            var currentUserId = {{ Auth::user()->id ?? 'null' }};
+        </script>
+
+        <script>
+            $(document).ready(function () {
+                        // Fungsi untuk memuat pesan
+                        function loadMessages() {
+                        var complaintsId = $('#chatForm input[name="complaints_id"]').val(); // Mengambil ID keluhan dari form
+
+                        $.ajax({
+                        type: "GET",
+                        url: "/keluhan/proses/detail/chat/messages/" + complaintsId,
+                        dataType: "json",
+                        success: function(response) {
+                        $('#chatMessages').empty(); // Kosongkan kontainer pesan
+
+                        if (response.message && response.message.length > 0) {
+                        response.message.forEach(function(message) {
+                        $('#chatMessages').append(generateMessageHTML(message.message, message.users ? message.users.name : 'Anonymous',
+                        message.created_at, message.userId));
+                        });
+                        }
+                        }
+                        });
+                        }
+
+                        // Memuat pesan ketika modal ditampilkan
+                        $('#chatModal').on('shown.bs.modal', function (e) {
+                        loadMessages(); // Memuat pesan saat modal dibuka
+
+                        // Set interval untuk memuat ulang pesan setiap 3 detik
+                        window.chatUpdateInterval = setInterval(loadMessages, 3000);
+                        });
+
+                        // Hentikan pembaruan otomatis ketika modal ditutup
+                        $('#chatModal').on('hidden.bs.modal', function (e) {
+                        clearInterval(window.chatUpdateInterval);
+                        });
+
+                        // Fungsi lainnya tetap sama
+                        $('#chatForm').submit(function (e) {
+                        e.preventDefault(); // Menghindari reload page
+                        var formData = $(this).serialize(); // Mengambil data dari form
+
+                        $.ajax({
+                        type: "POST",
+                        url: $(this).attr('action'),
+                        data: formData,
+                        success: function (response) {
+                        // Append new message to chat, asumsi response mengandung userId
+                        $('#chatMessages').append(generateMessageHTML(response.message, 'You', response.created_at, response.userId));
+                        // Clear input field
+                        $('input[name="message"]').val('');
+                        }
+                        });
+                        });
+
+                        function formatDate(dateString) {
+                            const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+                            return new Date(dateString).toLocaleDateString(undefined, options);
+                        }
+
+                        function generateMessageHTML(message, name, timestamp, userId) {
+                            const formattedTime = formatDate(timestamp);
+                            const isCurrentUser = userId === currentUserId; // Bandingkan dengan currentUserId
+
+                            const namePosition = isCurrentUser ? 'float-right' : 'float-left';
+                            const timeStampPosition = isCurrentUser ? 'float-left' : 'float-right';
+                            const messageBoxClass = isCurrentUser ? 'direct-chat-msg right' : 'direct-chat-msg';
+
+                            return '<div class="' + messageBoxClass + '">' +
+                                        '<div class="direct-chat-infos clearfix">' +
+                                            '<span class="direct-chat-name ' + namePosition + '">' + name + '</span>' +
+                                            '<span class="direct-chat-timestamp ' + timeStampPosition + '">' + formattedTime + '</span>' +
+                                        '</div>' +
+                                        '<img class="direct-chat-img" src="https://via.placeholder.com/128" alt="message user image">' +
+                                        '<div class="direct-chat-text">' + message + '</div>' +
+                                    '</div>';
+                        }
+                    });
+        </script>
+        {{-- <script>
+            $(document).ready(function () {
+                        $('#chatForm').submit(function (e) {
+                            e.preventDefault(); // Menghindari reload page
+                            var formData = $(this).serialize(); // Mengambil data dari form
+
+                            $.ajax({
+                                type: "POST",
+                                url: $(this).attr('action'),
+                                data: formData,
+                                success: function (response) {
+                                    // Append new message to chat, asumsi response mengandung userId
+                                    $('#chatMessages').append(generateMessageHTML(response.message, 'You', response.created_at, response.userId));
+                                    // Clear input field
+                                    $('input[name="message"]').val('');
+                                }
+                            });
+                        });
+
+                        $('#chatModal').on('shown.bs.modal', function (e) {
+                            var complaintsId = $('#chatForm input[name="complaints_id"]').val(); // Mengambil ID keluhan dari form
+
+                            $.ajax({
+                                type: "GET",
+                                url: "/keluhan/proses/detail/chat/messages/" + complaintsId,
+                                dataType: "json",
+                                success: function(response) {
+                                    $('#chatMessages').empty(); // Kosongkan kontainer pesan
+
+                                    if (response.message && response.message.length > 0) {
+                                        response.message.forEach(function(message) {
+                                            $('#chatMessages').append(generateMessageHTML(message.message, message.users ? message.users.name : 'Anonymous',
+                                            message.created_at, message.userId));
+                                        });
+                                    }
+                                }
+                            });
+                        });
+
+                        function formatDate(dateString) {
+                            const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+                            return new Date(dateString).toLocaleDateString(undefined, options);
+                        }
+
+                        function generateMessageHTML(message, name, timestamp, userId) {
+                            const formattedTime = formatDate(timestamp);
+                            const isCurrentUser = userId === currentUserId; // Bandingkan dengan currentUserId
+
+                            const namePosition = isCurrentUser ? 'float-right' : 'float-left';
+                            const timeStampPosition = isCurrentUser ? 'float-left' : 'float-right';
+                            const messageBoxClass = isCurrentUser ? 'direct-chat-msg right' : 'direct-chat-msg';
+
+                            return '<div class="' + messageBoxClass + '">' +
+                                        '<div class="direct-chat-infos clearfix">' +
+                                            '<span class="direct-chat-name ' + namePosition + '">' + name + '</span>' +
+                                            '<span class="direct-chat-timestamp ' + timeStampPosition + '">' + formattedTime + '</span>' +
+                                        '</div>' +
+                                        '<img class="direct-chat-img" src="https://via.placeholder.com/128" alt="message user image">' +
+                                        '<div class="direct-chat-text">' + message + '</div>' +
+                                    '</div>';
+                        }
+                    });
+        </script> --}}
+
+        {{-- <script src="https://js.pusher.com/7.0/pusher.min.js"></script> --}}
+        {{-- <script>
+            $(document).ready(function () {
+            // Konfigurasi Pusher
+            var pusher = new Pusher('your_pusher_key', {
+                cluster: 'your_pusher_cluster',
+                encrypted: true
+            });
+
+            var channel = pusher.subscribe('chat');
+            channel.bind('MessageSent', function(data) {
+                var message = data.message; // Sesuaikan dengan struktur data yang Anda terima
+                // Anggap data.user.id dan data.user.name tersedia
+                $('#chatMessages').append(generateMessageHTML(message, data.user.name, data.created_at, data.user.id));
+            });
+
+            $('#chatForm').submit(function (e) {
+                e.preventDefault(); // Menghindari reload page
+                var formData = $(this).serialize(); // Mengambil data dari form
+
+                $.ajax({
+                    type: "POST",
+                    url: $(this).attr('action'),
+                    data: formData,
+                    success: function (response) {
+                        // Pesan baru ditambahkan oleh Pusher, jadi tidak perlu menambahkannya di sini
+                        $('input[name="message"]').val(''); // Hanya bersihkan input
+                    }
+                });
+            });
+
+            $('#chatModal').on('shown.bs.modal', function (e) {
+            var complaintsId = $('#chatForm input[name="complaints_id"]').val();
+
+            $.ajax({
+            type: "GET",
+            url: "/keluhan/proses/detail/chat/messages/" + complaintsId,
+            dataType: "json",
+           success: function(response) {
+        $('#chatMessages').empty(); // Kosongkan kontainer pesan
+        console.log(response.message); // Periksa apakah data sesuai
+
+        if (response.message && response.message.length > 0) {
+        response.message.forEach(function(message) {
+        console.log(message); // Pastikan setiap pesan dicetak
+        var html = generateMessageHTML(message.message, message.user ? message.user.name : 'Anonymous',
+        message.created_at, message.user_id);
+        console.log(html); // Periksa output HTML
+        $('#chatMessages').append(html);
+        });
+        }
+        },
+            error: function(xhr, status, error) {
+            console.error("AJAX Error:", status, error); // Tambahkan penanganan error
+            }
+            });
+            });
+
+            function formatDate(dateString) {
+                const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+                return new Date(dateString).toLocaleDateString(undefined, options);
+            }
+
+            function generateMessageHTML(message, name, timestamp, userId) {
+                var currentUserId = "{{ auth()->user()->id }}"; // Pastikan ini di-render dengan benar
+                const formattedTime = formatDate(timestamp);
+                const isCurrentUser = (userId.toString() === currentUserId.toString());
+
+                const namePosition = isCurrentUser ? 'float-right' : 'float-left';
+                const timeStampPosition = isCurrentUser ? 'float-left' : 'float-right';
+                const messageBoxClass = isCurrentUser ? 'direct-chat-msg right' : 'direct-chat-msg';
+
+                return `<div class="${messageBoxClass}">
+                            <div class="direct-chat-infos clearfix">
+                                <span class="direct-chat-name ${namePosition}">${name}</span>
+                                <span class="direct-chat-timestamp ${timeStampPosition}">${formattedTime}</span>
+                            </div>
+                            <img class="direct-chat-img" src="https://via.placeholder.com/128" alt="message user image"> <!-- Consider replacing this with actual user image -->
+                            <div class="direct-chat-text">${message}</div>
+                        </div>`;
+            }
+        });
+        </script> --}}
+
+
+
+        <script>
+            $(document).ready(function(){
+            // Memicu modal untuk terbuka secara otomatis ketika halaman dimuat
+            $('#chatModal').modal('show');
+        });
+
+        </script>
 
         <script>
             $(document).ready(function(){

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\api\ApiUserController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
@@ -156,6 +157,8 @@ Route::delete('image/delete/{id}', [ImageComplaintController::class, 'destroy'])
 //Route Result
 Route::get('keluhan/proses/{complaint}', [ResultController::class, 'index'])->name('proses.index');
 Route::post('keluhan/proses', [ResultController::class, 'store'])->name('proses.store');
+Route::post('keluhan/proses/detail/chat', [ChatController::class, 'store'])->name('chat.store');
+Route::get('keluhan/proses/detail/chat/messages/{complaints_id}', [ChatController::class, 'getMessages'])->name('chat.messages');
 Route::get('keluhan/proses/detail/{complaint}', [ResultController::class, 'detail'])->name('proses.detail');
 Route::get('keluhan/cetak/{complaint}', [ResultController::class, 'cetak'])->name('keluhan.cetak');
 Route::patch('keluhan/proses/{complaint}', [ResultController::class, 'closed'])->name('proses.closed');
@@ -165,6 +168,8 @@ Route::patch('keluhan/proses/closed/{complaint}', [ResultController::class, 'sta
 Route::patch('keluhan/proses/solusi/{complaint}', [ResultController::class, 'esolusi'])->name('proses.esolusi');
 Route::patch('keluhan/proses/next/{complaint}', [ResultController::class, 'next'])->name('proses.next');
 Route::delete('keluhan/proses/delete/{result}', [ResultController::class, 'destroy'])->name('proses.destroy');
+
+
 
 
 //Route Item Penilaian
