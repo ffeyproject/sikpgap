@@ -347,7 +347,7 @@ class ComplaintController extends Controller
 
         // Penomeran no_keluhan dengan memperhitungkan no_urut baru
         $romawi = array("", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII");
-        $no_ak = sprintf("%03s", $no_urut) . '/' . $i_jenis . '/' . $romawi[date('n')] . '/' . date('Y');
+        $no_ak = sprintf("%02s", $no_urut) . '/' . $i_jenis . '/' . $romawi[date('n')] . '/' . date('Y');
 
         $complaint = new Complaint();
         $complaint->user_id = Auth::user()->id;
