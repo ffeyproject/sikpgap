@@ -241,7 +241,7 @@
     <ul class="nav nav-treeview">
         <li class="nav-item">
             <a href="{{ route('keluhan.data.open') }}" target="_blank"
-                class="nav-link {{ (request()->is('keluhan/rekap-verifikasi'))  ? 'active' : '' }} ">
+                class="nav-link {{ (request()->is('keluhan/rekap/open/get'))  ? 'active' : '' }} ">
                 <i class="fas fa-file-alt"></i>
                 <p>Rekap Data Open dan Proses</p>
             </a>

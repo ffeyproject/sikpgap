@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 use App\Models\Result;
+use App\Notifications\SendChatComplaintNotification;
 use App\Notifications\UpdateProsesEmailComplaint;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Testing\Fakes\NotificationFake;
@@ -51,7 +52,7 @@ class ComplaintController extends Controller
     {
         //  $complaint = Complaint::orderBy('id', 'DESC')->get();
 
-          $complaint = Complaint::with('results', 'buyer', 'departements', 'defect')->orderBy('id', 'DESC')->get();
+          $complaint = Complaint::with('results', 'buyer', 'departements', 'defect')->where('status', '=', 'va')->orderBy('id', 'DESC')->get();
 
         return view('keluhan.rekap_verifikasi', [
             'complaint' => $complaint
@@ -382,6 +383,8 @@ class ComplaintController extends Controller
         $complaint->qty_complaint = $request->qty_complaint;
         $complaint->save();
 
+
+
         $url = 'https://fcm.googleapis.com/fcm/send';
         $dataArr = array('click_action' => 'FLUTTER_NOTIFICATION_CLICK', 'id' => $request->id,'status'=>"done");
         $notification = array('nomer_keluhan' =>$no_ak, 'text' => $request->nama_marketing, 'text'=> $request->nama_motif, 'sound' => 'default', 'badge' => '1',);
@@ -403,7 +406,7 @@ class ComplaintController extends Controller
 
         $complaint->email = Auth::user()->email;
 
-
+        $complaint->notify(new SendChatComplaintNotification($complaint));
      $complaint->notify( new CreateComplaintNotification($complaint));
 
          Alert::info('Info', 'Data Tersimpan dan Masukkan Gambar Pendukung');
