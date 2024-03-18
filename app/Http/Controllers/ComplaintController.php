@@ -406,7 +406,7 @@ class ComplaintController extends Controller
 
         $complaint->email = Auth::user()->email;
 
-        $complaint->notify(new SendChatComplaintNotification($complaint));
+        // $complaint->notify(new SendChatComplaintNotification($complaint));
      $complaint->notify( new CreateComplaintNotification($complaint));
 
          Alert::info('Info', 'Data Tersimpan dan Masukkan Gambar Pendukung');
