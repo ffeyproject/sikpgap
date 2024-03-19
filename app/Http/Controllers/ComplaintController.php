@@ -406,7 +406,6 @@ class ComplaintController extends Controller
 
         $complaint->email = Auth::user()->email;
 
-        // $complaint->notify(new SendChatComplaintNotification($complaint));
      $complaint->notify( new CreateComplaintNotification($complaint));
 
          Alert::info('Info', 'Data Tersimpan dan Masukkan Gambar Pendukung');
@@ -653,7 +652,7 @@ class ComplaintController extends Controller
         ]);
 
     if ( Auth::user()->id == $complaint->user_id ) {
-       $complaint->status_marketing = '1';
+       $complaint->status_marketing = '0';
        $complaint->solusi = $request->solusi;
         $complaint->update();
         Alert::success('Success', 'Complaint Telah Di Close dan Data Solusi Terisi');

@@ -207,6 +207,7 @@
                         aria-hidden="true">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
+                                <div class="alert alert-danger" style="display:none"></div>
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="chatModalLabel">Open Chat Multi User</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -354,8 +355,70 @@
                             <div class="col-12">
                                 <h4>
                                     <i class="fas fa-tasks"></i> FORM KELUHAN PELANGGAN
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" id="openModal"
+                                        data-target="#chatPersonalModal">Kirim Chat Whatsapp</button>
                                     <small class="float-right">No : {{ $keluhan->nomer_keluhan }}</small>
                                 </h4>
+                                <!-- Modal -->
+                                <div class="modal fade" id="chatPersonalModal" tabindex="-1"
+                                    aria-labelledby="chatModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="alert alert-danger" style="display:none"></div>
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="chatModalLabel">Chat Personal ke WhatsApp
+                                                </h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <!-- Chat Form -->
+                                                <form id="form" action="{{route('personal.store')}}" method="post">
+                                                    @csrf
+                                                    <input type="hidden" name="complaints_id"
+                                                        value="{{ $keluhan->id }}">
+                                                    <div class="form-group">
+                                                        <label for="users_id">Pilih Pengguna Tujuan</label>
+                                                        <select name="users_id[]" id="users_id"
+                                                            class="form-control select2 @error('users_id') is-invalid @enderror"
+                                                            multiple="multiple" style="width: 100%">
+                                                            @foreach($user as $item)
+                                                            <option value="{{ $item->id }}" {{
+                                                                (collect(old('users_id'))->contains($item->id)) ?
+                                                                'selected':'' }}>{{ $item->name
+                                                                }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                        @if ($errors->has('users_id'))
+                                                        <div class="invalid-feedback">{{
+                                                            $errors->first('users_id') }}</div>
+                                                        @endif
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label for="message">Isi Pesan</label>
+                                                        <textarea
+                                                            class="form-control @error('message') is-invalid @enderror"
+                                                            name="message"
+                                                            id="message_personal">{{ old('message') ?: '' }}</textarea>
+                                                        @if ($errors->has('message'))
+                                                        <div class="invalid-feedback">{{
+                                                            $errors->first('message') }}</div>
+                                                        @endif
+                                                    </div>
+
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-dismiss="modal">Close</button>
+                                                        <button class="btn btn-success " id="ajaxSubmit">Save</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 @if ($keluhan->status == 'proses' || $keluhan->status == 'selesai' || $keluhan->status
                                 ==
                                 'closed' || Auth::user()->posisi ==
@@ -639,6 +702,25 @@
         @section('tablejs')
 
         <script>
+            $(document).ready(function() {
+            function initializeSelect2() {
+            if (!$('#users_id').data('select2')) {
+            $('#users_id').select2({
+            dropdownParent: $('#chatPersonalModal'),
+            placeholder: "Pilih Pengguna...", // Menambahkan placeholder
+            allowClear: true // Memungkinkan pengguna untuk menghapus semua pilihan
+            });
+            }
+            }
+
+            $('#openModal').click(function() {
+            $('#chatPersonalModal').show();
+            initializeSelect2();
+            });
+            });
+        </script>
+
+        <script>
             // Mengirim ID pengguna yang sedang login ke JavaScript
             var currentUserId = {{ Auth::user()->id ?? 'null' }};
         </script>
@@ -711,7 +793,7 @@
                             const messageBoxClass = isCurrentUser ? 'direct-chat-msg right' : 'direct-chat-msg';
 
                             return '<div class="' + messageBoxClass + '">' +
-                                        '<div class="direct-chat-infos clearfix">' +
+                                        '<div class="clearfix direct-chat-infos">' +
                                             '<span class="direct-chat-name ' + namePosition + '">' + name + '</span>' +
                                             '<span class="direct-chat-timestamp ' + timeStampPosition + '">' + formattedTime + '</span>' +
                                         '</div>' +
@@ -721,153 +803,28 @@
                         }
                     });
         </script>
-        {{-- <script>
-            $(document).ready(function () {
-                        $('#chatForm').submit(function (e) {
-                            e.preventDefault(); // Menghindari reload page
-                            var formData = $(this).serialize(); // Mengambil data dari form
 
-                            $.ajax({
-                                type: "POST",
-                                url: $(this).attr('action'),
-                                data: formData,
-                                success: function (response) {
-                                    // Append new message to chat, asumsi response mengandung userId
-                                    $('#chatMessages').append(generateMessageHTML(response.message, 'You', response.created_at, response.userId));
-                                    // Clear input field
-                                    $('input[name="message"]').val('');
-                                }
-                            });
-                        });
+        <script>
+            $(function () {
+            // Summernote
+            $('#message_personal').summernote(
+                {
+                placeholder: 'Silahkan isi Pesan',
+                tabsize: 2,
+                height: 120,
+                toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'underline', 'clear']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['table', ['table']],
+                ['view', ['fullscreen', 'codeview', 'help']]
+                ]
+                }
+            );
+          })
+        </script>
 
-                        $('#chatModal').on('shown.bs.modal', function (e) {
-                            var complaintsId = $('#chatForm input[name="complaints_id"]').val(); // Mengambil ID keluhan dari form
-
-                            $.ajax({
-                                type: "GET",
-                                url: "/keluhan/proses/detail/chat/messages/" + complaintsId,
-                                dataType: "json",
-                                success: function(response) {
-                                    $('#chatMessages').empty(); // Kosongkan kontainer pesan
-
-                                    if (response.message && response.message.length > 0) {
-                                        response.message.forEach(function(message) {
-                                            $('#chatMessages').append(generateMessageHTML(message.message, message.users ? message.users.name : 'Anonymous',
-                                            message.created_at, message.userId));
-                                        });
-                                    }
-                                }
-                            });
-                        });
-
-                        function formatDate(dateString) {
-                            const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
-                            return new Date(dateString).toLocaleDateString(undefined, options);
-                        }
-
-                        function generateMessageHTML(message, name, timestamp, userId) {
-                            const formattedTime = formatDate(timestamp);
-                            const isCurrentUser = userId === currentUserId; // Bandingkan dengan currentUserId
-
-                            const namePosition = isCurrentUser ? 'float-right' : 'float-left';
-                            const timeStampPosition = isCurrentUser ? 'float-left' : 'float-right';
-                            const messageBoxClass = isCurrentUser ? 'direct-chat-msg right' : 'direct-chat-msg';
-
-                            return '<div class="' + messageBoxClass + '">' +
-                                        '<div class="direct-chat-infos clearfix">' +
-                                            '<span class="direct-chat-name ' + namePosition + '">' + name + '</span>' +
-                                            '<span class="direct-chat-timestamp ' + timeStampPosition + '">' + formattedTime + '</span>' +
-                                        '</div>' +
-                                        '<img class="direct-chat-img" src="https://via.placeholder.com/128" alt="message user image">' +
-                                        '<div class="direct-chat-text">' + message + '</div>' +
-                                    '</div>';
-                        }
-                    });
-        </script> --}}
-
-        {{-- <script src="https://js.pusher.com/7.0/pusher.min.js"></script> --}}
-        {{-- <script>
-            $(document).ready(function () {
-            // Konfigurasi Pusher
-            var pusher = new Pusher('your_pusher_key', {
-                cluster: 'your_pusher_cluster',
-                encrypted: true
-            });
-
-            var channel = pusher.subscribe('chat');
-            channel.bind('MessageSent', function(data) {
-                var message = data.message; // Sesuaikan dengan struktur data yang Anda terima
-                // Anggap data.user.id dan data.user.name tersedia
-                $('#chatMessages').append(generateMessageHTML(message, data.user.name, data.created_at, data.user.id));
-            });
-
-            $('#chatForm').submit(function (e) {
-                e.preventDefault(); // Menghindari reload page
-                var formData = $(this).serialize(); // Mengambil data dari form
-
-                $.ajax({
-                    type: "POST",
-                    url: $(this).attr('action'),
-                    data: formData,
-                    success: function (response) {
-                        // Pesan baru ditambahkan oleh Pusher, jadi tidak perlu menambahkannya di sini
-                        $('input[name="message"]').val(''); // Hanya bersihkan input
-                    }
-                });
-            });
-
-            $('#chatModal').on('shown.bs.modal', function (e) {
-            var complaintsId = $('#chatForm input[name="complaints_id"]').val();
-
-            $.ajax({
-            type: "GET",
-            url: "/keluhan/proses/detail/chat/messages/" + complaintsId,
-            dataType: "json",
-           success: function(response) {
-        $('#chatMessages').empty(); // Kosongkan kontainer pesan
-        console.log(response.message); // Periksa apakah data sesuai
-
-        if (response.message && response.message.length > 0) {
-        response.message.forEach(function(message) {
-        console.log(message); // Pastikan setiap pesan dicetak
-        var html = generateMessageHTML(message.message, message.user ? message.user.name : 'Anonymous',
-        message.created_at, message.user_id);
-        console.log(html); // Periksa output HTML
-        $('#chatMessages').append(html);
-        });
-        }
-        },
-            error: function(xhr, status, error) {
-            console.error("AJAX Error:", status, error); // Tambahkan penanganan error
-            }
-            });
-            });
-
-            function formatDate(dateString) {
-                const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
-                return new Date(dateString).toLocaleDateString(undefined, options);
-            }
-
-            function generateMessageHTML(message, name, timestamp, userId) {
-                var currentUserId = "{{ auth()->user()->id }}"; // Pastikan ini di-render dengan benar
-                const formattedTime = formatDate(timestamp);
-                const isCurrentUser = (userId.toString() === currentUserId.toString());
-
-                const namePosition = isCurrentUser ? 'float-right' : 'float-left';
-                const timeStampPosition = isCurrentUser ? 'float-left' : 'float-right';
-                const messageBoxClass = isCurrentUser ? 'direct-chat-msg right' : 'direct-chat-msg';
-
-                return `<div class="${messageBoxClass}">
-                            <div class="direct-chat-infos clearfix">
-                                <span class="direct-chat-name ${namePosition}">${name}</span>
-                                <span class="direct-chat-timestamp ${timeStampPosition}">${formattedTime}</span>
-                            </div>
-                            <img class="direct-chat-img" src="https://via.placeholder.com/128" alt="message user image"> <!-- Consider replacing this with actual user image -->
-                            <div class="direct-chat-text">${message}</div>
-                        </div>`;
-            }
-        });
-        </script> --}}
 
 
 

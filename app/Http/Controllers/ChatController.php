@@ -4,9 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Events\NewChatMessage;
 use App\Models\Chat;
+use App\Models\ChatPersonal;
+use App\Models\User;
+use App\Notifications\SendChatComplaintNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Broadcast;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class ChatController extends Controller
 {
@@ -73,6 +77,39 @@ class ChatController extends Controller
     // event(new NewChatMessage($message));
 
     return response()->json(['success' => true, 'message' => $message->message, 'created_at' => $message->created_at, 'user' => ['name' => auth()->user()->name]]);
+    }
+
+    public function personal(Request $request)
+    {
+
+     $validatedData = $request->validate([
+    'complaints_id' => 'required|exists:complaints,id',
+    'users_id.*' => 'required|exists:users,id',
+    'message' => 'required|string|min:1',
+]);
+
+// Menyimpan instansi ChatPersonal yang telah dibuat untuk kemungkinan penggunaan lebih lanjut.
+$messages = [];
+
+foreach ($request->users_id as $userId) {
+    $message = new ChatPersonal();
+    $message->complaints_id = $validatedData['complaints_id'];
+    $message->user_id = $userId;
+    $message->message = $validatedData['message'];
+    $message->save();
+    $messages[] = $message;
+
+    // Misalnya, jika Anda ingin mengirim notifikasi untuk setiap pesan:
+    // Asumsikan objek yang di-notifiable adalah user, dan user memiliki method notifiable.
+    // Ganti User::find($userId) dengan objek user yang sesuai atau logic untuk mendapatkan user.
+    $user = User::find($userId);
+    if($user) {
+        $user->notify(new SendChatComplaintNotification($message));
+    }
+}
+
+Alert::success('Berhasil', 'Pesan Telah Terkirim');
+return redirect()->back();
     }
 
 

@@ -225,7 +225,7 @@
                 extend: 'colvis'
                 }
                 // "copy", "csv", "excel", "pdf", "print", "colvis"
-               
+
             ]
         }).buttons().container().appendTo('#t_barang_wrapper .col-md-6:eq(0)');
     });
