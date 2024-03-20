@@ -61,11 +61,21 @@ class SendChatComplaintNotification extends Notification
         $salam = "Selamat Malam";
     }
 
+    $url = url('keluhan/proses/detail/'.$this->message->complaint->id);
+
+    function formatUrl($url) {
+    if (!preg_match("~^(?:f|ht)tps?://~i", $url)) {
+        $url = "https://" . $url; // Menambahkan https sebagai default
+    }
+    return $url;
+}
+
     // Menggunakan salam yang sesuai dalam pesan
     return (new WhacenterService())
         ->to($this->message->users->nomer_wa)
         ->line("Halo, " . $salam)
         ->line("Dengan Nomer Keluhan : " .$this->message->complaint->nomer_keluhan)
+        ->line("Link keluhan: https://bit.ly/sikpgap" )
         ->line(strip_tags($this->message->message))
         ->line("Terimakasih.")
         ->line("Website SIK2P GAP");

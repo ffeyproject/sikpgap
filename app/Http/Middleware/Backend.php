@@ -17,8 +17,16 @@ class Backend
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->posisi == 'Admin' || Auth::user()->posisi == 'marketing' || Auth::user()->posisi == 'qa' ) {
-      return $next($request);
-    }   return redirect('/');
+        if (Auth::check() && Auth::user() !== null) {
+        $userPosisi = Auth::user()->posisi;
+        
+        // Pemeriksaan posisi pengguna
+        if ($userPosisi == 'Admin' || $userPosisi == 'marketing' || $userPosisi == 'qa') {
+            return $next($request);
+        }
+    }
+
+    // Jika pengguna tidak masuk atau posisinya bukan salah satu dari yang diizinkan, redirect ke halaman awal
+    return redirect('/login');
     }
 }

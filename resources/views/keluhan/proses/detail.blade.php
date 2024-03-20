@@ -355,8 +355,11 @@
                             <div class="col-12">
                                 <h4>
                                     <i class="fas fa-tasks"></i> FORM KELUHAN PELANGGAN
+                                    @if (Auth::user()->posisi == 'qa' || Auth::user()->posisi == 'Admin')
+                                    @endif
                                     <button type="button" class="btn btn-primary" data-toggle="modal" id="openModal"
                                         data-target="#chatPersonalModal">Kirim Chat Whatsapp</button>
+
                                     <small class="float-right">No : {{ $keluhan->nomer_keluhan }}</small>
                                 </h4>
                                 <!-- Modal -->
