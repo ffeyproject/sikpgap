@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 Use PDF;
 use App\Http\Requests\ComplaintRequest;
 use App\Models\buyer;
+use App\Models\ChatPersonal;
 use App\Models\Complaint;
 use App\Models\ImageComplaint;
 use App\Models\User;
@@ -41,7 +42,10 @@ class ComplaintController extends Controller
      */
     public function index()
     {
-         $complaint = Complaint::orderBy('id', 'DESC')->get();
+        //  $complaint = Complaint::orderBy('id', 'DESC')->get();
+
+        // $complaint = Complaint::with('chatPersonals')->orderBy('id', 'DESC')->get();
+        $complaint = Complaint::with('chatPersonals.users')->orderBy('id', 'DESC')->get();
 
         return view('keluhan.index', [
             'complaint' => $complaint

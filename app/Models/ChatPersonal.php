@@ -12,7 +12,7 @@ class ChatPersonal extends Model
     use HasFactory, Notifiable;
 
      public $table = "chat_personals";
-    protected $fillable = ['users_id', 'complaints_id', 'message'];
+    protected $fillable = ['users_id', 'complaints_id', 'message', 'created_at'];
 
     public function users(): BelongsTo
     {

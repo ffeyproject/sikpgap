@@ -48,6 +48,7 @@
                                     @if (Auth::user()->posisi == 'marketing')
                                     <th></th>
                                     @else
+                                    <th>Last Chat</th>
                                     <th>Aksi</th>
                                     <th>Hasil Scan Penyelesaian</th>
                                     <th>CT/SP</th>
@@ -100,7 +101,14 @@
                                         @else
                                         <span class="badge bg-danger">Ya</span>
                                         @endif
-
+                                    </td>
+                                    @php
+                                    $latestChatPersonal = $item->chatPersonals->sortByDesc('created_at')->first();
+                                    @endphp
+                                    <td>
+                                        {{ $latestChatPersonal->users->name ?? 'No User' }} -
+                                        {{ $latestChatPersonal ? $latestChatPersonal->created_at->toDateTimeString() :
+                                        'N/A' }}
                                     </td>
                                     <td>
                                         @if( $item->status == 'open' && Auth::user()->posisi == 'marketing' )

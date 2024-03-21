@@ -29,6 +29,11 @@ class Complaint extends Model
      return $this->hasMany(Result::class, 'complaints_id');
    }
 
+   public function chatPersonals(): HasMany
+   {
+      return $this->hasMany(Chat::class, 'complaints_id')->latest();
+   }
+
    public function defect(): HasMany
    {
      return $this->hasMany(Defect::class, 'id');
