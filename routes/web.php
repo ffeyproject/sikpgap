@@ -136,8 +136,10 @@ Route::get('keluhan/rekap', [ComplaintController::class, 'rekap'])->name('keluha
 Route::get('keluhan/rekap/get', [ComplaintController::class, 'anyData'])->name('keluhan.data.cetak');
 Route::get('keluhan/rekap/open/get', [ComplaintController::class, 'dopen'])->name('keluhan.data.open');
 Route::get('keluhan/rekap/verifikasi/get', [ComplaintController::class, 'dverifikasi'])->name('data.verifikasi');
-Route::get('keluhan/create', [ComplaintController::class, 'create'])->name('keluhan.create');
+Route::get('keluhan/create/external', [ComplaintController::class, 'create'])->name('keluhan.create');
+Route::get('keluhan/create/internal', [ComplaintController::class, 'internal'])->name('keluhan.internal');
 Route::post('keluhan', [ComplaintController::class, 'store'])->name('keluhan.store');
+Route::post('keluhan/internal', [ComplaintController::class, 'store_internal'])->name('keluhan.store.internal');
 Route::get('keluhan/show/{complaint}', [ComplaintController::class, 'show'])->name('keluhan.show');
 Route::get('keluhan/show/print/{complaint}', [ComplaintController::class, 'print'])->name('keluhan.print');
 Route::get('keluhan/show/print/pdf/{complaint}', [ComplaintController::class, 'pdf'])->name('keluhan.pdf');

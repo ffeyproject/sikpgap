@@ -42,6 +42,7 @@
                                     <th>No</th>
                                     <th>Kode Pelanggan</th>
                                     <th>Nama Pelanggan</th>
+                                    <th>Kategori</th>
                                     <th>Alamat</th>
                                     <th>Telepon</th>
                                     <th>Contact Person</th>
@@ -56,6 +57,7 @@
                                     <td>{{ $no++ }}</td>
                                     <td>{{ $item->kode_buyer }}</td>
                                     <td>{{ $item->nama_buyer }}</td>
+                                    <td>{{ $item->kategori_buyer }}</td>
                                     <td>{{ $item->alamat_buyer }}</td>
                                     <td>{{ $item->telp_buyer }}</td>
                                     <td>{{ $item->cp_buyer }}</td>

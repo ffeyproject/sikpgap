@@ -312,6 +312,20 @@ class ComplaintController extends Controller
         ]);
     }
 
+    public function internal()
+    {
+        $buyer = Buyer::where('kategori_buyer', '=', 'internal')->get();
+        $user = User::where('posisi', '=' ,"marketing")->get();
+        $keluhan = Complaint::with('Buyer','Users')->get();
+
+
+        return view('keluhan.create_internal', [
+            'keluhan' => $keluhan,
+            'user' => $user,
+            'buyer' => $buyer
+        ]);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -385,6 +399,93 @@ class ComplaintController extends Controller
         $complaint->g_keluhan = 'default.png';
         $complaint->hasil_scan = null;
         $complaint->qty_complaint = $request->qty_complaint;
+        $complaint->kategori_keluhan = 'eksternal';
+        $complaint->save();
+
+
+
+        $url = 'https://fcm.googleapis.com/fcm/send';
+        $dataArr = array('click_action' => 'FLUTTER_NOTIFICATION_CLICK', 'id' => $request->id,'status'=>"done");
+        $notification = array('nomer_keluhan' =>$no_ak, 'text' => $request->nama_marketing, 'text'=> $request->nama_motif, 'sound' => 'default', 'badge' => '1',);
+        $arrayToSend = array('to' => "/topics/all", 'notification' => $notification, 'data' => $dataArr, 'priority'=>'high');
+        $fields = json_encode ($arrayToSend);
+        $headers = array (
+            'Authorization: key=' . "AAAA88xwZGI:APA91bH4UDBrGGTEAKDCEr2BmbU9_m8zRVncKrGvPCt1qgvyVIDb7OYALvONKxSzG_XhyZmCX-cKWtGmmM249wSmLtG8Zpb_8y6iuYberPmwRePD8hK5UuIC8ew96wxqc9lF7XOjhJ5h",
+            'Content-Type: application/json'
+        );        $ch = curl_init ();
+        curl_setopt ( $ch, CURLOPT_URL, $url );
+        curl_setopt ( $ch, CURLOPT_POST, true );
+        curl_setopt ( $ch, CURLOPT_HTTPHEADER, $headers );
+        curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
+        curl_setopt ( $ch, CURLOPT_POSTFIELDS, $fields );        $result = curl_exec ( $ch );
+        //var_dump($result);
+        curl_close ( $ch );
+
+
+
+        $complaint->email = Auth::user()->email;
+
+     $complaint->notify( new CreateComplaintNotification($complaint));
+
+         Alert::info('Info', 'Data Tersimpan dan Masukkan Gambar Pendukung');
+       return redirect('keluhan/show/' .  $complaint->id);
+    //    return redirect()->route('keluhan.index');
+    }
+
+    public function store_internal(Request $request)
+    {
+
+        $validated = $request->validate([
+            'buyers_id' => 'required',
+             'tgl_keluhan' => 'required|date',
+             'nama_marketing' => 'required',
+             'no_wo' => 'required',
+             'nama_motif' => 'required',
+             'cw_qty' => 'required',
+             'jenis' => 'required',
+             'cw_qty' => 'required',
+             'masalah' => 'required',
+             'solusi' => 'required',
+    ]);
+
+        $lastComplaint = Complaint::whereYear("created_at", Carbon::now()->year)->orderBy('no_urut', 'desc')->first();
+        $no_urut = $lastComplaint ? $lastComplaint->no_urut + 1 : 1;
+
+
+        //untuk mengambil huruf jenis
+          if ($request->jenis == 'Dyeing') {
+                $i_jenis = 'D';
+            }
+            elseif ($request->jenis == 'Printing') {
+                $i_jenis ='P';
+            }
+            else {
+                $i_jenis = 'W';
+            }
+
+
+        $romawi = array("", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII");
+        $no_ak = sprintf("%02s", $no_urut) . '/' . $i_jenis . '/' . $romawi[date('n')] . '/' . date('Y');
+
+        $complaint = new Complaint();
+        $complaint->user_id = Auth::user()->id;
+        $complaint->buyers_id = $request->buyers_id;
+        $complaint->no_urut = $no_urut;
+        $complaint->nomer_keluhan = $no_ak;
+        $complaint->tgl_keluhan = $request->tgl_keluhan;
+        $complaint->nama_marketing = $request->nama_marketing;
+        $complaint->no_wo = $request->no_wo;
+        $complaint->no_sc = '-';
+        $complaint->nama_motif = $request->nama_motif;
+        $complaint->cw_qty = $request->cw_qty;
+        $complaint->jenis = $request->jenis;
+        $complaint->masalah = $request->masalah;
+        $complaint->solusi = $request->solusi;
+
+        $complaint->g_keluhan = 'default.png';
+        $complaint->hasil_scan = null;
+        $complaint->qty_complaint = '-';
+        $complaint->kategori_keluhan = 'internal';
         $complaint->save();
 
 

@@ -15,6 +15,22 @@
                     @csrf
                     <div class="card-body">
                         <div class="form-group">
+                            <label for="kategori_buyer">Silahkan Kategori</label>
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="kategori_buyer"
+                                        value="eksternal">
+                                    <label class="form-check-label">External</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="kategori_buyer" value="internal">
+                                    <label class="form-check-label">Internal</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label for="nama_buyer">Nama Buyer</label>
                             <input type="text" name="nama_buyer"
                                 class="form-control @error('nama_buyer') is-invalid @enderror" id="nama_buyer"

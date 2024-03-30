@@ -25,6 +25,7 @@ class BuyerRequest extends FormRequest
     {
         return [
              'nama_buyer' => 'required',
+             'kategori_buyer' => 'required',
              'alamat_buyer' => 'required',
              'cp_buyer' => 'required',
              'telp_buyer' => 'required',

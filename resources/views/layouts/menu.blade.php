@@ -16,7 +16,7 @@
 <li class="nav-item">
     <a href="{{ route('data.grafik') }}"
         class="nav-link {{ (request()->is('home/grafik/search')) || (request()->is('home/grafik/search')) ? 'active' : '' }}">
-        <i class="nav-icon fas fa-file"></i>
+        <i class="fas fa-chart-bar"></i>
         <p>Data Grafik</p>
     </a>
 </li>

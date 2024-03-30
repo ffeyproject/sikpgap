@@ -11,7 +11,7 @@ class buyer extends Model
 {
     use HasFactory, SoftDeletes;
 
-     protected $fillable = ['user_id','kode_buyer','nama_buyer','alamat_buyer','cp_buyer','telp_buyer','email_buyer'];
+     protected $fillable = ['user_id','kode_buyer','nama_buyer','alamat_buyer','cp_buyer','telp_buyer','email_buyer', 'kategori_buyer'];
 
     public $table = "buyers";
 

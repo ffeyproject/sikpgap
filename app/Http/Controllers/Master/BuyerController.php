@@ -68,6 +68,7 @@ class BuyerController extends Controller
         $buyer->cp_buyer = $request->cp_buyer;
         $buyer->telp_buyer = $request->telp_buyer;
         $buyer->email_buyer = $request->email_buyer;
+        $buyer->kategori_buyer = $request->kategori_buyer;
         $buyer->save();
 
         Alert::success('Congrats', 'Data Berhasil Ditambahkan');

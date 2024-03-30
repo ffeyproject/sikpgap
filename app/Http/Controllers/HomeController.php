@@ -138,22 +138,27 @@ class HomeController extends Controller
     public function search(Request $request)
 {
     $tahun = $request->tahun;
+    $kategori = $request->kategori; // Mendapatkan input kategori
 
-    $data = DB::table('result_complaints')
+    // Query dasar
+    $query = DB::table('result_complaints')
                   ->join('defects', 'result_complaints.defects_id', '=', 'defects.id')
                   ->join('complaints', 'result_complaints.complaints_id', '=', 'complaints.id')
                   ->select('defects.nama as nama', DB::raw("DATE_FORMAT(tgl_keluhan, '%Y') as year, count(*) as total"))
-                  ->whereRaw("DATE_FORMAT(tgl_keluhan, '%Y') = ?", [$tahun]) // Assuming you want to filter by year
-                  ->groupBy('year', 'defects.nama') // Grouping also by 'defects.nama' instead of 'defects_id' for chart labels
-                //   ->havingRaw('count(*) >= ?', [5])
-                  ->orderBy('total', 'desc') // Assuming you might want the most significant issues first
-                  ->get(); // Using get() to fetch the results
+                  ->whereRaw("DATE_FORMAT(tgl_keluhan, '%Y') = ?", [$tahun]);
 
-    // Since $data is a Collection, you can directly use pluck on it
+    // Menambahkan filter berdasarkan kategori jika kategori bukan "Semua"
+    if ($kategori !== "Semua") {
+        $query->where('complaints.kategori_keluhan', '=', $kategori);
+    }
+
+    $data = $query->groupBy('year', 'defects.nama')
+                  ->orderBy('total', 'desc')
+                  ->get();
+
     $labels = $data->pluck('nama');
     $values = $data->pluck('total');
 
-    // Mengirim data ke view
-    return view('home_grafik', compact('labels', 'values', 'tahun'));
+    return view('home_grafik', compact('labels', 'values', 'tahun', 'kategori'));
 }
 }

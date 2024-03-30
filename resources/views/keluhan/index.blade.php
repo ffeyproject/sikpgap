@@ -16,7 +16,32 @@
         </div>
         <div class="mb-2 row">
             <div class="col-sm-6">
-                <a href="{{ route('keluhan.create') }}" class="btn btn-primary btn-lg">Tambah Keluhan</a>
+                {{-- <a href="{{ route('keluhan.create') }}" class="btn btn-primary btn-lg">Tambah Keluhan</a> --}}
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#keluhanModal">
+                    Tambah Keluhan
+                </button>
+                <!-- Modal -->
+                <!-- Modal -->
+                <div class="modal fade" id="keluhanModal" tabindex="-1" aria-labelledby="keluhanModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="keluhanModalLabel">Jenis Keluhan</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                Silakan pilih jenis sumber keluhan Anda:
+                            </div>
+                            <div class="modal-footer">
+                                <a href="{{ route('keluhan.create') }}" class="btn btn-secondary">External (Buyer)</a>
+                                <a href="{{ route('keluhan.internal') }}" class="btn btn-primary">Internal</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
