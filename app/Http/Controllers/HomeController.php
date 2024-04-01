@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\buyer;
 use App\Models\Complaint;
 use App\Models\Defect;
 use App\Models\Departement;
@@ -136,8 +137,15 @@ class HomeController extends Controller
         return view('home_grafik');
     }
 
+    public function grafikBuyer()
+    {
+        // Tampilkan view dengan form pencarian tanpa grafik
+        $buyer = buyer::all();
+        return view('home_grafik_buyer', compact('buyer'));
+    }
+
     public function search(Request $request)
-{
+    {
     $tahun = $request->tahun;
     $kategori = $request->kategori; // Mendapatkan input kategori
 
@@ -175,5 +183,61 @@ class HomeController extends Controller
     $bulanValues = $dataBulanan->pluck('total');
 
     return view('home_grafik', compact('labels', 'values', 'tahun', 'kategori', 'bulanLabels', 'bulanValues'));
+    }
+
+    public function searchBuyer(Request $request)
+{
+    $tahun = $request->tahun;
+    $tanggalMulai = $request->tanggal_mulai;
+    $tanggalAkhir = $request->tanggal_akhir;
+    $kategori = $request->kategori;
+    $buyerId = $request->buyer;
+
+    $query = DB::table('result_complaints')
+                  ->join('defects', 'result_complaints.defects_id', '=', 'defects.id')
+                  ->join('complaints', 'result_complaints.complaints_id', '=', 'complaints.id')
+                  ->join('buyers', 'complaints.buyers_id', '=', 'buyers.id')
+                  ->select('defects.nama as nama', DB::raw("DATE_FORMAT(tgl_keluhan, '%Y') as year, count(*) as total"));
+
+    if (!empty($tahun)) {
+        $query->whereRaw("DATE_FORMAT(tgl_keluhan, '%Y') = ?", [$tahun]);
+    }
+
+    if (!empty($tanggalMulai) && !empty($tanggalAkhir)) {
+        $query->whereBetween('tgl_keluhan', [$tanggalMulai, $tanggalAkhir]);
+    }
+
+    if ($kategori !== "Semua") {
+        $query->where('complaints.kategori_keluhan', '=', $kategori);
+    }
+
+    $selectedBuyer = null;
+    if (!empty($buyerId)) {
+        $query->where('buyers.id', '=', $buyerId);
+        $selectedBuyer = Buyer::find($buyerId);
+    }
+
+    // Clone query untuk data bulanan
+    $dataBulanan = clone $query;
+    $dataBulanan = $dataBulanan->select(DB::raw("DATE_FORMAT(tgl_keluhan, '%m') as month"), DB::raw("count(*) as total"))
+                                ->groupBy('month')
+                                ->orderBy('month', 'asc')
+                                ->get();
+
+    $bulanLabels = $dataBulanan->pluck('month')->map(function($month) {
+        return DateTime::createFromFormat('m', $month)->format('F');
+    });
+
+    $data = $query->groupBy('year', 'defects.nama')
+                  ->orderBy('total', 'desc')
+                  ->get();
+
+    $labels = $data->pluck('nama');
+    $values = $data->pluck('total');
+    $bulanValues = $dataBulanan->pluck('total');
+    $buyer = buyer::all();
+
+    // Return view dengan data yang diperlukan
+    return view('home_grafik_buyer', compact('labels', 'values', 'tahun', 'kategori', 'bulanLabels', 'bulanValues', 'selectedBuyer', 'data', 'buyer', 'tanggalMulai', 'tanggalAkhir','tanggalMulai', 'tanggalAkhir'));
 }
 }

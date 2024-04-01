@@ -20,6 +20,13 @@
         <p>Data Grafik</p>
     </a>
 </li>
+<li class="nav-item">
+    <a href="{{ route('data.grafik.buyer') }}"
+        class="nav-link {{ (request()->is('home/grafik/buyer')) || (request()->is('home/grafik/buyer/search')) ? 'active' : '' }}">
+        <i class="fas fa-chart-bar"></i>
+        <p>Grafik External / Internal</p>
+    </a>
+</li>
 @auth
 @role('admin')
 <li class="nav-header">MANAGE</li>

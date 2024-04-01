@@ -73,6 +73,8 @@ Route::group(['middleware' => ['guest']], function() {
             Route::get('data-detail', [HomeController::class, 'detail'])->name('data.detail');
             Route::get('home/grafik', [HomeController::class, 'grafik'])->name('data.grafik');
             Route::post('home/grafik/search', [HomeController::class, 'search'])->name('data.search');
+            Route::get('home/grafik/buyer', [HomeController::class, 'grafikBuyer'])->name('data.grafik.buyer');
+            Route::post('home/grafik/buyer/search', [HomeController::class, 'searchBuyer'])->name('data.search.buyer');
         /**
          * Logout Routes
          */
