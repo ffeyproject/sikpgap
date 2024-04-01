@@ -17,12 +17,16 @@
                 </option>
             </select>
             <button type="submit">Cari</button>
-        </form>
+        </form><br>
         @if(isset($labels) && isset($values) && isset($tahun))
-        <canvas id="grafikPenjualan"></canvas>
+        <canvas id="grafikBulanan"></canvas>
+        <hr>
         @else
         <p>Data tidak tersedia atau belum dipilih tahunnya.</p>
         @endif
+        <canvas id="grafikPenjualan"></canvas>
+
+
     </div>
 </div>
 
@@ -54,6 +58,36 @@
         }
     });
 });
+</script>
+@endif
+
+@if(isset($bulanLabels) && isset($bulanValues) && isset($tahun))
+<script>
+    // Pastikan script ini ada di dalam event DOMContentLoaded atau setelahnya
+    var ctxBulanan = document.getElementById('grafikBulanan').getContext('2d');
+    var grafikBulanan = new Chart(ctxBulanan, {
+        type: 'line',
+        data: {
+            labels: @json($bulanLabels),
+            datasets: [{
+                label: 'Jumlah Keluhan per Bulan, Tahun ' + @json($tahun),
+                data: @json($bulanValues),
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 2,
+                fill: false
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
 </script>
 @endif
 

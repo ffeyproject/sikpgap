@@ -9,6 +9,7 @@ use App\Models\Result;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use DateTime;
 use Illuminate\Support\Facades\DB;
 use LaravelDaily\LaravelCharts\Classes\LaravelChart;
 
@@ -151,14 +152,28 @@ class HomeController extends Controller
     if ($kategori !== "Semua") {
         $query->where('complaints.kategori_keluhan', '=', $kategori);
     }
+    $dataBulanan = clone $query; // Clone query dasar atau yang sudah ditambahkan filter kategori
+    $dataBulanan = $dataBulanan->select(DB::raw("DATE_FORMAT(tgl_keluhan, '%m') as month"), DB::raw("count(*) as total"))
+                                ->groupBy('month')
+                                ->orderBy('month', 'asc')
+                                ->get();
+
+    // Mengkonversi hasil query ke format yang sesuai untuk chart
+    $bulanLabels = $dataBulanan->pluck('month')->map(function($month) {
+        return DateTime::createFromFormat('m', $month)->format('F');
+    });
 
     $data = $query->groupBy('year', 'defects.nama')
                   ->orderBy('total', 'desc')
                   ->get();
 
+
     $labels = $data->pluck('nama');
     $values = $data->pluck('total');
 
-    return view('home_grafik', compact('labels', 'values', 'tahun', 'kategori'));
+
+    $bulanValues = $dataBulanan->pluck('total');
+
+    return view('home_grafik', compact('labels', 'values', 'tahun', 'kategori', 'bulanLabels', 'bulanValues'));
 }
 }
