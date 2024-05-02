@@ -258,7 +258,7 @@
                 </div>
             </div>
             <div class="card-footer">
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" id="submitBtn" class="btn btn-primary">Submit</button>
             </div>
         </form>
     </div>
@@ -266,6 +266,11 @@
 </div>
 @endsection
 @section('tablejs')
+<script>
+    document.getElementById('submitBtn').addEventListener('click', function() {
+    alert('Data sudah di posting dan sedang di proses');
+});
+</script>
 <script>
     $(document).ready(function(){
           $('#buyers_id').select2({
