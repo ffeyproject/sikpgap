@@ -756,18 +756,24 @@ class ComplaintController extends Controller
         'solusi'   => 'required'
         ]);
 
-    if ( Auth::user()->id == $complaint->user_id ) {
-       $complaint->status_marketing = '0';
+    // if ( Auth::user()->id == $complaint->user_id ) {
+    //    $complaint->status_marketing = '0';
+    //    $complaint->solusi = $request->solusi;
+    //     $complaint->update();
+    //     Alert::success('Success', 'Complaint Telah Di Close dan Data Solusi Terisi');
+    //     return redirect('keluhan');
+
+    // }
+    // else {
+    //    Alert::warning('Info', 'Anda Bukan User Yang Membuat Data Complaint Ini');
+    //     return redirect()->back();
+    // }
+
+    $complaint->status_marketing = '0';
        $complaint->solusi = $request->solusi;
         $complaint->update();
         Alert::success('Success', 'Complaint Telah Di Close dan Data Solusi Terisi');
         return redirect('keluhan');
-
-    }
-    else {
-       Alert::warning('Info', 'Anda Bukan User Yang Membuat Data Complaint Ini');
-        return redirect()->back();
-    }
 
 
 
