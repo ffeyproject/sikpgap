@@ -398,6 +398,7 @@
                             <th>Tgl Verifikasi</th>
                             <th>Hasil Verifikasi</th>
                             <th>#</th>
+                            <th>Upload Verifikasi</th>
                         </tr>
                     </thead>
                     <?php $no = 1 ?>
@@ -530,6 +531,26 @@
                                     </form>
                                     @endif
                                 </div>
+                            </td>
+                            <td>
+
+                                @if ($item->upload_verifikasi == null)
+                                <form action="{{ route('upload.hasil.verifikasi', $item->id) }} " method="POST"
+                                    enctype="multipart/form-data">
+                                    @csrf
+                                    <input type="file" name="g_client"
+                                        class="form-control @error('g_client') is-invalid @enderror" id="g_client"
+                                        value="{{ old('g_client') ?: '' }}">
+                                    @error('g_client')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                    <button type="submit" class="btn btn-primary">Upload</button>
+                                </form>
+                                @else
+                                <a href="{{ route('view.pdf', $item->id) }}" class="btn btn-secondary"
+                                    target="_blank">View as PDF</a>
+
+                                @endif
                             </td>
                             @empty
                         <tr>

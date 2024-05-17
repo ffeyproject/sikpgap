@@ -667,7 +667,7 @@
                                     <th>Tgl Verifikasi</th>
                                     <th>Hasil Verifikasi</th>
                                     <th>Penyelidik</th>
-                                    <th>Upload Verifikasi</th>
+                                    <th>#</th>
                                 </tr>
                             </thead>
                             <?php $no = 1 ?>
@@ -684,26 +684,10 @@
                                     <td>{!! $item->hasil_verifikasi !!}</td>
                                     <td>{{ $item->users->name }}</td>
                                     <td>
-                                        @if ($item->upload_verifikasi == null)
-                                        <form action="{{ route('upload.hasil.verifikasi', $item->id) }} " method="POST"
-                                            enctype="multipart/form-data">
-                                            @csrf
-                                            <input type="file" name="g_client"
-                                                class="form-control @error('g_client') is-invalid @enderror"
-                                                id="g_client" value="{{ old('g_client') ?: '' }}">
-                                            @error('g_client')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                            <button type="submit" class="btn btn-primary">Upload</button>
-                                        </form>
-                                        @else
-                                        <a href="{{ route('view.pdf', $item->id) }}" class="btn btn-secondary"
-                                            target="_blank">View as PDF</a>
-
-                                        @endif
                                         <div class="container">
                                         </div>
-                                        @empty
+                                    </td>
+                                    @empty
                                 <tr>
                                     <td colspan="12">Data Penelurusan Belum Ada.</td>
                                 </tr>
