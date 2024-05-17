@@ -667,7 +667,7 @@
                                     <th>Tgl Verifikasi</th>
                                     <th>Hasil Verifikasi</th>
                                     <th>Penyelidik</th>
-                                    <th>#</th>
+                                    <th>Upload Verifikasi</th>
                                 </tr>
                             </thead>
                             <?php $no = 1 ?>
@@ -684,8 +684,13 @@
                                     <td>{!! $item->hasil_verifikasi !!}</td>
                                     <td>{{ $item->users->name }}</td>
                                     <td>
-                                        <div class="container">
-                                        </div>
+                                        @if ($item->upload_verifikasi == null)
+                                        <h4>Belum Upload</h4>
+                                        @else
+                                        <a href="{{ route('view.pdf', $item->id) }}" class="btn btn-secondary"
+                                            target="_blank">Lihat di PDF</a>
+
+                                        @endif
                                     </td>
                                     @empty
                                 <tr>

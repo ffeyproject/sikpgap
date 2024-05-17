@@ -548,7 +548,7 @@
                                 </form>
                                 @else
                                 <a href="{{ route('view.pdf', $item->id) }}" class="btn btn-secondary"
-                                    target="_blank">View as PDF</a>
+                                    target="_blank">Lihat di PDF</a>
 
                                 @endif
                             </td>
