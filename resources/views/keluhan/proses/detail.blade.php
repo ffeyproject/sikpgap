@@ -667,7 +667,7 @@
                                     <th>Tgl Verifikasi</th>
                                     <th>Hasil Verifikasi</th>
                                     <th>Penyelidik</th>
-                                    <th>#</th>
+                                    <th>Upload Verifikasi</th>
                                 </tr>
                             </thead>
                             <?php $no = 1 ?>
@@ -697,17 +697,13 @@
                                             <button type="submit" class="btn btn-primary">Upload</button>
                                         </form>
                                         @else
-                                        <h4>Ada</h4>
+                                        <a href="{{ route('view.pdf', $item->id) }}" class="btn btn-secondary"
+                                            target="_blank">View as PDF</a>
 
                                         @endif
                                         <div class="container">
                                         </div>
-                                    </td>
-                                    <td>
-                                        <a href="{{ route('view.pdf', $item->id) }}" class="btn btn-secondary"
-                                            target="_blank">View as PDF</a>
-                                    </td>
-                                    @empty
+                                        @empty
                                 <tr>
                                     <td colspan="12">Data Penelurusan Belum Ada.</td>
                                 </tr>
