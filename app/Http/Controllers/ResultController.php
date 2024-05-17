@@ -21,6 +21,7 @@ use Illuminate\Support\Js;
 use Laravel\Ui\Presets\React;
 use SebastianBergmann\Complexity\Complexity;
 use RealRashid\SweetAlert\Facades\Alert;
+// use PDF;
 
 class ResultController extends Controller
 {
@@ -180,6 +181,45 @@ class ResultController extends Controller
 
         return view('keluhan.proses.detail', compact('defect', 'user', 'keluhan', 'result', 'ab', 'ac', 'icomplaint'));
     }
+
+    public function uploadVerifikasi(Request $request, $id)
+{
+    $request->validate([
+        'g_client' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+    ]);
+
+    $item = Result::find($id);
+
+    if ($request->hasFile('g_client')) {
+        $file = $request->file('g_client');
+        $filename = time().'_'.$file->getClientOriginalName();
+        $path = $file->storeAs('uploads', $filename, 'public');
+
+        // Simpan path file ke database
+        $item->upload_verifikasi = $path;
+    }
+
+    $item->save();
+
+    return redirect()->back()->with('success', 'File uploaded successfully');
+}
+
+
+public function viewPdf($id)
+    {
+        $item = Result::find($id);
+
+        if (!$item || !$item->upload_verifikasi) {
+            return redirect()->back()->with('error', 'File not found.');
+        }
+
+        $imagePath = storage_path('app/public/' . $item->upload_verifikasi);
+
+        $pdf = PDF::loadView('keluhan.proses.pdf_view', compact('imagePath'));
+
+        return $pdf->stream('file.pdf');
+    }
+
 
     public function cetak($id)
     {

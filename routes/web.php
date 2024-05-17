@@ -164,6 +164,8 @@ Route::post('keluhan/proses', [ResultController::class, 'store'])->name('proses.
 Route::post('keluhan/proses/detail/chat', [ChatController::class, 'store'])->name('chat.store');
 Route::post('keluhan/proses/detail/chat-personal', [ChatController::class, 'personal'])->name('personal.store');
 Route::get('keluhan/proses/detail/chat/messages/{complaints_id}', [ChatController::class, 'getMessages'])->name('chat.messages');
+Route::post('keluhan/proses/upload-verifikasi/{id}', [ResultController::class, 'uploadVerifikasi'])->name('upload.hasil.verifikasi');
+Route::get('keluhan/proses/upload-verifikasi/view-pdf/{id}', [ResultController::class, 'viewPdf'])->name('view.pdf');
 Route::get('keluhan/proses/detail/{complaint}', [ResultController::class, 'detail'])->name('proses.detail');
 Route::get('keluhan/cetak/{complaint}', [ResultController::class, 'cetak'])->name('keluhan.cetak');
 Route::patch('keluhan/proses/{complaint}', [ResultController::class, 'closed'])->name('proses.closed');
