@@ -35,7 +35,6 @@ class ComplaintRequest extends FormRequest
              'cw_qty' => 'required',
              'masalah' => 'required',
              'solusi' => 'required',
-             'qty_complaint' => 'required',
         ];
     }
 }
