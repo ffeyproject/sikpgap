@@ -95,20 +95,31 @@ class ComplaintController extends Controller
 
 
         $pdf = PDF::loadview('keluhan.print', compact('icomplaint','keluhan'))
-        ->setPaper('Legal', 'potrait')
-        ->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true ,'chroot' => public_path()]);
-        $pdf->getDomPDF()->setHttpContext(
+        ->setPaper('legal', 'portrait')
+        ->setOptions([
+            'isHtml5ParserEnabled' => true,
+            'isRemoteEnabled' => true,
+            'chroot' => public_path(),
+            'defaultFont' => 'sans-serif',
+            'margin_top' => 0.1 * 72,    // 0 inch
+            'margin_right' => 0.2 * 72,  // 0.2 inch
+            'margin_bottom' => 0 * 72, // 0.5 inch
+            'margin_left' => 0.2 * 72,   // 0.2 inch
+        ]);
+
+    $pdf->getDomPDF()->setHttpContext(
         stream_context_create([
             'ssl' => [
-                'allow_self_signed'=> TRUE,
+                'allow_self_signed' => TRUE,
                 'verify_peer' => FALSE,
                 'verify_peer_name' => FALSE,
-                ]
-            ])
-        );
-         set_time_limit(1200);
+            ]
+        ])
+    );
 
-        return $pdf->stream();
+    set_time_limit(1200);
+
+    return $pdf->stream();
 
     }
 
@@ -774,9 +785,6 @@ class ComplaintController extends Controller
         $complaint->update();
         Alert::success('Success', 'Complaint Telah Di Close dan Data Solusi Terisi');
         return redirect('keluhan');
-
-
-
 
     }
 
