@@ -146,10 +146,6 @@
                         <td class="label">CW/QTY</td>
                         <td class="value">: {{ $keluhan->cw_qty }}, {{ $keluhan->qty_complaint }}</td>
                     </tr>
-                    <tr>
-                        <td class="label">Jenis</td>
-                        <td class="value">: {{ $keluhan->jenis }}</td>
-                    </tr>
                 </table>
 
                 <br>
@@ -198,19 +194,41 @@
                 </table>
 
                 <br>
-                <table width='100%' cellspacing='0' cellpadding='3' border='1' bordercolor='#CCCCCC'>
+                <table width='100%' cellspacing='0' cellpadding='8' border='1' bordercolor='#CCCCCC'>
                     <tr>
+
                         <td align="center" width='100%' bordercolor='#ccc' bgcolor='#f2f2f2' style='font-size:16px;'>
-                            <strong>HASIL VERIFIKASI</strong>
+                            <strong>TARGET WAKTU DAN HASIL VERIFIKASI
+                            </strong>
                         </td>
                     </tr>
                     <tr style="display:none;">
-                        <td colspan="*"></td>
+                        <td colspan="*">
                     </tr>
                     <tr>
-                        <td valign='top' style='font-size:12px;' width="200" height="100"></td>
+                        <td valign='top' style='font-size:14px;'>
+                            <?php
+                                            // Misalkan variabel $keluhan->tgl_keluhan adalah string tanggal
+                                            $tgl_keluhan = $keluhan->tgl_keluhan;
+
+                                            // Mengubah string tanggal menjadi objek DateTime
+                                            $date = new DateTime($tgl_keluhan);
+
+                                            // Menambahkan 14 hari
+                                            $date->modify('+16 days');
+
+                                            // Mengubah kembali objek DateTime menjadi string tanggal
+                                            $tgl_keluhan_baru = $date->format('Y-m-d');
+
+                                            ?>
+                            <strong>Target Waktu : {{ \Carbon\Carbon::parse($tgl_keluhan_baru)->isoFormat('dddd, D MMMM
+                                Y')
+                                }}</strong><br>
+                            <strong>Tanggal Verifikasi : </strong><br>
+                            <strong>Hasil Verifikasi : </strong><br>
+                        </td>
                     </tr>
-                </table>
+                </table><br>
 
                 <br>
                 <table width='100%' cellspacing='0' cellpadding='3' border='0'>
