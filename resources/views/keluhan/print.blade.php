@@ -41,14 +41,14 @@
                         <td valign='top' width='10%'>
                             <img src="{{ public_path('dist/img/logo_gajah.png') }}" style="width: 60px; height: 70px;">
                         </td>
-                        <td valign='top' width='70%' style='font-size:15px;'> <strong>PT. GAJAH ANGKASA
+                        <td valign='top' width='80%' style='font-size:15px;'> <strong>PT. GAJAH ANGKASA
                                 PERKASA</strong><br />
                             <strong>Quality Assurance Dept</strong><br /><br /><br><br>
                         </td>
                         <td valign='top' width='40%'>
                             <img src="{{ public_path('image/logo_qa.png') }}" style="width: 50px; height: 50px;">
                         </td>
-                        <td valign='top' width='55%' style='font-size:14px;'>GAP - FRM - QA - 22<br />
+                        <td valign='top' width='60%' style='font-size:14px;'>GAP - FRM - QA - 22<br />
                         </td>
                     </tr>
                 </table>
