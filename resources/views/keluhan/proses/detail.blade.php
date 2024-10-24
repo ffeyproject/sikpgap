@@ -539,78 +539,84 @@
 
                             <div class="col-sm-5 invoice-col">
                                 <address>
-                                    : {{ $keluhan->tgl_keluhan }}<br>
-                                    : {{ $keluhan->buyer->nama_buyer }}<br>
-                                    : {{ $keluhan->nama_marketing }}<br>
-                                    : {{ $keluhan->no_wo }}<br>
-                                    : {{ $keluhan->no_sc }}<br>
-                                    : {{ $keluhan->nama_motif }}<br>
-                                    : {{ $keluhan->cw_qty }}<br>
-                                    : {{ $keluhan->jenis }}<br>
+                                    <div style="display: flex; justify-content: flex-start;">
+                                        <span style="margin-right: 10px;">:</span> {{ $keluhan->tgl_keluhan }}<br>
+                                    </div>
+                                    <div style="display: flex; justify-content: flex-start;">
+                                        <span style="margin-right: 10px;">:</span> {{ $keluhan->buyer->nama_buyer }}<br>
+                                    </div>
+                                    <div style="display: flex; justify-content: flex-start;">
+                                        <span style="margin-right: 10px;">:</span> {{ $keluhan->nama_marketing }}<br>
+                                    </div>
+                                    <div style="display: flex; justify-content: flex-start;">
+                                        <span style="margin-right: 10px;">:</span> {{ $keluhan->no_wo }}<br>
+                                    </div>
+                                    <div style="display: flex; justify-content: flex-start;">
+                                        <span style="margin-right: 10px;">:</span> {{ $keluhan->no_sc }}<br>
+                                    </div>
+                                    <div style="display: flex; justify-content: flex-start;">
+                                        <span style="margin-right: 10px;">:</span> {{ $keluhan->nama_motif }}<br>
+                                    </div>
+                                    <div style="display: flex; justify-content: flex-start;">
+                                        <span style="margin-right: 10px;">:</span> {{ $keluhan->cw_qty }}<br>
+                                    </div>
+                                    <div style="display: flex; justify-content: flex-start;">
+                                        <span style="margin-right: 10px;">:</span> {{ $keluhan->jenis }}<br>
+                                    </div>
+
                                     <td>
-                                        {{-- <button type="button" class="btn btn-info btn-large" data-toggle="modal"
-                                            data-target="#largeModal" id="open">Lihat Gambar</button> --}}
-                                        <button type="button" class="btn btn-info btn-large" data-toggle="modal"
-                                            data-target="#largeModal" id="open">Show All
-                                            Image
+                                        <button type="button" class="btn btn-info btn-large" data-toggle="modal" data-target="#largeModal"
+                                            id="open">
+                                            Show All Image
                                         </button>
                                     </td>
-                                    <div class="modal fade" id="largeModal" tabindex="-1" role="dialog"
-                                        aria-labelledby="basicModal" aria-hidden="true">
+
+                                    <div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="basicModal"
+                                        aria-hidden="true">
                                         <div class="modal-dialog modal-lg">
                                             <div class="modal-content">
                                                 <div class="modal-body">
                                                     <!-- carousel -->
-                                                    <div id='carouselExampleIndicators' class='carousel slide'
-                                                        data-ride='carousel'>
-                                                        <ol class='carousel-indicators'>
-                                                            <li data-target='#carouselExampleIndicators'
-                                                                data-slide-to='0' class='active'></li>
-                                                            <li data-target='#carouselExampleIndicators'
-                                                                data-slide-to='1'></li>
-                                                            <li data-target='#carouselExampleIndicators'
-                                                                data-slide-to='2'></li>
+                                                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                                                        <ol class="carousel-indicators">
+                                                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                                                            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                                                            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
                                                         </ol>
-                                                        <div class='carousel-inner'>
+                                                        <div class="carousel-inner">
                                                             <?php $i=0; ?>
                                                             @foreach ($icomplaint as $gg)
-                                                            <?php if ($i==0) {$set_ = 'active'; } else {$set_ = ''; } ?>
-                                                            <div class='carousel-item <?php echo $set_; ?>'>
+                                                            <?php $set_ = ($i==0) ? 'active' : ''; ?>
+                                                            <div class="carousel-item {{ $set_ }}">
                                                                 <img src="{{ url('image/keluhan/'.$gg->nama_image) }}"
                                                                     style="width: 760px; height: 700px;">
                                                             </div>
-                                                            <?php $i++;?>
+                                                            <?php $i++; ?>
                                                             @endforeach
                                                         </div>
-                                                        <a class='carousel-control-prev'
-                                                            href='#carouselExampleIndicators' role='button'
-                                                            data-slide='prev'>
-                                                            <span class='carousel-control-prev-icon'
-                                                                aria-hidden='true'></span>
-                                                            <span class='sr-only'>Previous</span>
+                                                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button"
+                                                            data-slide="prev">
+                                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                            <span class="sr-only">Previous</span>
                                                         </a>
-                                                        <a class='carousel-control-next'
-                                                            href='#carouselExampleIndicators' role='button'
-                                                            data-slide='next'>
-                                                            <span class='carousel-control-next-icon'
-                                                                aria-hidden='true'></span>
-                                                            <span class='sr-only'>Next</span>
+                                                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button"
+                                                            data-slide="next">
+                                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                            <span class="sr-only">Next</span>
                                                         </a>
                                                     </div>
                                                 </div>
-                                                <div class=" modal-footer">
-                                                    <button type="button" class="btn btn-default" 2
-                                                        data-dismiss="modal">Close</button>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </address>
                             </div>
+
                             <div class="col-sm-4 invoice-col">
-                                <b>{!!
-                                    DNS2D::getBarcodeHTML($keluhan->nomer_keluhan.''.$keluhan->buyer->nama_buyer,'QRCODE')
-                                    !!}</b>
+                                <b>{!! DNS2D::getBarcodeHTML($keluhan->nomer_keluhan.''.$keluhan->buyer->nama_buyer,'QRCODE') !!}</b>
                             </div>
                         </div>
                         <hr>
