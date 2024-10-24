@@ -524,99 +524,109 @@
                         </div>
                         <hr>
                         <div class="row invoice-info">
-                            <div class="col-sm-3 invoice-col">
-                                <address>
-                                    <strong>Tanggal Keluhan</strong><br>
-                                    <strong>Nama Buyer</strong><br>
-                                    <strong>Nama Marketing</strong><br>
-                                    <strong>Nomer Wo</strong><br>
-                                    <strong>Nomer Sc</strong><br>
-                                    <strong>Nama Motif</strong><br>
-                                    <strong>C/W, Qty</strong><br>
-                                    <strong>Jenis</strong><br>
-                                </address>
-                            </div>
+                            <div class="col-sm-8">
+                                <table style="width: 100%;">
+                                    <tr>
+                                        <td style="width: 30%;"><strong>Tanggal Keluhan</strong></td>
+                                        <td style="width: 5%;">:</td>
+                                        <td>{{ $keluhan->tgl_keluhan }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Nama Buyer</strong></td>
+                                        <td>:</td>
+                                        <td>{{ $keluhan->buyer->nama_buyer }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Nama Marketing</strong></td>
+                                        <td>:</td>
+                                        <td>{{ $keluhan->nama_marketing }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Nomer Wo</strong></td>
+                                        <td>:</td>
+                                        <td>{{ $keluhan->no_wo }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Nomer Sc</strong></td>
+                                        <td>:</td>
+                                        <td>{{ $keluhan->no_sc }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Nama Motif</strong></td>
+                                        <td>:</td>
+                                        <td>{{ $keluhan->nama_motif }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>C/W, Qty</strong></td>
+                                        <td>:</td>
+                                        <td>{{ $keluhan->cw_qty }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Jenis</strong></td>
+                                        <td>:</td>
+                                        <td>{{ $keluhan->jenis }}</td>
+                                    </tr>
+                                </table>
+                                <button type="button" class="btn btn-info btn-large" data-toggle="modal"
+                                    data-target="#largeModal" id="open">
+                                    Show All Image
+                                </button>
+                                </td>
 
-                            <div class="col-sm-5 invoice-col">
-                                <address>
-                                    <div style="display: flex; justify-content: flex-start;">
-                                        <span style="margin-right: 10px;">:</span> {{ $keluhan->tgl_keluhan }}<br>
-                                    </div>
-                                    <div style="display: flex; justify-content: flex-start;">
-                                        <span style="margin-right: 10px;">:</span> {{ $keluhan->buyer->nama_buyer }}<br>
-                                    </div>
-                                    <div style="display: flex; justify-content: flex-start;">
-                                        <span style="margin-right: 10px;">:</span> {{ $keluhan->nama_marketing }}<br>
-                                    </div>
-                                    <div style="display: flex; justify-content: flex-start;">
-                                        <span style="margin-right: 10px;">:</span> {{ $keluhan->no_wo }}<br>
-                                    </div>
-                                    <div style="display: flex; justify-content: flex-start;">
-                                        <span style="margin-right: 10px;">:</span> {{ $keluhan->no_sc }}<br>
-                                    </div>
-                                    <div style="display: flex; justify-content: flex-start;">
-                                        <span style="margin-right: 10px;">:</span> {{ $keluhan->nama_motif }}<br>
-                                    </div>
-                                    <div style="display: flex; justify-content: flex-start;">
-                                        <span style="margin-right: 10px;">:</span> {{ $keluhan->cw_qty }}<br>
-                                    </div>
-                                    <div style="display: flex; justify-content: flex-start;">
-                                        <span style="margin-right: 10px;">:</span> {{ $keluhan->jenis }}<br>
-                                    </div>
-
-                                    <td>
-                                        <button type="button" class="btn btn-info btn-large" data-toggle="modal" data-target="#largeModal"
-                                            id="open">
-                                            Show All Image
-                                        </button>
-                                    </td>
-
-                                    <div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="basicModal"
-                                        aria-hidden="true">
-                                        <div class="modal-dialog modal-lg">
-                                            <div class="modal-content">
-                                                <div class="modal-body">
-                                                    <!-- carousel -->
-                                                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                                                        <ol class="carousel-indicators">
-                                                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                                                            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                                                            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                                                        </ol>
-                                                        <div class="carousel-inner">
-                                                            <?php $i=0; ?>
-                                                            @foreach ($icomplaint as $gg)
-                                                            <?php $set_ = ($i==0) ? 'active' : ''; ?>
-                                                            <div class="carousel-item {{ $set_ }}">
-                                                                <img src="{{ url('image/keluhan/'.$gg->nama_image) }}"
-                                                                    style="width: 760px; height: 700px;">
-                                                            </div>
-                                                            <?php $i++; ?>
-                                                            @endforeach
+                                <div class="modal fade" id="largeModal" tabindex="-1" role="dialog"
+                                    aria-labelledby="basicModal" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <!-- carousel -->
+                                                <div id="carouselExampleIndicators" class="carousel slide"
+                                                    data-ride="carousel">
+                                                    <ol class="carousel-indicators">
+                                                        <li data-target="#carouselExampleIndicators" data-slide-to="0"
+                                                            class="active"></li>
+                                                        <li data-target="#carouselExampleIndicators" data-slide-to="1">
+                                                        </li>
+                                                        <li data-target="#carouselExampleIndicators" data-slide-to="2">
+                                                        </li>
+                                                    </ol>
+                                                    <div class="carousel-inner">
+                                                        <?php $i=0; ?>
+                                                        @foreach ($icomplaint as $gg)
+                                                        <?php $set_ = ($i==0) ? 'active' : ''; ?>
+                                                        <div class="carousel-item {{ $set_ }}">
+                                                            <img src="{{ url('image/keluhan/'.$gg->nama_image) }}"
+                                                                style="width: 760px; height: 700px;">
                                                         </div>
-                                                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button"
-                                                            data-slide="prev">
-                                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                                            <span class="sr-only">Previous</span>
-                                                        </a>
-                                                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button"
-                                                            data-slide="next">
-                                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                                            <span class="sr-only">Next</span>
-                                                        </a>
+                                                        <?php $i++; ?>
+                                                        @endforeach
                                                     </div>
+                                                    <a class="carousel-control-prev" href="#carouselExampleIndicators"
+                                                        role="button" data-slide="prev">
+                                                        <span class="carousel-control-prev-icon"
+                                                            aria-hidden="true"></span>
+                                                        <span class="sr-only">Previous</span>
+                                                    </a>
+                                                    <a class="carousel-control-next" href="#carouselExampleIndicators"
+                                                        role="button" data-slide="next">
+                                                        <span class="carousel-control-next-icon"
+                                                            aria-hidden="true"></span>
+                                                        <span class="sr-only">Next</span>
+                                                    </a>
                                                 </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default"
+                                                    data-dismiss="modal">Close</button>
                                             </div>
                                         </div>
                                     </div>
-                                </address>
+                                </div>
                             </div>
 
                             <div class="col-sm-4 invoice-col">
-                                <b>{!! DNS2D::getBarcodeHTML($keluhan->nomer_keluhan.''.$keluhan->buyer->nama_buyer,'QRCODE') !!}</b>
+                                <b>{!!
+                                    DNS2D::getBarcodeHTML($keluhan->nomer_keluhan.''.$keluhan->buyer->nama_buyer,'QRCODE')
+                                    !!}</b>
                             </div>
                         </div>
                         <hr>
