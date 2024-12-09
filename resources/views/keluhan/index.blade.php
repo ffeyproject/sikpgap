@@ -72,6 +72,7 @@
                                     <th>Status Internal</th>
                                     <th>Close Marketing</th>
                                     <th>Last Chat</th>
+                                    @if (Auth::user()->posisi == 'qa' || Auth::user()->posisi == 'Admin')
                                     <th>Aksi</th>
                                     <th>Hasil Scan Penyelesaian</th>
                                     <th>CT/SP</th>
