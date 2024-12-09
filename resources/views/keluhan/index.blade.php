@@ -141,6 +141,7 @@
                                         {{ $latestChatPersonal ? $latestChatPersonal->created_at->toDateTimeString() :
                                         'N/A' }}
                                     </td>
+                                    @if (Auth::user()->posisi == 'qa' || Auth::user()->posisi == 'Admin')
                                     <td>
                                         @if( $item->status == 'open' && Auth::user()->posisi == 'marketing' )
                                         <div class="container">
@@ -210,6 +211,7 @@
                                     </td>
                                     <td>{{ $item->cutting_point }}</td>
                                     <td>{!! $item->verifikasi_akhir !!}</td>
+                                    @endif
                                     @empty
                                 <tr>
                                     <td colspan="12">Data tidak ada.</td>
