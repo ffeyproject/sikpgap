@@ -21,7 +21,6 @@
                     Tambah Keluhan
                 </button>
                 <!-- Modal -->
-                <!-- Modal -->
                 <div class="modal fade" id="keluhanModal" tabindex="-1" aria-labelledby="keluhanModalLabel"
                     aria-hidden="true">
                     <div class="modal-dialog">
@@ -36,7 +35,8 @@
                                 Silakan pilih jenis sumber keluhan Anda:
                             </div>
                             <div class="modal-footer">
-                                <a href="{{ route('keluhan.create') }}" class="btn btn-secondary">External (Buyer)</a>
+                                <a href="{{ route('keluhan.create') }}" class="btn btn-secondary">External (dari
+                                    Buyer)</a>
                                 <a href="{{ route('keluhan.internal') }}" class="btn btn-primary">Internal</a>
                             </div>
                         </div>
@@ -65,14 +65,12 @@
                                     <th>Nomer</th>
                                     <th>Tanggal</th>
                                     <th>Jenis</th>
+                                    <th>Kategori</th>
                                     <th>Nama Buyer</th>
                                     <th>Nama Marketing</th>
                                     <th>Tgl Proses</th>
                                     <th>Status Internal</th>
                                     <th>Close Marketing</th>
-                                    @if (Auth::user()->posisi == 'marketing')
-                                    <th></th>
-                                    @else
                                     <th>Last Chat</th>
                                     <th>Aksi</th>
                                     <th>Hasil Scan Penyelesaian</th>
@@ -97,6 +95,13 @@
                                     <td>{{ $item->tgl_keluhan }}
                                     </td>
                                     <td>{{ $item->jenis }}</td>
+                                    <td>
+                                        @if ($item->kategori_keluhan == 'eksternal')
+                                        <span class="badge bg-success">External</span>
+                                        @else
+                                        <span class="badge bg-primary">Internal</span>
+                                        @endif
+                                    </td>
                                     <td>{{ $item->buyer['nama_buyer'] }}</td>
                                     <td>{{ $item->nama_marketing }}</td>
                                     <td>
@@ -209,7 +214,6 @@
                                     <td colspan="12">Data tidak ada.</td>
                                 </tr>
                                 </tr>
-
                             </tbody>
                             @endforelse
                         </table>
@@ -264,4 +268,5 @@
     });
 
 </script>
+
 @endsection
