@@ -43,7 +43,7 @@
                                     <th>Username</th>
                                     <th>Roles</th>
                                     <th style="width: 100px;" class="text-center">Status</th>
-                                    <th style="width: 180px;" class="text-center">Aksi</th>
+                                    <th style="width: 140px;" class="text-center">Aksi</th>
                                 </tr>
                             </thead>
                             <?php $no = 1 ?>
@@ -77,23 +77,13 @@
                                         @endif
                                     </td>
                                     <td class="text-center align-middle">
-                                        <div class="d-flex align-items-center justify-content-center" style="gap: 4px;">
+                                        <div class="d-flex align-items-center justify-content-center" style="gap: 5px;">
                                             <a href="{{ route('users.show', $user->id) }}" class="btn btn-sm btn-info" title="Detail Pengguna">
                                                 <i class="fas fa-info-circle"></i>
                                             </a>
-                                            <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm btn-warning" title="Ubah Pengguna">
+                                            <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm btn-warning" title="Ubah Data & Status Pengguna">
                                                 <i class="fa fa-edit"></i>
                                             </a>
-                                            @if(auth()->id() !== $user->id)
-                                            <form action="{{ route('users.toggle-status', $user->id) }}" method="POST" style="display: inline-block;">
-                                                @csrf
-                                                @method('PATCH')
-                                                <button type="submit" class="btn btn-sm {{ $user->status ? 'btn-outline-danger' : 'btn-outline-success' }}" 
-                                                        title="{{ $user->status ? 'Nonaktifkan Akun (Blokir Login)' : 'Aktifkan Akun (Izinkan Login)' }}"
-                                                        onclick="return confirm('Apakah Anda yakin ingin {{ $user->status ? 'menonaktifkan' : 'mengaktifkan' }} akun pengguna {{ $user->name }}?')">
-                                                    <i class="fas {{ $user->status ? 'fa-user-slash' : 'fa-user-check' }}"></i>
-                                                </button>
-                                            </form>
                                             <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display: inline-block;">
                                                 @csrf
                                                 @method('DELETE')
@@ -102,7 +92,6 @@
                                                     <i class="fa fa-trash"></i>
                                                 </button>
                                             </form>
-                                            @endif
                                         </div>
                                     </td>
                                 @empty
