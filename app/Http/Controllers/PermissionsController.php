@@ -58,11 +58,14 @@ class PermissionsController extends Controller
         $adminRoles = Role::whereIn('name', ['admin', 'Admin'])->get();
         $newPermissions = [];
 
+        // Bersihkan permission acak (generated::) jika pernah tersimpan
+        Permission::where('name', 'LIKE', 'generated::%')->delete();
+
         foreach ($routes as $route) {
             $name = $route->getName();
 
-            // Abaikan rute tanpa nama atau rute internal framework
-            if (!$name || str_starts_with($name, 'sanctum.') || str_starts_with($name, 'ignition.') || str_starts_with($name, '_ignition.')) {
+            // Abaikan rute tanpa nama, internal framework, atau fallback nama acak generated::
+            if (!$name || str_starts_with($name, 'sanctum.') || str_starts_with($name, 'ignition.') || str_starts_with($name, '_ignition.') || str_starts_with($name, 'generated::')) {
                 continue;
             }
 

@@ -28,9 +28,9 @@ class RolesController extends Controller
      */
     public function index(Request $request)
     {
-        $roles = Role::orderBy('id','DESC')->paginate(5);
+        $roles = Role::orderBy('id','DESC')->paginate(10);
         return view('roles.index',compact('roles'))
-            ->with('i', ($request->input('page', 1) - 1) * 5);
+            ->with('i', ($request->input('page', 1) - 1) * 10);
     }
 
     /**
@@ -40,8 +40,17 @@ class RolesController extends Controller
      */
     public function create()
     {
-        $permissions = Permission::get();
-        return view('roles.create', compact('permissions'));
+        // Pastikan tidak menyertakan generated route fallback
+        $permissions = Permission::where('name', 'NOT LIKE', 'generated::%')
+            ->orderBy('name', 'asc')
+            ->get();
+
+        $groupedPermissions = $permissions->groupBy(function($item) {
+            $parts = explode('.', $item->name);
+            return count($parts) > 1 ? strtoupper($parts[0]) : 'GENERAL';
+        });
+
+        return view('roles.create', compact('permissions', 'groupedPermissions'));
     }
 
     /**
@@ -54,14 +63,14 @@ class RolesController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|unique:roles,name',
-            'permission' => 'required',
+            'permission' => 'required|array',
         ]);
 
         $role = Role::create(['name' => $request->get('name')]);
         $role->syncPermissions($request->get('permission'));
 
         return redirect()->route('roles.index')
-                        ->with('success','Role created successfully');
+                        ->with('success','Role berhasil dibuat.');
     }
 
     /**
@@ -72,7 +81,6 @@ class RolesController extends Controller
      */
     public function show(Role $role)
     {
-        $role = $role;
         $rolePermissions = $role->permissions;
 
         return view('roles.show', compact('role', 'rolePermissions'));
@@ -86,11 +94,19 @@ class RolesController extends Controller
      */
     public function edit(Role $role)
     {
-        $role = $role;
         $rolePermissions = $role->permissions->pluck('name')->toArray();
-        $permissions = Permission::get();
 
-        return view('roles.edit', compact('role', 'rolePermissions', 'permissions'));
+        // Bersihkan permission acak jika ada
+        $permissions = Permission::where('name', 'NOT LIKE', 'generated::%')
+            ->orderBy('name', 'asc')
+            ->get();
+
+        $groupedPermissions = $permissions->groupBy(function($item) {
+            $parts = explode('.', $item->name);
+            return count($parts) > 1 ? strtoupper($parts[0]) : 'GENERAL';
+        });
+
+        return view('roles.edit', compact('role', 'rolePermissions', 'permissions', 'groupedPermissions'));
     }
 
     /**
@@ -104,15 +120,14 @@ class RolesController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'permission' => 'required',
+            'permission' => 'required|array',
         ]);
 
         $role->update($request->only('name'));
-
         $role->syncPermissions($request->get('permission'));
 
         return redirect()->route('roles.index')
-                        ->with('success','Role updated successfully');
+                        ->with('success','Role berhasil diperbarui.');
     }
 
     /**
@@ -126,6 +141,6 @@ class RolesController extends Controller
         $role->delete();
 
         return redirect()->route('roles.index')
-                        ->with('success','Role deleted successfully');
+                        ->with('success','Role berhasil dihapus.');
     }
 }

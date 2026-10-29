@@ -19,17 +19,17 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::post('/register', [ApiUserController::class, 'register']);
-Route::post('/login', [ApiUserController::class, 'login']);
+Route::post('/register', [ApiUserController::class, 'register'])->name('api.register');
+Route::post('/login', [ApiUserController::class, 'login'])->name('api.login');
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/user', [ApiUserController::class, 'readAll']);
+    Route::get('/user', [ApiUserController::class, 'readAll'])->name('api.user');
 
-Route::get('/departement', [ApiDepartementController::class, 'readAll']);
-Route::get('/defect', [ApiDefectController::class, 'readAll']);
-Route::get('/complaint', [ApiComplaintController::class, 'readComplaint']);
+Route::get('/departement', [ApiDepartementController::class, 'readAll'])->name('api.departement');
+Route::get('/defect', [ApiDefectController::class, 'readAll'])->name('api.defect');
+Route::get('/complaint', [ApiComplaintController::class, 'readComplaint'])->name('api.complaint');
 
-Route::get('/complaint/result/{complaint}', [ApiComplaintController::class, 'resultComplaint']);
+Route::get('/complaint/result/{complaint}', [ApiComplaintController::class, 'resultComplaint'])->name('api.complaint.result');
 
 
 });

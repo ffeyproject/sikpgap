@@ -44,7 +44,7 @@ use App\Models\RawSatisfaction;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 Route::get('sign-in-google', [UsersController::class, 'google'])->name('user.login.google');
 Route::get('auth/google/callback', [UsersController::class, 'handleProviderCallback'])->name('user.google.callback');
 
@@ -198,7 +198,7 @@ Route::patch('kepuasan/update/{kepuasan}', [SatisfactionController::class, 'upda
 Route::get('kepuasan-penilaian/index/{kepuasan}', [SatisfactionController::class, 'vpenilaian'])->name('kepuasan.vpenilaian');
 Route::patch('kepuasan-penilaian/index/update/{kepuasan}', [SatisfactionController::class, 'rnilai'])->name('kepuasan.rnilai');
 Route::post('kepuasan-penilaian', [ResultSatisfactionsController::class, 'store'])->name('kepuasan-penilaian.store');
-Route::get('/kepuasan/create/nyari', [SatisfactionController::class, 'loadNyari']);
+Route::get('/kepuasan/create/nyari', [SatisfactionController::class, 'loadNyari'])->name('kepuasan.nyari');
 Route::get('get-customer-list', [SatisfactionController::class, 'getCustomerList'])->name('getCustomerList');
 Route::post('kepuasan', [SatisfactionController::class, 'store'])->name('kepuasan.store');
 Route::get('kepuasan/update/{kepuasan}', [SatisfactionController::class, 'edit'])->name('kepuasan.edit');
