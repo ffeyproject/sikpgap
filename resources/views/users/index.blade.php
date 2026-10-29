@@ -31,15 +31,13 @@
             <div class="col-12">
 
                 <div class="card">
-                    {{-- <div class="card-header">
-                        <h3 class="card-title">DataTable with default features</h3>
-                    </div> --}}
                     <!-- /.card-header -->
                     <div class="card-body">
                         <table id="t_barang" class="table table-bordered table-striped" border="1">
                             <thead>
                                 <tr>
-                                    <th>No</th>
+                                    <th style="width: 40px;" class="text-center">No</th>
+                                    <th style="width: 90px;" class="text-center">TTD</th>
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Username</th>
@@ -51,7 +49,17 @@
                             <tbody>
                                 @forelse ($users as $user)
                                 <tr>
-                                    <td>{{ $no++ }}</td>
+                                    <td class="text-center">{{ $no++ }}</td>
+                                    <td class="text-center align-middle">
+                                        @if(!empty($user->g_ttd))
+                                            <img src="{{ asset('image/ttd/' . $user->g_ttd) }}?t={{ time() }}" 
+                                                 alt="TTD {{ $user->name }}" 
+                                                 style="height: 38px; max-width: 80px; object-fit: contain; border: 1px solid #e3e6f0; border-radius: 4px; padding: 2px; background: #fff;"
+                                                 onerror="this.onerror=null; this.parentElement.innerHTML='<span class=\'badge badge-light text-muted border\'>No Image</span>';">
+                                        @else
+                                            <span class="badge badge-light text-muted border">Belum ada</span>
+                                        @endif
+                                    </td>
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->username }}</td>
@@ -77,14 +85,13 @@
                                             </form>
                                         </div>
                                     </td>
-                                    @empty
+                                @empty
                                 <tr>
                                     <td colspan="12">Data tidak ada.</td>
                                 </tr>
                                 </tr>
-
+                                @endforelse
                             </tbody>
-                            @endforelse
                         </table>
                     </div>
                     <!-- /.card-body -->
@@ -110,6 +117,5 @@
             "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
         }).buttons().container().appendTo('#t_barang_wrapper .col-md-6:eq(0)');
     });
-
 </script>
 @endsection

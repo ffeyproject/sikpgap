@@ -171,29 +171,63 @@ class UsersController extends Controller
      */
     public function update(User $user, UpdateUserRequest $request)
     {
-        // $user->update($request->validated());
+        try {
+            $user->name = $request->name;
+            $user->username = $request->username;
+            $user->email = $request->email;
+            $user->posisi = $request->posisi;
 
-        $user->name = $request->name;
-        $user->username = $request->username;
-        $user->email = $request->email;
-        $user->posisi = $request->posisi;
-        if (empty($request->file('g_ttd'))){
-                $user->g_ttd = $user->g_ttd;
-            }
-        else{
-                unlink('image/ttd/'.$user->g_ttd); //menghapus file lama
+            if ($request->hasFile('g_ttd')) {
                 $g_ttd = $request->file('g_ttd');
-                $ext = $g_ttd->getClientOriginalExtension();
-                $newName = rand(100000,1001238912).".".$ext;
-                $g_ttd->move('image/ttd',$newName);
+                if (!$g_ttd->isValid()) {
+                    throw new \Exception('File gambar tanda tangan tidak valid: ' . $g_ttd->getErrorMessage());
+                }
+
+                $destinationPath = public_path('image/ttd');
+                if (!file_exists($destinationPath)) {
+                    @mkdir($destinationPath, 0775, true);
+                }
+
+                // Hapus file lama jika ada dan bukan file gambar default sistem
+                $sharedDefaults = ['default.jpg', 'noImage.png', 'sign.png', 'signature.jpg', 'signature.PNG'];
+                if (!empty($user->g_ttd) && !in_array($user->g_ttd, $sharedDefaults)) {
+                    $oldFilePath = $destinationPath . '/' . $user->g_ttd;
+                    if (file_exists($oldFilePath)) {
+                        @unlink($oldFilePath);
+                    }
+                }
+
+                $ext = strtolower($g_ttd->getClientOriginalExtension());
+                if (empty($ext)) {
+                    $ext = strtolower($g_ttd->extension() ?: 'png');
+                }
+                $newName = time() . '_' . rand(1000, 9999) . '.' . $ext;
+                $g_ttd->move($destinationPath, $newName);
+
+                if (!file_exists($destinationPath . '/' . $newName)) {
+                    throw new \Exception('Gagal memindahkan file ke direktori ' . $destinationPath . '. Silakan periksa hak akses (permission) folder di server.');
+                }
+
                 $user->g_ttd = $newName;
+            } elseif ($request->file('g_ttd')) {
+                // Input file terdeteksi tetapi gagal diunggah (misal melebihi batas upload_max_filesize PHP)
+                $uploaded = $request->file('g_ttd');
+                throw new \Exception('Upload gambar gagal: ' . $uploaded->getErrorMessage() . ' (Periksa batasan upload_max_filesize / post_max_size pada php.ini server Anda)');
             }
-        $user->update();
 
-        $user->syncRoles($request->get('role'));
+            $user->save();
 
-        return redirect()->route('users.index')
-            ->withSuccess(__('User updated successfully.'));
+            // Sinkronisasi roles (jika kosong, pass array kosong)
+            $roles = $request->get('role') ? array_values($request->get('role')) : [];
+            $user->syncRoles($roles);
+
+            return redirect()->route('users.index')
+                ->with('success', 'Data pengguna ' . $user->name . ' berhasil diperbarui.');
+        } catch (\Throwable $e) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Gagal memperbarui pengguna: ' . $e->getMessage());
+        }
     }
 
     /**

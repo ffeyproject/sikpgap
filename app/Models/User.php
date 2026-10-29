@@ -32,6 +32,7 @@ class User extends Authenticatable
         'password',
         'posisi',
         'avatar',
+        'g_ttd',
     ];
 
     /**
