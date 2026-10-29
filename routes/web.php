@@ -238,6 +238,7 @@ Route::patch('raw-data/keluhan/update/edit/{keluhan}', [RawSatisfactionControlle
 
 Route::get('permissions', [PermissionsController::class, 'index'])->name('permissions.index');
 Route::resource('roles', RolesController::class);
+Route::get('permissions/sync', [PermissionsController::class, 'sync'])->name('permissions.sync');
 Route::resource('permissions', PermissionsController::class);
 
 

@@ -107,9 +107,22 @@
                         <a href="{{ route('users.index') }}" class="btn btn-outline-secondary">
                             <i class="fas fa-arrow-left mr-1"></i> Kembali ke Daftar
                         </a>
-                        <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning font-weight-bold">
-                            <i class="fas fa-edit mr-1"></i> Ubah Data & Status Pengguna
-                        </a>
+                        <div>
+                            @if(auth()->id() !== $user->id)
+                            <form action="{{ route('users.toggle-status', $user->id) }}" method="POST" style="display: inline-block;">
+                                @csrf
+                                @method('PATCH')
+                                <button type="submit" class="btn {{ $user->status ? 'btn-outline-danger' : 'btn-outline-success' }} mr-2"
+                                        onclick="return confirm('Apakah Anda yakin ingin {{ $user->status ? 'menonaktifkan' : 'mengaktifkan' }} akun pengguna {{ $user->name }}?')">
+                                    <i class="fas {{ $user->status ? 'fa-user-slash' : 'fa-user-check' }} mr-1"></i>
+                                    {{ $user->status ? 'Nonaktifkan Akun' : 'Aktifkan Akun' }}
+                                </button>
+                            </form>
+                            @endif
+                            <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning font-weight-bold">
+                                <i class="fas fa-edit mr-1"></i> Ubah Data & Status Pengguna
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
