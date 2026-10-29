@@ -349,9 +349,49 @@
                             </div>
                             @enderror
 
-                            <!-- Bagian 3: Penugasan Peran (Roles) -->
+                            <!-- Bagian 3: Status Keaktifan Akun -->
                             <div class="form-section-title mt-4">
-                                <i class="fas fa-shield-alt"></i> 3. Hak Akses Peran (Roles)
+                                <i class="fas fa-user-shield"></i> 3. Status Keaktifan Akun
+                            </div>
+
+                            <p class="small text-muted mb-2">Tentukan apakah pengguna diizinkan login ke dalam sistem atau diblokir:</p>
+                            @php
+                                $currentStatus = old('status', $user->status ? 1 : 0);
+                            @endphp
+
+                            <div class="row mb-3">
+                                <div class="col-12 col-md-6 mb-2">
+                                    <label class="posisi-card-option status-card-option w-100 {{ $currentStatus == 1 ? 'active border-success' : '' }}" style="cursor: pointer;">
+                                        <input type="radio" name="status" value="1" {{ $currentStatus == 1 ? 'checked' : '' }} required>
+                                        <div>
+                                            <div class="font-weight-bold text-success">
+                                                <i class="fas fa-check-circle mr-1"></i>Akun Aktif (Dapat Login)
+                                            </div>
+                                            <small class="text-muted">Pengguna diizinkan login dan menggunakan sistem sesuai hak aksesnya.</small>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="col-12 col-md-6 mb-2">
+                                    <label class="posisi-card-option status-card-option w-100 {{ $currentStatus == 0 ? 'active border-danger' : '' }}" style="cursor: pointer;">
+                                        <input type="radio" name="status" value="0" {{ $currentStatus == 0 ? 'checked' : '' }} required>
+                                        <div>
+                                            <div class="font-weight-bold text-danger">
+                                                <i class="fas fa-ban mr-1"></i>Akun Nonaktif (Dilarang Login)
+                                            </div>
+                                            <small class="text-muted">Pengguna diblokir dari login. Jika sedang login, sesi akan langsung dihentikan.</small>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                            @error('status')
+                            <div class="alert alert-danger py-2 px-3 small font-weight-bold mb-3">
+                                <i class="fas fa-exclamation-circle mr-1"></i>{{ $message }}
+                            </div>
+                            @enderror
+
+                            <!-- Bagian 4: Penugasan Peran (Roles) -->
+                            <div class="form-section-title mt-4">
+                                <i class="fas fa-shield-alt"></i> 4. Hak Akses Peran (Roles)
                             </div>
 
                             <p class="small text-muted mb-2">Centang peran (role) yang diberikan untuk pengguna ini:</p>
@@ -422,10 +462,20 @@
             $('.role-checkbox').prop('checked', isChecked);
         });
 
-        // Toggle active style on radio cards
+        // Toggle active style on radio cards posisi
         $('input[type="radio"][name="posisi"]').on('change', function() {
-            $('.posisi-card-option').removeClass('active');
+            $(this).closest('.row').find('.posisi-card-option').removeClass('active');
             $(this).closest('.posisi-card-option').addClass('active');
+        });
+
+        // Toggle active style on radio cards status
+        $('input[type="radio"][name="status"]').on('change', function() {
+            $('.status-card-option').removeClass('active border-success border-danger');
+            if ($(this).val() == '1') {
+                $(this).closest('.status-card-option').addClass('active border-success');
+            } else {
+                $(this).closest('.status-card-option').addClass('active border-danger');
+            }
         });
 
         // Update label and live preview when a file is selected

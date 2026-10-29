@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class ApiUserController extends Controller
 {
@@ -30,6 +31,7 @@ class ApiUserController extends Controller
             'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'status' => 1,
         ]);
 
         return response()->json([
@@ -39,13 +41,22 @@ class ApiUserController extends Controller
 
     function login(Request $request)
     {
-        if (!Auth::attempt($request->only('email', 'password'))) {
+        $user = User::where('email', $request->email)->first();
+        if ($user && !$user->status) {
+            return response()->json([
+                'message' => 'Akun Anda sedang dinonaktifkan oleh Administrator.'
+            ], 403);
+        }
+
+        if (!Auth::attempt(array_merge($request->only('email', 'password'), ['status' => 1]))) {
             return response()->json([
                 'message' => 'Unauthorized'
             ], 401);
         }
 
-        $user = User::where('email', $request->email)->firstOrFail();
+        if (!$user) {
+            $user = User::where('email', $request->email)->firstOrFail();
+        }
 
         $token = $user->createToken('auth_token')->plainTextToken;
 

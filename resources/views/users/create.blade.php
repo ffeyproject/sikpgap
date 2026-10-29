@@ -11,15 +11,12 @@
             <div class="row justify-content-center">
                 <div class="col-md-8">
                     <div class="card">
-                        {{-- <div class="card-header">{{ __('Register') }}</div> --}}
-
                         <div class="card-body">
                             <form method="POST" action="{{ route('users.create') }}" enctype="multipart/form-data">
                                 @csrf
 
                                 <div class="form-group row">
-                                    <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name')
-                                        }}</label>
+                                    <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
 
                                     <div class="col-md-6">
                                         <input id="name" type="text"
@@ -35,9 +32,7 @@
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail
-                                        Address')
-                                        }}</label>
+                                    <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 
                                     <div class="col-md-6">
                                         <input id="email" type="email"
@@ -53,9 +48,7 @@
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="username" class="col-md-4 col-form-label text-md-right">{{
-                                        __('Username')
-                                        }}</label>
+                                    <label for="username" class="col-md-4 col-form-label text-md-right">{{ __('Username') }}</label>
 
                                     <div class="col-md-6">
                                         <input id="username" type="text"
@@ -69,27 +62,23 @@
                                         @enderror
                                     </div>
                                 </div>
+
                                 <div class="form-group row">
-                                    <label for="g_ttd" class="col-md-4 col-form-label text-md-right">{{
-                                        __('Gambar TTD')
-                                        }}</label>
+                                    <label for="g_ttd" class="col-md-4 col-form-label text-md-right">{{ __('Gambar TTD') }}</label>
 
                                     <div class="col-md-6">
                                         <input type="file" name="g_ttd"
                                             class="form-control @error('g_ttd') is-invalid @enderror" id="g_ttd"
                                             value="{{ old('g_ttd') ?: '' }}" placeholder="">
                                         @if ($errors->has('g_ttd'))
-                                        <div class="invalid-feedback">{{
-                                            $errors->first('g_ttd') }}</div>
+                                        <div class="invalid-feedback">{{ $errors->first('g_ttd') }}</div>
                                         @endif
-                                        <p class="help-block">Max.800kb</p>
+                                        <p class="help-block">Max. 5 MB</p>
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="password" class="col-md-4 col-form-label text-md-right">{{
-                                        __('Password')
-                                        }}</label>
+                                    <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 
                                     <div class="col-md-6">
                                         <input id="password" type="password"
@@ -105,13 +94,29 @@
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{
-                                        __('Confirm
-                                        Password') }}</label>
+                                    <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
 
                                     <div class="col-md-6">
                                         <input id="password-confirm" type="password" class="form-control"
                                             name="password_confirmation" required autocomplete="new-password">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-md-4 col-form-label text-md-right font-weight-bold">Status Akun</label>
+                                    <div class="col-md-6 pt-2">
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id="status1" name="status" class="custom-control-input" value="1" {{ old('status', '1') == '1' ? 'checked' : '' }}>
+                                            <label class="custom-control-label text-success font-weight-bold" for="status1" style="cursor: pointer;">
+                                                <i class="fas fa-check-circle mr-1"></i>Aktif (Dapat Login)
+                                            </label>
+                                        </div>
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id="status0" name="status" class="custom-control-input" value="0" {{ old('status') == '0' ? 'checked' : '' }}>
+                                            <label class="custom-control-label text-danger font-weight-bold" for="status0" style="cursor: pointer;">
+                                                <i class="fas fa-ban mr-1"></i>Nonaktif (Blokir Login)
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -131,5 +136,4 @@
     </div>
 
 </div>
-
 @endsection

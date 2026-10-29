@@ -24,7 +24,14 @@
                 <div class="card shadow-sm" style="border-radius: 12px;">
                     <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
                         <h5 class="m-0 font-weight-bold text-dark">Informasi Akun: {{ $user->name }}</h5>
-                        <span class="badge badge-light border px-2 py-1">User ID: #{{ $user->id }}</span>
+                        <div>
+                            @if($user->status)
+                                <span class="badge badge-success px-2 py-1 mr-1"><i class="fas fa-check-circle mr-1"></i>Aktif</span>
+                            @else
+                                <span class="badge badge-danger px-2 py-1 mr-1"><i class="fas fa-ban mr-1"></i>Nonaktif</span>
+                            @endif
+                            <span class="badge badge-light border px-2 py-1">User ID: #{{ $user->id }}</span>
+                        </div>
                     </div>
                     <div class="card-body p-4">
                         <div class="row">
@@ -72,6 +79,16 @@
                                             <td><span class="badge badge-info">{{ $user->posisi ?? '-' }}</span></td>
                                         </tr>
                                         <tr>
+                                            <th class="text-muted">Status Login</th>
+                                            <td>
+                                                @if($user->status)
+                                                    <span class="badge badge-success px-2 py-1"><i class="fas fa-check-circle mr-1"></i>Aktif (Dapat Login ke Sistem)</span>
+                                                @else
+                                                    <span class="badge badge-danger px-2 py-1"><i class="fas fa-ban mr-1"></i>Nonaktif (Akses Login Diblokir)</span>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
                                             <th class="text-muted">Hak Akses Role</th>
                                             <td>
                                                 @forelse($user->roles as $role)
@@ -90,9 +107,22 @@
                         <a href="{{ route('users.index') }}" class="btn btn-outline-secondary">
                             <i class="fas fa-arrow-left mr-1"></i> Kembali ke Daftar
                         </a>
-                        <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning font-weight-bold">
-                            <i class="fas fa-edit mr-1"></i> Ubah Data Pengguna
-                        </a>
+                        <div>
+                            @if(auth()->id() !== $user->id)
+                            <form action="{{ route('users.toggle-status', $user->id) }}" method="POST" style="display: inline-block;">
+                                @csrf
+                                @method('PATCH')
+                                <button type="submit" class="btn {{ $user->status ? 'btn-outline-danger' : 'btn-outline-success' }} mr-2"
+                                        onclick="return confirm('Apakah Anda yakin ingin {{ $user->status ? 'menonaktifkan' : 'mengaktifkan' }} akun pengguna {{ $user->name }}?')">
+                                    <i class="fas {{ $user->status ? 'fa-user-slash' : 'fa-user-check' }} mr-1"></i>
+                                    {{ $user->status ? 'Nonaktifkan Akun' : 'Aktifkan Akun' }}
+                                </button>
+                            </form>
+                            @endif
+                            <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning font-weight-bold">
+                                <i class="fas fa-edit mr-1"></i> Ubah Data Pengguna
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>

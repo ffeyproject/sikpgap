@@ -31,6 +31,7 @@ class UpdateUserRequest extends FormRequest
             'email' => 'required|email|max:255|unique:users,email,' . $userId,
             'username' => 'required|string|max:255|unique:users,username,' . $userId,
             'posisi' => 'required|string',
+            'status' => 'nullable|in:0,1',
             'g_ttd' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:5120',
         ];
     }
@@ -51,6 +52,7 @@ class UpdateUserRequest extends FormRequest
             'username.required' => 'Username wajib diisi.',
             'username.unique' => 'Username ini sudah digunakan oleh akun lain.',
             'posisi.required' => 'Posisi / jabatan wajib dipilih.',
+            'status.in' => 'Status pengguna harus berupa Aktif (1) atau Nonaktif (0).',
             'g_ttd.image' => 'File tanda tangan harus berupa gambar (JPG, PNG, GIF, SVG, WEBP).',
             'g_ttd.mimes' => 'Format file tanda tangan harus berformat: JPEG, JPG, PNG, GIF, SVG, atau WEBP.',
             'g_ttd.max' => 'Ukuran file tanda tangan tidak boleh melebihi 5 MB.',

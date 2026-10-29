@@ -16,19 +16,25 @@ class Customer
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    // public function handle(Request $request, Closure $next, ...$role)
-    // {
-    //    $user = Auth::user();
-    //     if (($role == 'Admin' && !$user->posisi) || ($role == 'marketing' && !$user->posisi)  || ($role == 'qa' && !$user->posisi) || ($role == 'user' && $user->posisi)) {
-    //         abort(403);
-    //     }
-    //     return $next($request);
-    // }
-
-     public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->posisi == 'user' || Auth::user()->posisi == 'qa' ) {
-      return $next($request);
-    }   return redirect('/');
+        if (Auth::check()) {
+            // Pastikan akun berstatus aktif
+            if (!Auth::user()->status) {
+                Auth::guard('web')->logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+
+                return redirect('/login')->withErrors([
+                    'email' => 'Akun Anda telah dinonaktifkan oleh Administrator. Sesi Anda telah dihentikan.',
+                ]);
+            }
+
+            if (Auth::user()->posisi == 'user' || Auth::user()->posisi == 'qa') {
+                return $next($request);
+            }
+        }
+
+        return redirect('/');
     }
 }

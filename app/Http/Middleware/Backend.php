@@ -18,15 +18,26 @@ class Backend
     public function handle(Request $request, Closure $next)
     {
         if (Auth::check() && Auth::user() !== null) {
-        $userPosisi = Auth::user()->posisi;
-        
-        // Pemeriksaan posisi pengguna
-        if ($userPosisi == 'Admin' || $userPosisi == 'marketing' || $userPosisi == 'qa') {
-            return $next($request);
-        }
-    }
+            // Pastikan akun user berstatus aktif
+            if (!Auth::user()->status) {
+                Auth::guard('web')->logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
 
-    // Jika pengguna tidak masuk atau posisinya bukan salah satu dari yang diizinkan, redirect ke halaman awal
-    return redirect('/login');
+                return redirect('/login')->withErrors([
+                    'email' => 'Akun Anda telah dinonaktifkan oleh Administrator. Sesi Anda telah dihentikan.',
+                ]);
+            }
+
+            $userPosisi = Auth::user()->posisi;
+            
+            // Pemeriksaan posisi pengguna
+            if ($userPosisi == 'Admin' || $userPosisi == 'marketing' || $userPosisi == 'qa') {
+                return $next($request);
+            }
+        }
+
+        // Jika pengguna tidak masuk atau posisinya bukan salah satu dari yang diizinkan, redirect ke halaman awal
+        return redirect('/login');
     }
 }

@@ -57,10 +57,17 @@ class UsersController extends Controller
         // $user = User::firstOrCreate(['email' => $data['email']], $data);
         $user = User::whereEmail($data['email'])->first();
         if (!$user) {
-            $user = User::create($data);
+            $user = User::create(array_merge($data, ['status' => 1]));
             // Mail::to($user->email)->send(new AfterRegister($user));
             $user->notify(new WelcomeEmailCustomer($user));
         }
+
+        if (!$user->status) {
+            return redirect()->route('login')->withErrors([
+                'email' => 'Akun Google Anda terdaftar namun berstatus NONAKTIF. Silakan hubungi Administrator.',
+            ]);
+        }
+
         Auth::login($user, true);
 
         return redirect(route('customer.dashboard'));
@@ -97,6 +104,7 @@ class UsersController extends Controller
             $user->username = $request->username;
             $user->email = $request->email;
             $user->password = $request->password;
+            $user->status = $request->has('status') ? (int)$request->status : 1;
 
                 if($request->hasFile('g_ttd')){
                 $filenameWithExt = $request->file('g_ttd')->getClientOriginalName();
@@ -176,6 +184,9 @@ class UsersController extends Controller
             $user->username = $request->username;
             $user->email = $request->email;
             $user->posisi = $request->posisi;
+            if ($request->has('status')) {
+                $user->status = (int)$request->status;
+            }
 
             if ($request->hasFile('g_ttd')) {
                 $g_ttd = $request->file('g_ttd');
@@ -243,5 +254,24 @@ class UsersController extends Controller
 
         return redirect()->route('users.index')
             ->withSuccess(__('User deleted successfully.'));
+    }
+
+    /**
+     * Toggle active status of user
+     *
+     * @param User $user
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function toggleStatus(User $user)
+    {
+        if (Auth::id() === $user->id) {
+            return redirect()->back()->with('error', 'Anda tidak dapat menonaktifkan akun yang sedang Anda gunakan saat ini!');
+        }
+
+        $user->status = $user->status ? 0 : 1;
+        $user->save();
+
+        $statusText = $user->status ? 'diaktifkan (dapat login)' : 'dinonaktifkan (akses login diblokir)';
+        return redirect()->back()->with('success', "Status akun pengguna {$user->name} berhasil {$statusText}.");
     }
 }

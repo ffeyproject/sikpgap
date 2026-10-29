@@ -33,6 +33,7 @@ class User extends Authenticatable
         'posisi',
         'avatar',
         'g_ttd',
+        'status',
     ];
 
     /**
@@ -52,7 +53,18 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'status' => 'boolean',
     ];
+
+    /**
+     * Check if user account is currently active.
+     *
+     * @return bool
+     */
+    public function isActive(): bool
+    {
+        return (bool) $this->status;
+    }
 
     /**
      * Always encrypt password when it is updated.

@@ -357,7 +357,7 @@ class ComplaintController extends Controller
     public function create()
     {
         $buyer = Buyer::all();
-        $user = User::where('posisi', '=' ,"marketing")->get();
+        $user = User::where('status', 1)->where('posisi', 'marketing')->orderBy('name')->get();
         $keluhan = Complaint::with('Buyer','Users')->get();
 
 
@@ -371,7 +371,8 @@ class ComplaintController extends Controller
     public function internal()
     {
         $buyer = Buyer::where('kategori_buyer', '=', 'internal')->get();
-        $user = User::where('posisi', '=' ,"marketing")->get();
+        // Hanya user yang berstatus aktif (status = 1) untuk Nama Yang Membuat / Pelapor
+        $user = User::where('status', 1)->orderBy('name')->get();
         $keluhan = Complaint::with('Buyer','Users')->get();
 
 
@@ -688,8 +689,12 @@ class ComplaintController extends Controller
     public function edit($id)
     {
         $buyer = Buyer::all();
-        $user = User::all();
         $keluhan = Complaint::with('buyer','users')->findOrFail($id);
+        // Tampilkan user aktif atau pemilik keluhan yang sedang diedit
+        $user = User::where('status', 1)
+            ->orWhere('name', $keluhan->nama_marketing)
+            ->orderBy('name')
+            ->get();
 
         return view('keluhan.edit', [
                 'keluhan' => $keluhan,

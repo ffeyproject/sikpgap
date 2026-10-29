@@ -88,6 +88,7 @@ Route::group(['middleware' => ['guest']], function() {
             Route::get('/{user}/show', [UsersController::class, 'show'])->name('users.show');
             Route::get('/{user}/edit', [UsersController::class, 'edit'])->name('users.edit');
             Route::patch('/{user}/update', [UsersController::class, 'update'])->name('users.update');
+            Route::patch('/{user}/toggle-status', [UsersController::class, 'toggleStatus'])->name('users.toggle-status');
             Route::delete('/{user}/delete', [UsersController::class, 'destroy'])->name('users.destroy');
         });
 
