@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\api\ApiUserController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ComplaintController;
@@ -28,7 +29,7 @@ use App\Models\ImageClient;
 use App\Models\ImageComplaint;
 use App\Models\MenuDashboard;
 use App\Models\RawSatisfaction;
-use Balping\JsonRaw\Raw;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -78,7 +79,7 @@ Route::group(['middleware' => ['guest']], function() {
         /**
          * Logout Routes
          */
-        Route::get('/logout', 'LogoutController@perform')->name('logout.perform');
+        Route::get('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout.perform');
 
     Route::group(['prefix' => 'users'], function() {
             Route::get('/', [UsersController::class, 'index'])->name('users.index');
@@ -196,7 +197,7 @@ Route::patch('kepuasan/update/{kepuasan}', [SatisfactionController::class, 'upda
 Route::get('kepuasan-penilaian/index/{kepuasan}', [SatisfactionController::class, 'vpenilaian'])->name('kepuasan.vpenilaian');
 Route::patch('kepuasan-penilaian/index/update/{kepuasan}', [SatisfactionController::class, 'rnilai'])->name('kepuasan.rnilai');
 Route::post('kepuasan-penilaian', [ResultSatisfactionsController::class, 'store'])->name('kepuasan-penilaian.store');
-Route::get('/kepuasan/create/nyari', 'SatisfactionController@loadNyari');
+Route::get('/kepuasan/create/nyari', [SatisfactionController::class, 'loadNyari']);
 Route::get('get-customer-list', [SatisfactionController::class, 'getCustomerList'])->name('getCustomerList');
 Route::post('kepuasan', [SatisfactionController::class, 'store'])->name('kepuasan.store');
 Route::get('kepuasan/update/{kepuasan}', [SatisfactionController::class, 'edit'])->name('kepuasan.edit');

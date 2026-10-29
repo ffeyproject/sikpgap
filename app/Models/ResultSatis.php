@@ -11,7 +11,7 @@ class ResultSatis extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['satisfactions_id', 'item_evaluations_id', 'score'];
+    protected $fillable = ['satisfactions_id', 'item_evaluations_id', 'score', 'user_id'];
 
     public $table = "result_satisfactions";
 

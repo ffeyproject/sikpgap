@@ -25,11 +25,21 @@ class SatisfactionController extends Controller
      */
     public function index()
     {
-         $kepuasan = Satisfaction::orderBy('id', 'DESC')->get();
+        $kepuasan = Satisfaction::with('buyer')->latest('id')->get();
+        $total = $kepuasan->count();
+        $totalOpen = $kepuasan->where('status', 'open')->count();
+        $totalTersimpan = $kepuasan->where('status', 'Tersimpan')->count();
+        $totalClosed = $kepuasan->where('status', 'closed')->count();
+        $avgScore = round($kepuasan->where('r_nilai', '>', 0)->avg('r_nilai') ?? 0, 2);
 
-        return view('kepuasan.index', [
-            'kepuasan' => $kepuasan
-        ]);
+        return view('kepuasan.index', compact(
+            'kepuasan',
+            'total',
+            'totalOpen',
+            'totalTersimpan',
+            'totalClosed',
+            'avgScore'
+        ));
     }
 
     /**
@@ -163,31 +173,31 @@ class SatisfactionController extends Controller
      */
     public function laporan()
     {
-
-
         $nilai = ItemEvalution::all();
-        // $users = User::all();
-        $index = Satisfaction::with('resultsatis', 'itemevaluation','buyer')->get();
-        $coba = ResultSatis::with('satisfaction', 'itemevaluation')->get();
-        $collection = ResultSatis::join('satisfactions', 'result_satisfactions.satisfactions_id', '=', 'satisfactions.id')
-        ->join('item_evaluations', 'result_satisfactions.item_evaluations_id', '=', 'item_evaluations.id')
-        // ->where('satisfactions.id')
-        ->get();
-        // ->unique('satisfactions_id');
-        $unique = $collection->unique('satisfactions_id');
-        $unique->values()->all();
-        $laporan = ResultSatis::with('satisfaction', 'itemevaluation')->get();
+        $index = Satisfaction::with(['resultsatis.itemevaluation', 'buyer'])->latest('id')->get();
+        $coba = ResultSatis::with(['satisfaction.buyer', 'itemevaluation'])->latest('id')->get();
+        $unique = $coba->unique('satisfactions_id')->values();
 
+        $totalSatisfaction = Satisfaction::count();
+        $totalClosed = Satisfaction::where('status', 'closed')->count();
+        $totalTersimpan = Satisfaction::where('status', 'Tersimpan')->count();
+        $totalOpen = Satisfaction::where('status', 'open')->count();
+        $avgScore = round(ResultSatis::avg('score') ?? 0, 2);
+        $totalItems = $coba->count();
 
         return view('kepuasan.laporan.index', [
             'unique' => $unique,
             'index' => $index,
             'coba' => $coba,
             'nilai' => $nilai,
-            'laporan' => $laporan
+            'laporan' => $coba,
+            'totalSatisfaction' => $totalSatisfaction,
+            'totalClosed' => $totalClosed,
+            'totalTersimpan' => $totalTersimpan,
+            'totalOpen' => $totalOpen,
+            'avgScore' => $avgScore,
+            'totalItems' => $totalItems
         ]);
-
-        // return $coba;
     }
 
     public function search(Request $request)
@@ -258,6 +268,10 @@ class SatisfactionController extends Controller
      */
     public function update(Request $request, Satisfaction $kepuasan)
     {
+        if ($kepuasan->status == 'closed') {
+            return redirect()->back()->with('error', 'Data ini sudah Closed dan tidak dapat diubah lagi.');
+        }
+
         $kepuasan->buyers_id = $request->buyers_id;
         $kepuasan->nama_kontak = $request->nama_kontak;
         $kepuasan->alamat = $request->alamat;

@@ -42,25 +42,65 @@ class ComplaintController extends Controller
      */
     public function index()
     {
-        //  $complaint = Complaint::orderBy('id', 'DESC')->get();
+        $complaint = Complaint::with([
+            'buyer:id,nama_buyer',
+            'latestChatPersonal.users:id,name'
+        ])
+        ->select([
+            'id', 'nomer_keluhan', 'tgl_keluhan', 'jenis', 'kategori_keluhan',
+            'buyers_id', 'nama_marketing', 'tgl_proses', 'status', 'status_marketing',
+            'hasil_scan', 'cutting_point', 'verifikasi_akhir'
+        ])
+        ->orderBy('id', 'DESC')
+        ->get();
 
-        // $complaint = Complaint::with('chatPersonals')->orderBy('id', 'DESC')->get();
-        $complaint = Complaint::with('chatPersonals.users')->orderBy('id', 'DESC')->get();
+        $totalComplaint = $complaint->count();
+        $totalOpen = $complaint->where('status', 'open')->count();
+        $totalProses = $complaint->where('status', 'proses')->count();
+        $totalSelesai = $complaint->whereIn('status', ['selesai', 'va'])->count();
 
-        return view('keluhan.index', [
-            'complaint' => $complaint
-        ]);
+        return view('keluhan.index', compact(
+            'complaint',
+            'totalComplaint',
+            'totalOpen',
+            'totalProses',
+            'totalSelesai'
+        ));
     }
 
-    public function rverifikasi()
+    public function rverifikasi(Request $request)
     {
-        //  $complaint = Complaint::orderBy('id', 'DESC')->get();
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
 
-          $complaint = Complaint::with('results', 'buyer', 'departements', 'defect')->where('status', '=', 'va')->orderBy('id', 'DESC')->get();
+        $currentTime = $startDate ? Carbon::parse($startDate) : Carbon::now()->startOfMonth();
+        $currentTime2 = $endDate ? Carbon::parse($endDate) : Carbon::now()->endOfMonth();
 
-        return view('keluhan.rekap_verifikasi', [
-            'complaint' => $complaint
-        ]);
+        $query = Complaint::with(['results.defect', 'buyer:id,nama_buyer', 'departements', 'defect'])
+            ->where('status', '=', 'va')
+            ->whereBetween('tgl_keluhan', [
+                $currentTime->format('Y-m-d'),
+                $currentTime2->format('Y-m-d')
+            ]);
+
+        $complaint = $query->orderBy('id', 'DESC')->get();
+
+        $totalData = $complaint->count();
+        $totalSudahUpload = $complaint->filter(function($item) {
+            return !empty($item->hasil_scan);
+        })->count();
+        $totalBelumUpload = $totalData - $totalSudahUpload;
+        $totalCp = $complaint->sum('cutting_point');
+
+        return view('keluhan.rekap_verifikasi', compact(
+            'complaint',
+            'currentTime',
+            'currentTime2',
+            'totalData',
+            'totalSudahUpload',
+            'totalBelumUpload',
+            'totalCp'
+        ));
     }
 
 
@@ -151,138 +191,143 @@ class ComplaintController extends Controller
 
      public function anyData(Request $request)
     {
-        // $users = User::select(['id', 'name', 'email', 'created_at', 'updated_at']);
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+        $status = $request->input('status');
 
-        // return Datatables::of($users)->make(true);
+        $currentTime = $startDate ? Carbon::parse($startDate) : Carbon::now()->startOfMonth();
+        $currentTime2 = $endDate ? Carbon::parse($endDate) : Carbon::now()->endOfMonth();
 
-        $start_date = Carbon::parse($request->start_date)
-                             ->toDateTimeString();
+        $query = Result::with(['departements', 'defect', 'complaint.buyer'])
+            ->join('complaints', 'complaints.id', '=', 'result_complaints.complaints_id')
+            ->join('buyers', 'buyers.id', '=', 'complaints.buyers_id')
+            ->leftJoin('defects', 'defects.id', '=', 'result_complaints.defects_id')
+            ->whereBetween('complaints.tgl_keluhan', [
+                $currentTime->format('Y-m-d'),
+                $currentTime2->format('Y-m-d')
+            ])
+            ->select(
+                'result_complaints.*',
+                'complaints.id as complaint_id',
+                'complaints.nomer_keluhan',
+                'complaints.tgl_keluhan',
+                'complaints.nama_marketing',
+                'complaints.no_wo',
+                'complaints.no_sc',
+                'complaints.nama_motif',
+                'complaints.cw_qty',
+                'complaints.masalah',
+                'complaints.solusi',
+                'complaints.is_verifikasi',
+                'complaints.verifikasi_akhir',
+                'complaints.status',
+                'buyers.nama_buyer',
+                'defects.nama as nama_defect'
+            );
 
-       $end_date = Carbon::parse($request->end_date)
-                             ->toDateTimeString();
+        if (!empty($status)) {
+            $query->where('complaints.status', '=', $status);
+        }
 
-                             $currentTime = Carbon::now()->startOfMonth();
-                             $currentTime2 = Carbon::now()->endOfMonth();
+        $complaints = $query->orderBy('complaints.id', 'DESC')->get();
 
-    //    $aa = Complaint::whereBetween('created_at',[$start_date,$end_date])->orderBy('id', 'DESC')->paginate(30);
-        //  $complaints = Complaint::with('results', 'buyer', 'departements', 'defect')->whereBetween('tgl_keluhan',[$start_date,$end_date])->orderBy('id', 'DESC')->paginate(30);
-    //    $complaints = Complaint::with('results', 'buyer', 'departements', 'defect')->orderBy('id', 'DESC')->paginate(10);
+        $totalData = $complaints->count();
+        $totalSelesai = $complaints->whereIn('status', ['selesai', 'closed'])->count();
+        $totalProses = $complaints->whereIn('status', ['proses', 'va'])->count();
+        $totalVerifikasi = $complaints->where('is_verifikasi', true)->count();
 
-    $complaints = Result::select('result_complaints.*')
-    ->join('complaints', 'complaints.id', '=', 'complaints_id')
-    ->join('defects', 'defects.id', '=', 'defects_id')
-    ->join('buyers', 'buyers.id', '=', 'buyers_id')
-    ->whereBetween('tgl_keluhan',[$start_date,$end_date])
-    ->select('result_complaints.*',
-    'complaints.*',
-    'buyers.nama_buyer',
-    'defects.nama')
-    ->orderBy('complaints.id', 'DESC')
-    ->paginate(100);
-
-        return view('keluhan.rekap.index', [
-            'complaints' => $complaints,
-            'currentTime' => $currentTime,
-            'currentTime2' => $currentTime2,
-        ]);
+        return view('keluhan.rekap.index', compact(
+            'complaints',
+            'currentTime',
+            'currentTime2',
+            'status',
+            'totalData',
+            'totalSelesai',
+            'totalProses',
+            'totalVerifikasi'
+        ));
     }
 
      public function dopen(Request $request)
     {
-        $start_date = Carbon::parse($request->start_date)
-                             ->toDateTimeString();
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+        $status = $request->input('status');
 
-       $end_date = Carbon::parse($request->end_date)
-                             ->toDateTimeString();
+        $currentTime = $startDate ? Carbon::parse($startDate) : Carbon::now()->startOfMonth();
+        $currentTime2 = $endDate ? Carbon::parse($endDate) : Carbon::now()->endOfMonth();
 
-                             $currentTime = Carbon::now()->startOfMonth();
-                             $currentTime2 = Carbon::now()->endOfMonth();
+        $query = Complaint::with('buyer:id,nama_buyer')
+            ->whereBetween('tgl_keluhan', [
+                $currentTime->format('Y-m-d'),
+                $currentTime2->format('Y-m-d')
+            ]);
 
+        if (!empty($status)) {
+            $query->where('status', '=', $status);
+        } else {
+            $query->whereIn('status', ['open', 'proses']);
+        }
 
-    $complaints = Complaint::select('complaints.*')
-    ->join('buyers', 'buyers.id', '=', 'buyers_id')
-    ->whereBetween('tgl_keluhan',[$start_date,$end_date])
-    ->select(
-    'complaints.*',
-    'buyers.nama_buyer')
-    ->orderBy('complaints.id', 'DESC')
-    ->paginate(100);
+        $complaints = $query->orderBy('id', 'DESC')->get();
 
-        return view('keluhan.rekap.rekap_open', [
-            'complaints' => $complaints,
-            'currentTime' => $currentTime,
-            'currentTime2' => $currentTime2,
-        ]);
+        $totalData = $complaints->count();
+        $totalOpen = $complaints->where('status', 'open')->count();
+        $totalProses = $complaints->where('status', 'proses')->count();
+        $totalBuyer = $complaints->pluck('buyers_id')->filter()->unique()->count();
+
+        return view('keluhan.rekap.rekap_open', compact(
+            'complaints',
+            'currentTime',
+            'currentTime2',
+            'status',
+            'totalData',
+            'totalOpen',
+            'totalProses',
+            'totalBuyer'
+        ));
     }
 
 
     public function dverifikasi(Request $request)
     {
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+        $status = $request->input('status');
 
-        $start_date = Carbon::parse($request->start_date)
-                             ->toDateTimeString();
+        $currentTime = $startDate ? Carbon::parse($startDate) : Carbon::now()->startOfMonth();
+        $currentTime2 = $endDate ? Carbon::parse($endDate) : Carbon::now()->endOfMonth();
 
-       $end_date = Carbon::parse($request->end_date)
-                             ->toDateTimeString();
-
-                             $currentTime = Carbon::now()->startOfMonth();
-                             $currentTime2 = Carbon::now()->endOfMonth();
-        $status = $request->status;
-
-
-        $query = DB::table('node');
-
-        // $query = Complaint::with('results', 'buyer', 'departements', 'defect')->whereBetween('tgl_keluhan',[$start_date,$end_date])->where('status', $status)->orderBy('id', 'DESC')->paginate(30);
-        $query = Complaint::with('results', 'buyer', 'departements', 'defect');
-
-        if ($status == 'open')
-        {
-            $query->whereBetween('tgl_keluhan',[$start_date,$end_date])->where('status', '=', 'open' );
-        }
-
-        elseif ($status == 'proses') {
-            $query->whereBetween('tgl_keluhan',[$start_date,$end_date])->where('status', '=', 'proses' );
-        }
-
-        elseif ($status == 'selesai') {
-            $query->whereBetween('tgl_keluhan',[$start_date,$end_date])->where('status', '=', 'selesai' );
-        }
-
-        elseif ($status == 'va') {
-            $query->whereBetween('tgl_keluhan',[$start_date,$end_date])->where('status', '=', 'va' );
-        }
-
-        elseif ($status == 'closed') {
-            $query->whereBetween('tgl_keluhan',[$start_date,$end_date])->where('status', '=', 'closed' );
-        }
-
-        $complaints = $query->orderBy('id', 'DESC')->paginate(100);
-
-        // if ($request->status == 'open') {
-        //  $complaints = Complaint::with('results', 'buyer', 'departements', 'defect')->whereBetween('tgl_keluhan',[$start_date,$end_date])->where('status', '=','open')->orderBy('id', 'DESC')->paginate(30);
-
-        // }
-
-    //    $aa = Complaint::whereBetween('created_at',[$start_date,$end_date])->orderBy('id', 'DESC')->paginate(30);
-    //    $complaints = Complaint::with('results', 'buyer', 'departements', 'defect')->orderBy('id', 'DESC')->paginate(10);
-
-    // $complaints = Result::select('result_complaints.*')
-    // ->join('complaints', 'complaints.id', '=', 'complaints_id')
-    // ->join('defects', 'defects.id', '=', 'defects_id')
-    // ->join('buyers', 'buyers.id', '=', 'buyers_id')
-    // ->whereBetween('tgl_keluhan',[$start_date,$end_date])
-    // ->select('result_complaints.*',
-    // 'complaints.*',
-    // 'buyers.nama_buyer',
-    // 'defects.nama')
-    // ->orderBy('complaints.id', 'DESC')
-    // ->paginate(30);
-
-        return view('keluhan.rekap.data_verifikasi', [
-            'complaints' => $complaints,
-            'currentTime' => $currentTime,
-            'currentTime2' => $currentTime2,
+        $query = Complaint::with([
+            'buyer:id,nama_buyer',
+        ])->whereBetween('tgl_keluhan', [
+            $currentTime->format('Y-m-d'),
+            $currentTime2->format('Y-m-d')
         ]);
+
+        if (!empty($status)) {
+            $query->where('status', '=', $status);
+        }
+
+        $complaints = $query->orderBy('id', 'DESC')->get();
+
+        $totalData = $complaints->count();
+        $totalUpload = $complaints->filter(function($item) {
+            return !empty($item->upload_tindakan) || !empty($item->tindakan_verifikasi);
+        })->count();
+        $totalBelumUpload = $totalData - $totalUpload;
+        $totalSelesai = $complaints->whereIn('status', ['selesai', 'va', 'closed'])->count();
+
+        return view('keluhan.rekap.data_verifikasi', compact(
+            'complaints',
+            'currentTime',
+            'currentTime2',
+            'status',
+            'totalData',
+            'totalUpload',
+            'totalBelumUpload',
+            'totalSelesai'
+        ));
     }
 
     public function cetak(Request $request)

@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Support\Facades\DB;
-use LaravelDaily\LaravelCharts\Classes\LaravelChart;
+
 
 class HomeController extends Controller
 {

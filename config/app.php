@@ -166,7 +166,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Milon\Barcode\BarcodeServiceProvider::class,
 
-        Yajra\Datatables\DatatablesServiceProvider::class,
+        Yajra\DataTables\DataTablesServiceProvider::class,
         Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
 
 
@@ -182,7 +182,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        ConsoleTVs\Charts\ChartsServiceProvider::class,
+
 
     ],
 
@@ -242,7 +242,7 @@ return [
         'DNS2D' => Milon\Barcode\Facades\DNS2DFacade::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'Carbon' => 'Carbon\Carbon',
-        'Datatables' => Yajra\Datatables\Facades\Datatables::class,
+        'Datatables' => Yajra\DataTables\Facades\DataTables::class,
         'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
         'NoCaptcha' => Anhskohbo\NoCaptcha\Facades\NoCaptcha::class,
 

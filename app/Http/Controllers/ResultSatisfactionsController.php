@@ -44,44 +44,37 @@ class ResultSatisfactionsController extends Controller
      */
     public function store(ResulSatisfactionRequest $request)
     {
-        // $rr = new ResultSatis();
-        // $rr->satisfactions_id = $request->satisfactions_id;
-        // $rr->satisfactions_id = implode(',', $request->satisfactions_id);
-        // $rr->item_evaluations_id = implode(',', $request->item_evaluations_id);
-        // $rr->score = implode(',', $request->score);
-        // $rr->desc_kesesuaian = implode(',', $request->desc_kesesuaian);
-        // $rr->kritik_saran = implode(',', $request->kritik_saran);
-        // // $rr->item_evaluations_id = $request->item_evaluations_id;
-        // // $rr->score = $request->score;
-        // // $rr->desc_kesesuaian = $request->desc_kesesuaian;
-        // // $rr->kritik_saran = $request->kritik_saran;
-        // $rr->save();
+        $status = Satisfaction::findOrFail($request->satisfactions_id);
+        if ($status->status == 'closed') {
+            return redirect()->back()->with('error', 'Data penilaian ini sudah Closed dan tidak dapat diubah lagi.');
+        }
 
         $data = $request->except('_token');
+        $userId = Auth::id() ?? $status->users_id ?? 1;
 
-		$subject_count = count($data['item_evaluations_id']);
-		for($i=0; $i < $subject_count; $i++){
+        $subject_count = count($data['item_evaluations_id']);
+        for ($i = 0; $i < $subject_count; $i++) {
+            ResultSatis::updateOrCreate(
+                [
+                    'satisfactions_id' => $data['satisfactions_id'],
+                    'item_evaluations_id' => $data['item_evaluations_id'][$i],
+                ],
+                [
+                    'score' => $data['score'][$i] ?? 0,
+                    'user_id' => $userId,
+                ]
+            );
+        }
 
-			$abc = new ResultSatis();
-			$abc->item_evaluations_id = $data['item_evaluations_id'][$i];
-			$abc->satisfactions_id = $data['satisfactions_id'];
-			$abc->score = $data['score'][$i];
-			$abc->user_id = Auth::user()->id;
-			// $abc->desc_kesesuaian = $data['desc_kesesuaian'];
-			// $abc->kritik_saran = $data['kritik_saran'];
-			$abc->save();
+        $avgScore = ResultSatis::where('satisfactions_id', $request->satisfactions_id)->avg('score');
 
-            
-		}
-
-        $status = Satisfaction::findOrFail($request->satisfactions_id);
         $status->desc_kesesuaian = $request->desc_kesesuaian;
         $status->kritik_saran = $request->kritik_saran;
-        $status->r_nilai = '0';
+        $status->r_nilai = round($avgScore, 2);
         $status->status = 'Tersimpan';
         $status->save();
 
-         return redirect()->back()->with('info', 'Silahkan Simpan Penilaian');
+        return redirect()->back()->with('success', 'Data Penilaian Berhasil Disimpan / Diperbarui');
     }
 
     /**

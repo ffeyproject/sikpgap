@@ -17,33 +17,35 @@ class Complaint extends Model
 
     public $table = "complaints";
 
-
     public function buyer(): BelongsTo
     {
         return $this->belongsTo(buyer::class, 'buyers_id');
     }
 
+    public function results(): HasMany
+    {
+        return $this->hasMany(Result::class, 'complaints_id');
+    }
 
-   public function results(): HasMany
-   {
-     return $this->hasMany(Result::class, 'complaints_id');
-   }
+    public function chatPersonals(): HasMany
+    {
+        return $this->hasMany(Chat::class, 'complaints_id')->latest();
+    }
 
-   public function chatPersonals(): HasMany
-   {
-      return $this->hasMany(Chat::class, 'complaints_id')->latest();
-   }
+    public function latestChatPersonal(): HasOne
+    {
+        return $this->hasOne(Chat::class, 'complaints_id')->latestOfMany();
+    }
 
-   public function defect(): HasMany
-   {
-     return $this->hasMany(Defect::class, 'id');
-   }
+    public function defect(): HasMany
+    {
+        return $this->hasMany(Defect::class, 'id');
+    }
 
-   public function departements(): HasMany
-   {
-     return $this->hasMany(Departement::class, 'id');
-   }
-
+    public function departements(): HasMany
+    {
+        return $this->hasMany(Departement::class, 'id');
+    }
 
     public function users(): BelongsTo
     {

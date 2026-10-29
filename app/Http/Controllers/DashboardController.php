@@ -168,25 +168,32 @@ class DashboardController extends Controller
     public function spenilaian(ResulSatisfactionRequest $request)
     {
         $data = $request->except('_token');
-
-		$subject_count = count($data['item_evaluations_id']);
-		for($i=0; $i < $subject_count; $i++){
-
-			$abc = new ResultSatis();
-			$abc->item_evaluations_id = $data['item_evaluations_id'][$i];
-			$abc->satisfactions_id = $data['satisfactions_id'];
-			$abc->score = $data['score'][$i];
-			$abc->user_id = Auth::user()->id;
-			$abc->save();
-		}
-
         $status = Satisfaction::findOrFail($request->satisfactions_id);
+        $userId = Auth::id() ?? $status->users_id ?? 1;
+
+        $subject_count = count($data['item_evaluations_id']);
+        for ($i = 0; $i < $subject_count; $i++) {
+            ResultSatis::updateOrCreate(
+                [
+                    'satisfactions_id' => $data['satisfactions_id'],
+                    'item_evaluations_id' => $data['item_evaluations_id'][$i],
+                ],
+                [
+                    'score' => $data['score'][$i] ?? 0,
+                    'user_id' => $userId,
+                ]
+            );
+        }
+
+        $avgScore = ResultSatis::where('satisfactions_id', $request->satisfactions_id)->avg('score');
+
         $status->desc_kesesuaian = $request->desc_kesesuaian;
         $status->kritik_saran = $request->kritik_saran;
+        $status->r_nilai = round($avgScore, 2);
         $status->status = 'closed';
         $status->save();
 
-         return redirect()->back()->with('info', 'Data Penilaian Tersimpan');
+        return redirect()->back()->with('info', 'Data Penilaian Tersimpan');
     }
 
     /**
