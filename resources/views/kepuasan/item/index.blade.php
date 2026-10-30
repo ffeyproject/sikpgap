@@ -3,22 +3,22 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <div class="container-fluid">
-        <div class="mb-2 row">
-            <div class="col-sm-6">
-                <h1>Master Index Penilaian</h1><br>
+        <div class="page-header-box">
+            <div class="page-title-box">
+                <div class="page-title-icon">
+                    <i class="fas fa-tasks"></i>
+                </div>
+                <div>
+                    <h1>Master Index Penilaian</h1>
+                    <p class="page-subtitle">Kelola poin kriteria dan parameter indeks survei kepuasan pelanggan</p>
+                </div>
             </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-                    <li class="breadcrumb-item active">Index Penilaian</li>
-                </ol>
-            </div>
+            <ol class="breadcrumb breadcrumb-modern">
+                <li class="breadcrumb-item"><a href="{{ route('home') }}"><i class="fas fa-home mr-1"></i>Home</a></li>
+                <li class="breadcrumb-item active">Index Penilaian</li>
+            </ol>
         </div>
-        <div class="mb-2 row">
-            <div class="col-sm-6">
-                <a href="{{ route('item.create') }}" class="btn btn-primary btn-lg">Add</a>
-            </div>
-        </div>
+
         @include('components.alert')
         @include('sweetalert::alert')
     </div>
@@ -27,69 +27,88 @@
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
+        <div class="card card-modern">
+            <div class="card-header">
+                <div class="card-title">
+                    <i class="fas fa-list-ul text-primary mr-1"></i>
+                    <span>Daftar Parameter Penilaian</span>
+                    <span class="badge badge-light border text-muted ml-2 font-weight-normal">{{ count($item) }} Data</span>
+                </div>
+                <div>
+                    <a href="{{ route('item.create') }}" class="btn-modern-primary">
+                        <i class="fas fa-plus"></i>
+                        <span>Tambah Index Penilaian</span>
+                    </a>
+                </div>
+            </div>
 
-                <div class="card">
-                    <!-- /.card-header -->
-                    <div class="card-body">
-                        <table id="t_barang" class="table table-bordered table-striped" border="1">
-                            <thead>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="t_barang" class="table table-modern table-hover">
+                        <thead>
+                            <tr>
+                                <th style="width: 50px;" class="text-center">No</th>
+                                <th style="width: 150px;">Kode Penilaian</th>
+                                <th>Nama Penilaian</th>
+                                <th>Keterangan</th>
+                                <th style="width: 160px;">Dibuat Oleh</th>
+                                <th style="width: 100px;" class="text-center">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php $no = 1; @endphp
+                            @forelse ($item as $i_p)
                                 <tr>
-                                    <th>No</th>
-                                    <th>Kode Penilaian</th>
-                                    <th>Nama Penilaian</th>
-                                    <th>Keterangan</th>
-                                    <th>Created By</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <?php $no = 1 ?>
-                            <tbody>
-                                @forelse ($item as $i_p)
-                                <tr>
-                                    <td>{{ $no++ }}</td>
-                                    <td>{{ $i_p->kode_item }}</td>
-                                    <td>{{ $i_p->nama_penilaian }}</td>
-                                    <td>{!! $i_p->keterangan !!}</td>
-                                    <td>{{ $i_p->user->name }}</td>
+                                    <td class="text-center text-muted font-weight-bold">{{ $no++ }}</td>
                                     <td>
-                                        <div class="container">
-                                            <a href="{{ route('item.edit', $i_p->id) }}" class="btn btn-warning"><i
-                                                    class="fa fa-edit"></i></a>
-                                            <form action="{{ route('item.destroy', $i_p->id) }}" method="POST"
-                                                style="display: inline-block;">
+                                        <span class="badge-code">{{ $i_p->kode_item }}</span>
+                                    </td>
+                                    <td>
+                                        <strong class="text-dark">{{ $i_p->nama_penilaian }}</strong>
+                                    </td>
+                                    <td>
+                                        <div class="text-muted small" style="max-height: 60px; overflow-y: auto;">
+                                            {!! $i_p->keterangan ?: '-' !!}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="text-muted small">
+                                            <i class="far fa-user fa-xs mr-1 text-primary"></i>
+                                            {{ $i_p->user ? $i_p->user->name : '-' }}
+                                        </span>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="action-btn-group">
+                                            <a href="{{ route('item.edit', $i_p->id) }}" class="btn-action-icon btn-action-edit" title="Edit Data">
+                                                <i class="fas fa-pen"></i>
+                                            </a>
+                                            <form action="{{ route('item.destroy', $i_p->id) }}" method="POST" class="d-inline-block">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-danger"
-                                                    onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
-                                                    <i class="fa fa-trash"></i>
+                                                <button type="submit" class="btn-action-icon btn-action-delete"
+                                                    onclick="return confirm('Apakah Anda yakin ingin menghapus data penilaian {{ $i_p->nama_penilaian }}?')"
+                                                    title="Hapus Data">
+                                                    <i class="fas fa-trash-alt"></i>
                                                 </button>
                                             </form>
                                         </div>
                                     </td>
-                                    @empty
+                                </tr>
+                            @empty
                                 <tr>
-                                    <td colspan="12">Data tidak ada.</td>
+                                    <td colspan="6" class="text-center py-5 text-muted">
+                                        <i class="fas fa-inbox fa-3x mb-3 text-secondary opacity-50 d-block"></i>
+                                        <p class="mb-0">Belum ada data index penilaian yang tersimpan.</p>
+                                    </td>
                                 </tr>
-                                </tr>
-
-                            </tbody>
                             @endforelse
-                        </table>
-                    </div>
-                    <!-- /.card-body -->
+                        </tbody>
+                    </table>
                 </div>
-                <!-- /.card -->
             </div>
-            <!-- /.col -->
         </div>
-        <!-- /.row -->
     </div>
-    <!-- /.container-fluid -->
 </section>
-<!-- /.content -->
-
 @endsection
 
 @section('tablejs')
@@ -97,11 +116,19 @@
     $(function () {
         $("#t_barang").DataTable({
             "responsive": true,
-            "lengthChange": false,
+            "lengthChange": true,
             "autoWidth": false,
+            "language": {
+                "search": "Cari:",
+                "lengthMenu": "Tampilkan _MENU_ entri",
+                "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+                "paginate": {
+                    "previous": "<i class='fas fa-angle-left'></i>",
+                    "next": "<i class='fas fa-angle-right'></i>"
+                }
+            },
             "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
         }).buttons().container().appendTo('#t_barang_wrapper .col-md-6:eq(0)');
     });
-
 </script>
 @endsection

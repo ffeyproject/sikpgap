@@ -1,65 +1,100 @@
 @extends('layouts.app')
 @section('content')
-<div class="container-fluid">
-    <div class="row">
-        <!-- left column -->
-        <div class="col-md-12">
-            <!-- jquery validation -->
-            <div class="card card-primary">
-                <div class="card-header">
-                    <h3 class="card-title">Update Master Defect: <b>{{ $item->nama }}
-                    </h3>
+<!-- Content Header -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="page-header-box">
+            <div class="page-title-box">
+                <div class="page-title-icon">
+                    <i class="fas fa-edit"></i>
                 </div>
-                <!-- /.card-header -->
-                <!-- form start -->
-                <form method="post" action="{{route('item.update', $item->id)}}" id="form">
-                    @csrf
-                    @method('PATCH')
-                    <div class="card-body">
-                        <div class="form-group">
-                            <label for="nama">Nama Penilaian</label>
-                            <input type="text" name="nama_penilaian"
-                                class="form-control @error('nama_penilaian') is-invalid @enderror" id="nama_penilaian"
-                                autocomplete="off" placeholder="Masukkan Nama Defect"
-                                value="{{ $item->nama_penilaian }}" autocomplete="off">
+                <div>
+                    <h1>Ubah Index Penilaian</h1>
+                    <p class="page-subtitle">Perbarui data kriteria: <strong>{{ $item->nama_penilaian }}</strong></p>
+                </div>
+            </div>
+            <ol class="breadcrumb breadcrumb-modern">
+                <li class="breadcrumb-item"><a href="{{ route('home') }}"><i class="fas fa-home mr-1"></i>Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('item.index') }}">Index Penilaian</a></li>
+                <li class="breadcrumb-item active">Ubah</li>
+            </ol>
+        </div>
+
+        @include('components.alert')
+    </div>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="card card-modern">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fas fa-tasks text-primary mr-1"></i>
+                            <span>Edit Parameter Penilaian</span>
+                            <span class="badge-code ml-2">{{ $item->kode_item }}</span>
                         </div>
-                        <div class="form-group">
-                            <div class="controls">
-                                <label for="keterangan">Keterangan</label>
-                                <textarea class="form-control @error('keterangan') is-invalid @enderror"
-                                    style="resize:none" name="keterangan" id="summernote" required
-                                    rows="6">{{$item->keterangan}}</textarea>
+                        <a href="{{ route('item.index') }}" class="btn-modern-secondary btn-sm">
+                            <i class="fas fa-arrow-left"></i>
+                            <span>Kembali</span>
+                        </a>
+                    </div>
+
+                    <form method="post" action="{{ route('item.update', $item->id) }}" id="form" class="form-modern">
+                        @csrf
+                        @method('PATCH')
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="nama_penilaian">Nama Parameter Penilaian <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-light"><i class="fas fa-check-circle"></i></span>
+                                    </div>
+                                    <input type="text" name="nama_penilaian"
+                                        class="form-control @error('nama_penilaian') is-invalid @enderror" id="nama_penilaian"
+                                        value="{{ old('nama_penilaian', $item->nama_penilaian) }}" placeholder="Masukkan Nama Penilaian" required>
+                                    @if ($errors->has('nama_penilaian'))
+                                        <div class="invalid-feedback">{{ $errors->first('nama_penilaian') }}</div>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="summernote">Deskripsi / Keterangan</label>
+                                <textarea class="form-control @error('keterangan') is-invalid @enderror" name="keterangan"
+                                    id="summernote">{{ old('keterangan', $item->keterangan) }}</textarea>
+                                @if ($errors->has('keterangan'))
+                                    <div class="invalid-feedback">{{ $errors->first('keterangan') }}</div>
+                                @endif
                             </div>
                         </div>
-                    </div>
-                    <!-- /.card-body -->
-                    <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </div>
-                </form>
+
+                        <div class="card-footer d-flex justify-content-between align-items-center">
+                            <a href="{{ route('item.index') }}" class="btn btn-light text-muted border">
+                                <i class="fas fa-times mr-1"></i> Batal
+                            </a>
+                            <button type="submit" class="btn-modern-primary">
+                                <i class="fas fa-save"></i>
+                                <span>Perbarui Parameter</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <!-- /.card -->
         </div>
-        <!--/.col (left) -->
-        <!-- right column -->
-        <div class="col-md-6">
-
-        </div>
-        <!--/.col (right) -->
     </div>
-    <!-- /.row -->
-</div><!-- /.container-fluid -->
-
+</section>
 @endsection
 
 @section('tablejs')
 <script>
-    $(function () {
-    // Summernote
-    $('#summernote').summernote()
-  })
-</script>
-
-
+    $(document).ready(function(){
+        $('#summernote').summernote({
+            height: 140,
+            placeholder: 'Tuliskan deskripsi parameter penilaian...'
+        });
+    });
 </script>
 @endsection

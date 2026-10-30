@@ -1,62 +1,100 @@
 @extends('layouts.app')
 @section('content')
-<div class="container-fluid">
-    <div class="row">
-        <!-- left column -->
-        <div class="col-md-12">
-            <!-- jquery validation -->
-            <div class="card card-primary">
-                <div class="card-header">
-                    <h3 class="card-title">Update Master Asal Masalah: <b>{{ $departement->nama }}
-                    </h3>
+<!-- Content Header -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="page-header-box">
+            <div class="page-title-box">
+                <div class="page-title-icon">
+                    <i class="fas fa-edit"></i>
                 </div>
-                <!-- /.card-header -->
-                <!-- form start -->
-                <form method="post" action="{{route('asal_masalah.update', $departement->id)}}" id="form">
-                    @csrf
-                    @method('PATCH')
-                    <div class="card-body">
-                        <div class="form-group">
-                            <label for="asal_masalah">Asal Masalah</label>
-                            <input type="text" name="asal_masalah"
-                                class="form-control @error('asal_masalah') is-invalid @enderror" id="asal_masalah"
-                                autocomplete="off" placeholder="Masukkan asal_masalah Defect"
-                                value="{{ $departement->asal_masalah }}" autocomplete="off">
+                <div>
+                    <h1>Ubah Asal Masalah</h1>
+                    <p class="page-subtitle">Perbarui data: <strong>{{ $departement->asal_masalah }}</strong></p>
+                </div>
+            </div>
+            <ol class="breadcrumb breadcrumb-modern">
+                <li class="breadcrumb-item"><a href="{{ route('home') }}"><i class="fas fa-home mr-1"></i>Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('asal_masalah.index') }}">Asal Masalah</a></li>
+                <li class="breadcrumb-item active">Ubah</li>
+            </ol>
+        </div>
+
+        @include('components.alert')
+    </div>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="card card-modern">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fas fa-map-pin text-primary mr-1"></i>
+                            <span>Edit Informasi Asal Masalah</span>
+                            <span class="badge-code ml-2">{{ $departement->kode_asal }}</span>
                         </div>
-                        <div class="form-group">
-                            <div class="controls">
-                                <label for="keterangan">Keterangan</label>
-                                <textarea class="form-control @error('keterangan') is-invalid @enderror"
-                                    style="resize:none" name="keterangan" id="summernote" required
-                                    rows="6">{{$departement->keterangan}}</textarea>
+                        <a href="{{ route('asal_masalah.index') }}" class="btn-modern-secondary btn-sm">
+                            <i class="fas fa-arrow-left"></i>
+                            <span>Kembali</span>
+                        </a>
+                    </div>
+
+                    <form method="post" action="{{ route('asal_masalah.update', $departement->id) }}" id="form" class="form-modern">
+                        @csrf
+                        @method('PATCH')
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="asal_masalah">Nama Asal Masalah / Departemen <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-light"><i class="fas fa-sitemap"></i></span>
+                                    </div>
+                                    <input type="text" name="asal_masalah"
+                                        class="form-control @error('asal_masalah') is-invalid @enderror" id="asal_masalah"
+                                        value="{{ old('asal_masalah', $departement->asal_masalah) }}" placeholder="Masukkan Asal Masalah" required>
+                                    @if ($errors->has('asal_masalah'))
+                                        <div class="invalid-feedback">{{ $errors->first('asal_masalah') }}</div>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="summernote">Deskripsi / Keterangan</label>
+                                <textarea class="form-control @error('keterangan') is-invalid @enderror" name="keterangan"
+                                    id="summernote">{{ old('keterangan', $departement->keterangan) }}</textarea>
+                                @if ($errors->has('keterangan'))
+                                    <div class="invalid-feedback">{{ $errors->first('keterangan') }}</div>
+                                @endif
                             </div>
                         </div>
-                    </div>
-                    <!-- /.card-body -->
-                    <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </div>
-                </form>
+
+                        <div class="card-footer d-flex justify-content-between align-items-center">
+                            <a href="{{ route('asal_masalah.index') }}" class="btn btn-light text-muted border">
+                                <i class="fas fa-times mr-1"></i> Batal
+                            </a>
+                            <button type="submit" class="btn-modern-primary">
+                                <i class="fas fa-save"></i>
+                                <span>Perbarui Data</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <!-- /.card -->
         </div>
-        <!--/.col (left) -->
-        <!-- right column -->
-        <div class="col-md-6">
-
-        </div>
-        <!--/.col (right) -->
     </div>
-    <!-- /.row -->
-</div><!-- /.container-fluid -->
-
+</section>
 @endsection
 
 @section('tablejs')
 <script>
-    $(function () {
-    // Summernote
-    $('#summernote').summernote()
-  })
+    $(document).ready(function(){
+        $('#summernote').summernote({
+            height: 140,
+            placeholder: 'Tuliskan keterangan detail asal masalah...'
+        });
+    });
 </script>
 @endsection
